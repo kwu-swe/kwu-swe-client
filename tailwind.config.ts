@@ -7,12 +7,15 @@ import type { PluginAPI } from "tailwindcss/types/config";
 
 export default {
   content: [
-    // "./node_modules/tw-elements/dist/js/**/*.js",
+    "./node_modules/fast-jsx/**/*.{js,jsx,ts,tsx}",
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "kw-background": "url('/images/background.jpg')",
+      },
       fontFamily: {
         "pretendard-medium": ["pretendard-medium"],
         "pretendard-bold": ["pretendard-bold"],
@@ -72,6 +75,7 @@ export default {
         "silver-lavender": "#E7E9F2",
         "silver-latte": "#FBF3E4",
         "silver-pale": "#DFD8CA",
+        "kw-brown": "#8A1601",
       },
       maxHeight: {
         44: "11rem",
@@ -583,29 +587,6 @@ export default {
       },
     },
   },
-  safelist: [
-    {
-      pattern: /top-.*/,
-    },
-    {
-      pattern: /-top-.*/,
-    },
-    {
-      pattern: /bottom*.*/,
-    },
-    {
-      pattern: /left-.*/,
-    },
-    {
-      pattern: /-left-.*/,
-    },
-    {
-      pattern: /right*.*/,
-    },
-    {
-      pattern: /delay-.*/,
-    },
-  ],
   plugins: [
     tailwindcssAnimate,
     function ({ addUtilities }: PluginAPI) {
