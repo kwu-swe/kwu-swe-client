@@ -1,8 +1,10 @@
 import { Button, Input, Shelf } from "fast-jsx";
 import { cn } from "fast-jsx/util";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
+  const router = useNavigate();
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const container = {
@@ -40,7 +42,7 @@ export default function SignIn() {
           />
           <Button
             title="로그인"
-            onClick={() => {}}
+            onClick={() => router("/dashboard")}
             option={{
               background: "bg-kw-brown",
               height: "h-12",
