@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <Header />
       <div className={cn(body)}>
         <Navigator />
-        {children}
+        <div className="pt-4 px-4">{children}</div>
       </div>
     </div>
   );

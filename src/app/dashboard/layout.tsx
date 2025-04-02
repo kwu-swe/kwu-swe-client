@@ -1,4 +1,4 @@
-import DashboardLayout from "@/components/dashboard/Layout";
+import DashboardLayout from "@/components/dashboard/(common)/Layout";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
