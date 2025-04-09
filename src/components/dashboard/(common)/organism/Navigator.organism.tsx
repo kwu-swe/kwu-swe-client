@@ -1,5 +1,5 @@
 import { cn } from "fast-jsx/util";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Route {
   name: string;
@@ -14,27 +14,34 @@ const routes: Route[] = [
     name: "수강 관리",
     path: "/dashboard/subjects",
   },
-  {
-    name: "수강 신청",
-    path: "/dashboard/join",
-  },
+  // {
+  //   name: "수강 신청",
+  //   path: "/dashboard/join",
+  // },
 ];
 export default function Navigator() {
+  const location = useLocation();
+  const path = location.pathname;
   const router = useNavigate();
   const container = {
-    displays: "flex flex-col",
+    paddings: "pl-3.5",
+    displays: "flex flex-col gap-y-1.5",
     sizes: "w-48 ",
   };
-  const buttonBox = {
+  const buttonBox = (isSelected?: boolean) => ({
     displays: "flex items-center justify-center",
     fonts: "leading-none",
     paddings: "py-3.5",
-    backgrounds: "shadow-md",
-  };
+    fontColor: isSelected ? "text-white" : "text-kw-brown",
+    backgrounds: isSelected ? "bg-kw-brown" : "bg-white shadow-md",
+  });
   return (
     <div className={cn(container)}>
       {routes.map((route) => (
-        <button className={cn(buttonBox)} onClick={() => router(route.path)}>
+        <button
+          className={cn(buttonBox(path === route.path))}
+          onClick={() => router(route.path)}
+        >
           {route.name}
         </button>
       ))}
