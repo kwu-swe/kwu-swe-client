@@ -77,6 +77,13 @@ export default {
         "silver-pale": "#DFD8CA",
         "kw-brown": "#8A1601",
       },
+      boxShadow: {
+        logo: "0px 4px 20px 0px rgba(0,0,0,0.04)",
+        card: "0px 8px 24px 0px rgba(0,0,0,0.08)",
+        "card-sm": "0px 4px 20px 0px rgba(0, 0, 0, 0.04)",
+        input: "0px 2px 2px 0px rgba(0,0,0,0.04)",
+        table: "0px 4px 20px 0px rgba(0,0,0,0.04)",
+      },
       maxHeight: {
         44: "11rem",
         "9/10": "90%",
