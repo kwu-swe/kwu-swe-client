@@ -3,7 +3,7 @@ import { Lecture } from "@/types/Lecture";
 import { cn } from "fast-jsx/util";
 
 interface TimeTableProps {
-  lectures: Lecture[];
+  lectures?: Lecture[];
 }
 
 export default function TimeTable({ lectures }: TimeTableProps) {
