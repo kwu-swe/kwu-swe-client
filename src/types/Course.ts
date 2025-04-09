@@ -1,3 +1,9 @@
+type CourseType =
+  | "MAJOR_REQUIRED"
+  | "MAJOR_ELECTIVE"
+  | "GENERAL_REQUIRED"
+  | "GENERAL_ELECTIVE";
+
 interface Course {
   id: number;
   courseName: string;
@@ -6,7 +12,7 @@ interface Course {
 }
 
 interface CreateCourse extends Omit<Course, "id"> {
-  courseType: string;
+  courseType: CourseType;
 }
 
-export type { Course, CreateCourse };
+export type { Course, CreateCourse, CourseType };
