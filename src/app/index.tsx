@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ComponentType, Fragment } from "react";
-import useRoute from "@/hook/useRoute";
+import RootPage from "./page";
 import {
   DashboardLayout,
   DashboardPage,
@@ -8,15 +8,17 @@ import {
   SubjectPage,
 } from "./dashboard";
 import Loading from "@/design/Loading";
-import RootPage from "./page";
 import { SignInPage } from "./sign-in";
+import { AdminLayout, AdminPage } from "./admin";
 
 export default function App() {
-  const routes = useRoute();
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<RootPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminPage />} />
+        </Route>
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
@@ -29,12 +31,4 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-}
-
-function RenderComponent(
-  Component: ComponentType<any>,
-  Layout: ComponentType<any> | null
-) {
-  if (Layout) return <Layout children={<Component />} />;
-  return <Fragment children={<Component />} />;
 }
