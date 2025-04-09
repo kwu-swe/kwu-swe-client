@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "fast-jsx/util";
-import { MdArrowBack } from "react-icons/md";
+import { MdArrowBack, MdAttachFile } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 // ** organism
@@ -45,6 +45,12 @@ export default function SubjectMaterialById({
       "flex flex-row items-center gap-2 px-2 text-sm text-gray-950 font-semibold",
   };
 
+  const tableStyles = {
+    row: "border-b border-gray-100 flex",
+    label: "py-3 px-4 text-gray-500 text-xs font-medium w-[120px] bg-gray-100",
+    value: "py-3 px-4 text-gray-700 text-sm flex-1",
+  };
+
   return (
     <div>
       <button
@@ -62,23 +68,32 @@ export default function SubjectMaterialById({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 p-5">
-          <div className="flex items-center">
-            <p className="text-gray-500 text-xs w-[80px]">제목</p>
-            <p className="text-gray-700 text-sm font-medium">
-              {material.title}
-            </p>
+        <div className="flex flex-col">
+          <div className={tableStyles.row}>
+            <div className={tableStyles.label}>제목</div>
+            <div className={tableStyles.value}>{material.title}</div>
           </div>
-          <div className="flex items-center">
-            <p className="text-gray-500 text-xs w-[80px]">작성일</p>
-            <p className="text-gray-700 text-sm font-medium">
+          <div className={tableStyles.row}>
+            <div className={tableStyles.label}>작성일</div>
+            <div className={tableStyles.value}>
               {material.createdAt.toLocaleDateString()}
-            </p>
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-gray-500 text-xs">내용</p>
-            <div className="text-gray-700 text-sm whitespace-pre-wrap">
-              {material.content}
+          <div className={tableStyles.row}>
+            <div className={cn(tableStyles.label, "align-top")}>내용</div>
+            <div className={tableStyles.value}>
+              <div className="whitespace-pre-wrap">{material.content}</div>
+            </div>
+          </div>
+          <div className={tableStyles.row}>
+            <div className={cn(tableStyles.label, "align-top")}>첨부파일</div>
+            <div className={tableStyles.value}>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
+                  <MdAttachFile className="text-gray-500" size={16} />
+                  <span>강의자료.pdf</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

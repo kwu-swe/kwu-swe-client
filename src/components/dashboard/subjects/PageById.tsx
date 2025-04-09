@@ -130,6 +130,15 @@ export default function SubjectById({ subjectId }: { subjectId?: string }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pb-20">
+      <div className="md:col-span-2 px-2.5">
+        <h1 className="text-xl font-bold text-gray-900">
+          {lectureData.courseResponseDto.courseName}
+          <span className="ml-2 text-base font-medium text-gray-500">
+            {lectureData.courseResponseDto.courseNumber}
+          </span>
+        </h1>
+      </div>
+
       <div className="md:col-span-1">
         <LectureInfo data={lectureData} />
       </div>

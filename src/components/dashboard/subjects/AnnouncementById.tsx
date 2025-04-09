@@ -38,6 +38,12 @@ export default function SubjectAnnouncementById({
       "flex flex-row items-center gap-2 px-2 text-sm text-gray-950 font-semibold",
   };
 
+  const tableStyles = {
+    row: "border-b border-gray-100 flex",
+    label: "py-3 px-4 text-gray-500 text-xs font-medium w-[120px] bg-gray-100",
+    value: "py-3 px-4 text-gray-700 text-sm flex-1",
+  };
+
   return (
     <div>
       <button
@@ -55,22 +61,20 @@ export default function SubjectAnnouncementById({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 p-5">
-          <div className="flex items-center">
-            <p className="text-gray-500 text-xs w-[80px]">제목</p>
-            <p className="text-gray-700 text-sm font-medium">
-              {announcement.title}
-            </p>
+        <div className="flex flex-col">
+          <div className={tableStyles.row}>
+            <div className={tableStyles.label}>제목</div>
+            <div className={tableStyles.value}>{announcement.title}</div>
           </div>
-          <div className="flex items-center">
-            <p className="text-gray-500 text-xs w-[80px]">작성일</p>
-            <p className="text-gray-700 text-sm font-medium">
+          <div className={tableStyles.row}>
+            <div className={tableStyles.label}>작성일</div>
+            <div className={tableStyles.value}>
               {announcement.createdAt.toLocaleDateString()}
-            </p>
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-gray-500 text-xs">내용</p>
-            <div className="text-gray-700 text-sm whitespace-pre-wrap">
+          <div className={tableStyles.row}>
+            <div className={cn(tableStyles.label, "align-top")}>내용</div>
+            <div className={cn(tableStyles.value, "whitespace-pre-wrap")}>
               {announcement.content}
             </div>
           </div>
