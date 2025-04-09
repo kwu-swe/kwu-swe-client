@@ -29,6 +29,13 @@ const LectureStats = ({
       "flex flex-row items-center gap-2 px-2 text-sm text-gray-950 font-semibold",
   };
 
+  const tableStyles = {
+    row: "border-b border-gray-100 flex",
+    label:
+      "py-1 px-4.5 text-gray-500 text-xs font-medium w-[120px] bg-gray-100",
+    value: "py-1 px-3 text-gray-700 text-sm flex-1",
+  };
+
   // 최근 3일 이내 생성된 항목인지 확인하는 함수
   const isNewItem = (createdAt: Date) => {
     return (
@@ -52,49 +59,49 @@ const LectureStats = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 p-5">
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">과제</p>
-          <div className="flex items-center gap-1">
-            <p className="text-gray-700 text-sm font-medium">
-              {assignments.length}개
-            </p>
-            <p className="text-gray-500 text-xs">
-              (제출: 0/{assignments.length})
-            </p>
-            {assignments.some((a) => isNewItem(a.createdAt)) && (
-              <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">
-                New
-              </span>
-            )}
+      <div className="flex flex-col h-full">
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>과제</div>
+          <div className={tableStyles.value}>
+            <div className="flex items-center gap-1">
+              <p className="font-medium">{assignments.length}개</p>
+              <p className="text-gray-500 text-xs">
+                (제출: 0/{assignments.length})
+              </p>
+              {assignments.some((a) => isNewItem(a.createdAt)) && (
+                <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">
+                  New
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">공지사항</p>
-          <div className="flex items-center gap-1">
-            <p className="text-gray-700 text-sm font-medium">
-              {announcements.length}개
-            </p>
-            {announcements.some((a) => isNewItem(a.createdAt)) && (
-              <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">
-                New
-              </span>
-            )}
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>공지사항</div>
+          <div className={tableStyles.value}>
+            <div className="flex items-center gap-1">
+              <p className="font-medium">{announcements.length}개</p>
+              {announcements.some((a) => isNewItem(a.createdAt)) && (
+                <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">
+                  New
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">강의자료</p>
-          <div className="flex items-center gap-1">
-            <p className="text-gray-700 text-sm font-medium">
-              {materials.length}개
-            </p>
-            {materials.some((m) => isNewItem(m.createdAt)) && (
-              <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">
-                New
-              </span>
-            )}
+        <div className={cn(tableStyles.row, "h-full")}>
+          <div className={tableStyles.label}>강의자료</div>
+          <div className={tableStyles.value}>
+            <div className="flex items-center gap-1">
+              <p className="font-medium">{materials.length}개</p>
+              {materials.some((m) => isNewItem(m.createdAt)) && (
+                <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded-full">
+                  New
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>

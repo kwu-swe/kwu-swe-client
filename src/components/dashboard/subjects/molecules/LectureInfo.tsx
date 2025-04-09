@@ -20,6 +20,13 @@ const LectureInfo = ({ data, className }: Props) => {
       "flex flex-row items-center gap-2 px-2 text-sm text-gray-950 font-semibold",
   };
 
+  const tableStyles = {
+    row: "border-b border-gray-100 flex",
+    label:
+      "py-1 px-4.5 text-gray-500 text-xs font-medium w-[120px] bg-gray-100",
+    value: "py-1 px-3 text-gray-700 text-sm flex-1",
+  };
+
   return (
     <div
       className={cn(
@@ -35,37 +42,35 @@ const LectureInfo = ({ data, className }: Props) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 p-5">
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">강의명</p>
-          <p className="text-gray-700 text-sm font-medium">
+      <div className="flex flex-col">
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>강의명</div>
+          <div className={cn(tableStyles.value, "text-gray-900 font-medium")}>
             {data.courseResponseDto.courseName}
-          </p>
+          </div>
         </div>
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">담당 교수</p>
-          <p className="text-gray-700 text-sm font-medium">
-            {data.professor.name} 교수
-          </p>
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>담당 교수</div>
+          <div className={tableStyles.value}>{data.professor.name} 교수</div>
         </div>
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">학기</p>
-          <p className="text-gray-700 text-sm font-medium">
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>학기</div>
+          <div className={tableStyles.value}>
             {data.year.value}년 {data.semester === "FIRST_SEMESTER" ? "1" : "2"}
             학기
-          </p>
+          </div>
         </div>
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">강의실</p>
-          <p className="text-gray-700 text-sm font-medium">
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>강의실</div>
+          <div className={tableStyles.value}>
             {data.lectureScheduleAndLocation[0]?.additionalProp1 || "미정"}
-          </p>
+          </div>
         </div>
-        <div className="flex items-center">
-          <p className="text-gray-500 text-xs w-[80px]">수업 교시</p>
-          <p className="text-gray-700 text-sm font-medium">
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>수업 교시</div>
+          <div className={tableStyles.value}>
             {data.lectureScheduleAndLocation[0]?.additionalProp2 || "미정"}
-          </p>
+          </div>
         </div>
       </div>
     </div>

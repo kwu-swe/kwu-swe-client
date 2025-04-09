@@ -69,7 +69,7 @@ const MaterialTable = ({
           {formatDate(props.getValue(), "YYYY-MM-DD")}
         </p>
       ),
-      size: 100,
+      size: 120,
     }),
   ];
 
@@ -86,7 +86,7 @@ const MaterialTable = ({
     cellFirst: "pl-[20px]",
     cellLast: "pr-[20px]",
     thItem: "text-sm text-gray-400 font-medium h-10 min-h-10 bg-[#FAFCFD]",
-    tdItem: "text-sm text-gray-900 font-normal h-10 min-h-10",
+    tdItem: "text-sm text-gray-700 font-normal h-10 min-h-10",
   };
 
   const cardStyles = {
@@ -179,7 +179,11 @@ const MaterialTable = ({
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.original.id}
-                onClick={() => navigate(`/company/job/form/${row.original.id}`)}
+                onClick={() =>
+                  navigate(
+                    `/dashboard/subjects/${row.original.lectureId}/materials/${row.original.id}`
+                  )
+                }
                 className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
               >
                 {row.getVisibleCells().map((cell, index) => (
