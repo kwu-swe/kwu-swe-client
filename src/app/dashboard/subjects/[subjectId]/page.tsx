@@ -1,4 +1,4 @@
-import SubjectById from "@/components/dashboard/subjects/PageByid";
+import SubjectById from "@/components/dashboard/subjects/PageById";
 import { useParams } from "react-router-dom";
 
 export default function Page() {

@@ -8,12 +8,16 @@ import {
   SubjectPage,
 } from "./dashboard";
 import Loading from "@/design/Loading";
+import RootPage from "./page";
+import { SignInPage } from "./sign-in";
 
 export default function App() {
   const routes = useRoute();
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<RootPage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="subjects">
