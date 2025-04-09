@@ -8,12 +8,16 @@ interface Route {
 const routes: Route[] = [
   {
     name: "홈",
-    path: "/dashboard",
+    path: "/admin",
   },
-  // {
-  //   name: "수강 신청",
-  //   path: "/dashboard/join",
-  // },
+  {
+    name: "강의실 관리",
+    path: "/admin/locations",
+  },
+  {
+    name: "코스 관리",
+    path: "/admin/courses",
+  },
 ];
 export default function Navigator() {
   const location = useLocation();
@@ -35,6 +39,7 @@ export default function Navigator() {
     <div className={cn(container)}>
       {routes.map((route) => (
         <button
+          key={route.path}
           className={cn(buttonBox(path === route.path))}
           onClick={() => router(route.path)}
         >
