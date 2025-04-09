@@ -1,29 +1,27 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ComponentType, Fragment } from "react";
 import useRoute from "@/hook/useRoute";
+import {
+  DashboardLayout,
+  DashboardPage,
+  SubjectByIdPage,
+  SubjectPage,
+} from "./dashboard";
+import Loading from "@/design/Loading";
 
 export default function App() {
   const routes = useRoute();
   return (
     <BrowserRouter>
       <Routes>
-        {routes.map(({ path, component, layout }) => {
-          return (
-            <Route
-              key={path}
-              path={path}
-              element={RenderComponent(component, layout)}
-            />
-          );
-        })}
-        <Route
-          path="*"
-          element={
-            <div className="flex justify-center items-center w-full min-h-screen">
-              LOADING
-            </div>
-          }
-        />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="subjects">
+            <Route index element={<SubjectPage />} />
+            <Route path=":subjectId" element={<SubjectByIdPage />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<Loading />} />
       </Routes>
     </BrowserRouter>
   );

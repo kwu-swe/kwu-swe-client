@@ -10,7 +10,7 @@ export default function Dashboard() {
   return (
     <div className={cn(container)}>
       <TimeTable />
-      <SubjectList />
+       <SubjectList />
     </div>
   );
 }
