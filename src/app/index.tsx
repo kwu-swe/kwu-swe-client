@@ -4,8 +4,11 @@ import useRoute from "@/hook/useRoute";
 import {
   DashboardLayout,
   DashboardPage,
-  SubjectByIdPage,
   SubjectPage,
+  SubjectByIdPage,
+  SubjectMaterialPage,
+  SubjectAssignmentPage,
+  SubjectAnnouncementPage,
 } from "./dashboard";
 import Loading from "@/design/Loading";
 import RootPage from "./page";
@@ -23,6 +26,18 @@ export default function App() {
           <Route path="subjects">
             <Route index element={<SubjectPage />} />
             <Route path=":subjectId" element={<SubjectByIdPage />} />
+            <Route
+              path=":subjectId/announcements/:announcementId"
+              element={<SubjectAnnouncementPage />}
+            />
+            <Route
+              path=":subjectId/materials/:materialId"
+              element={<SubjectMaterialPage />}
+            />
+            <Route
+              path=":subjectId/assignments/:assignmentId"
+              element={<SubjectAssignmentPage />}
+            />
           </Route>
         </Route>
         <Route path="*" element={<Loading />} />

@@ -129,31 +129,34 @@ export default function SubjectById({ subjectId }: { subjectId?: string }) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 px-5">
-      <div className="col-span-1 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pb-20">
+      <div className="md:col-span-1">
         <LectureInfo data={lectureData} />
+      </div>
+      <div className="md:col-span-1">
         <LectureStats
           assignments={assignments}
           announcements={announcements}
           materials={materials}
+          className="h-full"
         />
       </div>
 
       {/* 과제 목록 테이블 */}
-      <div className="col-span-2">
+      <div className="md:col-span-2">
         <AssignmentTable
           data={assignments}
           count={assignments.length}
           page={1}
-          totalPages={3}
+          totalPages={1}
           onClick={() => undefined}
         />
       </div>
 
-      <hr className="col-span-2 w-full border-gray-100" />
+      <hr className="md:col-span-2 w-full border-gray-100" />
 
       {/* 공지사항 및 자료 테이블 */}
-      <div className="col-span-1">
+      <div className="md:col-span-1 w-full">
         <AnnouncementTable
           data={announcements}
           count={announcements.length}
@@ -162,7 +165,7 @@ export default function SubjectById({ subjectId }: { subjectId?: string }) {
           onClick={() => undefined}
         />
       </div>
-      <div className="col-span-1">
+      <div className="md:col-span-1 w-full">
         <MaterialTable
           data={materials}
           count={materials.length}
