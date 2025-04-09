@@ -35,7 +35,7 @@ export default function SubjectMaterialById({
   };
 
   const cardStyles = {
-    base: "flex flex-col bg-white border border-gray-100",
+    base: "flex flex-col bg-white border border-gray-100 overflow-hidden",
     shadow: "shadow-card",
     rounded: "rounded-xl",
     body: "flex flex-col p-4 md:p-8",
