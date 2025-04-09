@@ -1,3 +1,176 @@
+import { useState } from "react";
+
+// ** organism
+import AnnouncementTable from "@/components/dashboard/subjects/organism/AnnouncementTable";
+import MaterialTable from "@/components/dashboard/subjects/organism/MaterialTable";
+import AssignmentTable from "@/components/dashboard/subjects/organism/AssignmentTable";
+
+// ** molecules
+import LectureInfo from "@/components/dashboard/subjects/molecules/LectureInfo";
+import LectureStats from "@/components/dashboard/subjects/molecules/LectureStats";
+
+// ** types
+import { Announcement } from "@/types/Announcement";
+import { Material } from "@/types/Material";
+import { Assignment } from "@/types/Assignment";
+import { Lecture } from "@/types/Lecture";
+
 export default function SubjectById({ subjectId }: { subjectId?: string }) {
-  return <div>{subjectId}</div>;
+  // 임의의 공지사항 데이터
+  const [announcements, setAnnouncements] = useState<Announcement[]>([
+    {
+      id: 1,
+      lectureId: Number(subjectId) || 1,
+      title: "중간고사 일정 안내",
+      content:
+        "중간고사는 10월 15일에 진행됩니다. 시험 범위는 1장부터 5장까지입니다.",
+      createdAt: new Date("2023-10-01"),
+    },
+    {
+      id: 2,
+      lectureId: Number(subjectId) || 1,
+      title: "과제 제출 기한 연장",
+      content: "프로젝트 제출 기한이 10월 20일로 연장되었습니다.",
+      createdAt: new Date("2023-10-05"),
+    },
+    {
+      id: 2,
+      lectureId: Number(subjectId) || 1,
+      title:
+        "과제 제출 기한 연장 + 긴 텍스트일 경우 (과제 제출 기한 연장과제 제출 기한 연장과제 제출 기한 연장)",
+      content: "프로젝트 제출 기한이 10월 20일로 연장되었습니다.",
+      createdAt: new Date("2023-10-05"),
+    },
+  ]);
+
+  // 임의의 자료실 데이터
+  const [materials, setMaterials] = useState<Material[]>([
+    {
+      id: 1,
+      lectureId: Number(subjectId) || 1,
+      title: "1주차 강의자료",
+      content: "1주차 강의자료",
+      createdAt: new Date("2023-09-01"),
+    },
+    {
+      id: 2,
+      lectureId: Number(subjectId) || 1,
+      title: "프로그래밍 과제 안내서",
+      content: "프로그래밍 과제 안내서",
+      createdAt: new Date("2023-09-10"),
+    },
+  ]);
+
+  // 임의의 과제 데이터
+  const [assignments, setAssignments] = useState<Assignment[]>([
+    {
+      id: 1,
+      lectureId: Number(subjectId) || 1,
+      title: "프로그래밍 기초 과제 1",
+      content: "변수와 자료형에 대한 기초 문제 풀이",
+      dueDate: new Date("2023-09-15"),
+      extendedDueDate: new Date("2023-09-20"),
+      allowResubmission: true,
+      isPublic: true,
+      createdAt: new Date("2023-09-01"),
+    },
+    {
+      id: 2,
+      lectureId: Number(subjectId) || 1,
+      title: "중간 프로젝트",
+      content: "간단한 계산기 프로그램 구현하기",
+      dueDate: new Date("2023-10-10"),
+      extendedDueDate: new Date("2023-10-15"),
+      allowResubmission: false,
+      isPublic: true,
+      createdAt: new Date("2023-09-20"),
+    },
+    {
+      id: 3,
+      lectureId: Number(subjectId) || 1,
+      title: "기말 프로젝트",
+      content: "미니 게임 개발하기",
+      dueDate: new Date("2023-11-25"),
+      extendedDueDate: new Date("2023-11-30"),
+      allowResubmission: true,
+      isPublic: true,
+      createdAt: new Date("2023-11-01"),
+    },
+  ]);
+
+  // 임의의 강의 데이터
+  const lectureData: Lecture = {
+    sizeLimit: 30,
+    year: {
+      value: 2023,
+      leap: false,
+    },
+    lectureStatus: "IN_PROGRESS",
+    semester: "SECOND_SEMESTER",
+    professor: {
+      name: "홍길동",
+      studentNumber: "12345",
+      phoneNumber: "010-1234-5678",
+      role: "ROLE_PROFESSOR",
+    },
+    courseResponseDto: {
+      courseId: 1,
+      courseName: "프로그래밍 기초",
+      courseNumber: "CS101",
+      score: 3,
+    },
+    lectureScheduleAndLocation: [
+      {
+        additionalProp1: "공학관 401호",
+        additionalProp2: "월 1,2교시",
+        additionalProp3: "",
+      },
+    ],
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 px-5">
+      <div className="col-span-1 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5">
+        <LectureInfo data={lectureData} />
+        <LectureStats
+          assignments={assignments}
+          announcements={announcements}
+          materials={materials}
+        />
+      </div>
+
+      {/* 과제 목록 테이블 */}
+      <div className="col-span-2">
+        <AssignmentTable
+          data={assignments}
+          count={assignments.length}
+          page={1}
+          totalPages={3}
+          onClick={() => undefined}
+        />
+      </div>
+
+      <hr className="col-span-2 w-full border-gray-100" />
+
+      {/* 공지사항 및 자료 테이블 */}
+      <div className="col-span-1">
+        <AnnouncementTable
+          data={announcements}
+          count={announcements.length}
+          page={1}
+          totalPages={3}
+          onClick={() => undefined}
+        />
+      </div>
+      <div className="col-span-1">
+        <MaterialTable
+          data={materials}
+          count={materials.length}
+          page={1}
+          totalPages={5}
+          onClick={() => undefined}
+        />
+      </div>
+    </div>
+  );
 }
