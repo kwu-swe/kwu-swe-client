@@ -1,24 +1,26 @@
 import { useState } from "react";
+
 import { cn } from "fast-jsx/util";
-import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 // ** organism
 
 // ** molecules
 
+// ** assets
+import { MdArrowBack } from "react-icons/md";
+
 // ** types
 import { Announcement } from "@/types/Announcement";
 
 export default function SubjectAnnouncementById({
   subjectId,
-  announcementId,
 }: {
   subjectId?: string;
   announcementId?: string;
 }) {
   const navigate = useNavigate();
-  const [announcement, setAnnouncement] = useState<Announcement>({
+  const [announcement] = useState<Announcement>({
     id: 1,
     lectureId: 123,
     title: "2024학년도 1학기 중간고사 안내",

@@ -2,11 +2,11 @@ import SubjectAnnouncementById from "@/components/dashboard/subjects/Announcemen
 import { useParams } from "react-router-dom";
 
 export default function Page() {
-  const { subjectId, announcement } = useParams();
+  const { subjectId, announcementId } = useParams();
   return (
     <SubjectAnnouncementById
       subjectId={subjectId}
-      announcementId={announcement}
+      announcementId={announcementId}
     />
   );
 }

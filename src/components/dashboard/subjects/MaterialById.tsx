@@ -1,24 +1,24 @@
-import { useState } from "react";
 import { cn } from "fast-jsx/util";
-import { MdArrowBack, MdAttachFile } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 // ** organism
 
 // ** molecules
 
+// ** assets
+import { MdArrowBack, MdAttachFile } from "react-icons/md";
+
 // ** types
 import { Material } from "@/types/Material";
 
 export default function SubjectMaterialById({
   subjectId,
-  materialId,
 }: {
   subjectId?: string;
   materialId?: string;
 }) {
   const navigate = useNavigate();
-  const [material, setMaterial] = useState<Material>({
+  const material: Material = {
     id: 1,
     lectureId: 123,
     title: "리액트 컴포넌트의 이해",
@@ -32,7 +32,7 @@ export default function SubjectMaterialById({
 
 컴포넌트를 잘 설계하면 유지보수가 쉽고 확장성 있는 애플리케이션을 만들 수 있습니다.`,
     createdAt: new Date("2024-01-15"),
-  });
+  };
 
   const cardStyles = {
     base: "flex flex-col bg-white border border-gray-100",

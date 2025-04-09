@@ -17,7 +17,7 @@ import { Lecture } from "@/types/Lecture";
 
 export default function SubjectById({ subjectId }: { subjectId?: string }) {
   // 임의의 공지사항 데이터
-  const [announcements, setAnnouncements] = useState<Announcement[]>([
+  const [announcements] = useState<Announcement[]>([
     {
       id: 1,
       lectureId: Number(subjectId) || 1,
@@ -44,7 +44,7 @@ export default function SubjectById({ subjectId }: { subjectId?: string }) {
   ]);
 
   // 임의의 자료실 데이터
-  const [materials, setMaterials] = useState<Material[]>([
+  const [materials] = useState<Material[]>([
     {
       id: 1,
       lectureId: Number(subjectId) || 1,
@@ -62,7 +62,7 @@ export default function SubjectById({ subjectId }: { subjectId?: string }) {
   ]);
 
   // 임의의 과제 데이터
-  const [assignments, setAssignments] = useState<Assignment[]>([
+  const [assignments] = useState<Assignment[]>([
     {
       id: 1,
       lectureId: Number(subjectId) || 1,
@@ -125,7 +125,7 @@ export default function SubjectById({ subjectId }: { subjectId?: string }) {
         additionalProp2: "월 1,2교시",
         additionalProp3: "",
       },
-    ],
+    ] as any,
   };
 
   return (
