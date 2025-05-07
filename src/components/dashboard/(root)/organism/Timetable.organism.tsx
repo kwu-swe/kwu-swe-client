@@ -162,7 +162,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
   };
 
   const handleLectureClick = (lectureId: number) => {
-    navigate(`/dashboard/subjects/${lectureId}`);
+    navigate(`/dashboard/lectures/${lectureId}`);
   };
 
   return (

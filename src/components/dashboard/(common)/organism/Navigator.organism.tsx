@@ -88,17 +88,17 @@ const routes: Route[] = [
   },
   {
     name: "수강 관리",
-    path: "/dashboard/subjects",
+    path: "/dashboard/lectures",
     icon: SubjectIcon,
     subRoutes: [
       {
         name: "수강 신청",
-        path: "/dashboard/subjects/register",
+        path: "/dashboard/lectures/register",
         icon: RegisterIcon,
       },
       {
         name: "수강 내역",
-        path: "/dashboard/subjects/history",
+        path: "/dashboard/lectures/history",
         icon: HistoryIcon,
       },
     ],
@@ -146,8 +146,8 @@ export default function Navigator() {
   const isRouteActive = (route: Route) => {
     if (path === route.path) return true;
     if (
-      route.path === "/dashboard/subjects" &&
-      path.startsWith("/dashboard/subjects")
+      route.path === "/dashboard/lectures" &&
+      path.startsWith("/dashboard/lectures")
     )
       return true;
     if (route.subRoutes?.some((subRoute) => path === subRoute.path))
