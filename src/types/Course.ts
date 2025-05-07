@@ -1,3 +1,5 @@
+type CourseType = "MAJOR_REQUIRED" | "MAJOR_ELECTIVE" | "GENERAL_REQUIRED" | "GENERAL_ELECTIVE"
+
 interface Course {
   id: number;
   courseName: string;
@@ -5,8 +7,16 @@ interface Course {
   score: number;
 }
 
-interface CreateCourse extends Omit<Course, "id"> {
-  courseType: string;
+type CourseAutoSetKeys = "id"
+interface CourseCreate extends Omit<Course, CourseAutoSetKeys> {
+  courseType: CourseType;
 }
 
-export type { Course, CreateCourse };
+interface UpdateCourse extends Partial<Omit<Course, CourseAutoSetKeys>> { }
+
+export type {
+  CourseType,
+  Course,
+  CourseCreate,
+  UpdateCourse
+};
