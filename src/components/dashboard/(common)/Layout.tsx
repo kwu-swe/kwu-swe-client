@@ -19,18 +19,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const body = {
     displays: "flex flex-row",
     positions: "relative",
-    sizes: "w-full",
+    sizes: "w-full flex-1",
   };
 
   const content = {
     displays: "flex-1 bg-white rounded-none md:rounded-lg shadow-sm",
     sizes: "p-5",
+    overflow: "overflow-y-auto",
   };
 
   const mainContainer = {
     displays: "flex-1",
-    sizes: "w-full max-w-5xl mx-auto",
+    sizes: "w-full max-w-full md:max-w-5xl mx-auto",
     paddings: "p-0 md:p-6",
+    overflows: "overflow-hidden",
   };
 
   return (

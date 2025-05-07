@@ -152,7 +152,7 @@ export default function Navigator() {
 
   const container = {
     displays: "flex flex-col",
-    sizes: isCollapsed ? "w-16" : "w-64 md:w-64 sm:w-64",
+    sizes: isCollapsed ? "w-16 min-w-16" : "w-64 min-w-64 md:w-64 sm:w-64",
     boundaries: "border-r border-gray-100",
     backgrounds: "bg-white",
     transitions: "transition-all duration-300 ease-in-out",
@@ -261,7 +261,7 @@ export default function Navigator() {
               </div>
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto pt-3 space-y-1">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden pt-3 space-y-1">
             {routes.map((route) => {
               const isActive = isRouteActive(route);
               const isExpanded =
