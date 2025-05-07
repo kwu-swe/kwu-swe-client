@@ -145,6 +145,11 @@ export default function Navigator() {
 
   const isRouteActive = (route: Route) => {
     if (path === route.path) return true;
+    if (
+      route.path === "/dashboard/subjects" &&
+      path.startsWith("/dashboard/subjects")
+    )
+      return true;
     if (route.subRoutes?.some((subRoute) => path === subRoute.path))
       return true;
     return false;
@@ -182,10 +187,10 @@ export default function Navigator() {
     displays: "flex items-center gap-3 w-full relative",
     fonts: "leading-none text-base font-semibold",
     paddings: isCollapsed ? "px-0 py-3.5" : "px-4 py-3.5",
-    fontColor: isSelected ? "text-kw-brown" : "text-gray-600",
+    fontColor: isSelected || isParentActive ? "text-kw-brown" : "text-gray-600",
     backgrounds:
       isSelected || isParentActive ? "bg-gray-50" : "hover:bg-gray-50",
-    effects: isSelected ? "shadow-sm" : "",
+    effects: isSelected || isParentActive ? "shadow-sm" : "",
     boundaries: "rounded-xl",
     transitions: "transition-all duration-200",
   });
@@ -288,7 +293,7 @@ export default function Navigator() {
                     <div className={cn(textBox)}>
                       <span className="truncate">{route.name}</span>
                     </div>
-                    {path === route.path && (
+                    {(path === route.path || isActive) && (
                       <div className={cn(selectedIndicator)} />
                     )}
                   </button>
