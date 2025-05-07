@@ -8,13 +8,14 @@ interface Year {
   leap: string;
 }
 interface LectureScheduleAndLocation {
-  additionalProp1: string;
-  additionalProp2: string;
-  additionalProp3: string;
+  day: string; // "월", "화", "수", "목", "금", "토"
+  periods: number[]; // [1, 2, 3] 형태로 저장
+  room: string;
 }
 export interface UpdateLecture extends Partial<Lecture> {}
 
 export interface Lecture {
+  id: number;
   sizeLimit: number;
   year: Year;
   lectureStatus: LectureStatus;
