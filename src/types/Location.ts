@@ -4,11 +4,11 @@ interface Location {
   sizeLimit: number;
 }
 
-interface CreateLocation {
+interface LocationCreate {
   location: string;
   sizeLimit: number;
 }
 
-interface UpdateLocation extends Partial<Omit<Location, "locationId">> {}
+interface LocationUpdate extends Partial<Omit<Location, "locationId">> { }
 
-export type { Location, CreateLocation, UpdateLocation };
+export type { Location, LocationCreate, LocationUpdate };

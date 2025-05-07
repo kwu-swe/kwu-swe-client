@@ -1,36 +1,44 @@
 import courseApi from "@/connection/api/course";
 import { CourseCreate, UpdateCourse } from "@/types/Course";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function useCourse() {
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
-  const { mutate: post, isSuccess: postSuccess } = useMutation({
-    mutationFn: (createCourse: CourseCreate) =>
-      courseApi.post(createCourse),
-    onSuccess: () => setIsCreateMode(false)
+  const { mutate: post } = useMutation({
+    mutationKey: ['coursePost'],
+    mutationFn: (courseCreate: CourseCreate) =>
+      courseApi.post({
+        ...courseCreate,
+        courseNumber: createCourseNumber(),
+      }),
+    onSuccess: () => {
+      setIsCreateMode(false);
+      queryClient.invalidateQueries({ queryKey: ['courseGet'] });
+    }
   });
-
-  // const { mutate: patch, isSuccess: patchSuccess } = useMutation({
-  //   mutationFn: ({ id, data }: { id: number; data: UpdateCourse }) =>
-  //     courseApi.patch(id, data)
-  // });
-
-  // const { mutate: remove, isSuccess: deleteSuccess } = useMutation({
-  //   mutationFn: (id: number) => courseApi.delete(id)
-  // });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getCourses", postSuccess],
+    queryKey: ['courseGet'],
     queryFn: courseApi.get,
+    staleTime: 0,
   });
 
-  return { 
-    post, 
-    courses: data ?? [], 
+  return {
+    post,
+    courses: data ?? [],
     isLoading,
     isCreateMode,
     setIsCreateMode
   };
+}
+function createCourseNumber(): string {
+  const part1 = String(Math.floor(Math.random() * 1000)).padStart(3, '0');  // I020
+  const part2 = Math.floor(Math.random() * 10);                             // 4
+  const part3 = String(Math.floor(Math.random() * 10000)).padStart(4, '0'); // 0846
+  const part4 = String(Math.floor(Math.random() * 100)).padStart(2, '0');   // 01
+
+  return `I${part1}-${part2}-${part3}-${part4}`;
 }

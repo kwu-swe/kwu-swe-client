@@ -9,7 +9,7 @@ export default function ReadTemplate() {
     <Shelf.Col
       option={{
         boundary: "border-2 border-green-dark",
-        height: "min-h-100",
+        height: "h-120 overflow-y-scroll",
       }}
     >
       <Action.Replace actions={[[!locations?.length, <NoData key="noData" />]]}>
