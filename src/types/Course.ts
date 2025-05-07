@@ -11,8 +11,11 @@ interface Course {
   score: number;
 }
 
-interface CreateCourse extends Omit<Course, "id"> {
+type CourseAutoSetKeys = "id";
+interface CourseCreate extends Omit<Course, CourseAutoSetKeys> {
   courseType: CourseType;
 }
 
-export type { Course, CreateCourse, CourseType };
+interface UpdateCourse extends Partial<Omit<Course, CourseAutoSetKeys>> {}
+
+export type { CourseType, Course, CourseCreate, UpdateCourse };

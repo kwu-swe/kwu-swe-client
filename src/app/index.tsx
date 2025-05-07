@@ -4,8 +4,8 @@ import RootPage from "./page";
 import {
   DashboardLayout,
   DashboardPage,
-  SubjectByIdPage,
-  SubjectPage,
+  LectureByIdPage,
+  LecturePage,
 } from "./dashboard";
 import Loading from "@/design/Loading";
 import { SignInPage } from "./sign-in";
@@ -24,9 +24,9 @@ export default function App() {
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
-          <Route path="subjects">
-            <Route index element={<SubjectPage />} />
-            <Route path=":subjectId" element={<SubjectByIdPage />} />
+          <Route path="lectures">
+            <Route index element={<LecturePage />} />
+            <Route path=":subjectId" element={<LectureByIdPage />} />
           </Route>
         </Route>
         <Route path="*" element={<Loading />} />

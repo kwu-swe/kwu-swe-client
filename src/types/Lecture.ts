@@ -12,6 +12,8 @@ interface LectureScheduleAndLocation {
   additionalProp2: string;
   additionalProp3: string;
 }
+export interface UpdateLecture extends Partial<Lecture> {}
+
 export interface Lecture {
   sizeLimit: number;
   year: Year;

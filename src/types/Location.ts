@@ -9,4 +9,6 @@ interface CreateLocation {
   sizeLimit: number;
 }
 
-export type { Location, CreateLocation };
+interface UpdateLocation extends Partial<Omit<Location, "locationId">> {}
+
+export type { Location, CreateLocation, UpdateLocation };
