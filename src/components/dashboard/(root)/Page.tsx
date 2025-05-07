@@ -77,7 +77,7 @@ const mockLectures: Lecture[] = [
 
 export default function Dashboard() {
   const container = {
-    displays: "flex flex-col gap-y-3.5",
+    displays: "flex flex-col gap-y-6",
     sizes: "w-full",
   };
   const { lectures, isLoading } = useLecture();

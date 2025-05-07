@@ -9,6 +9,7 @@ import {
   LectureMaterialPage,
   LectureAssignmentPage,
   LectureAnnouncementPage,
+  LectureCoursePage,
 } from "./dashboard";
 import Loading from "@/design/Loading";
 import { SignInPage } from "./sign-in";
@@ -30,7 +31,7 @@ export default function App() {
 
           <Route path="lectures">
             <Route index element={<LecturePage />} />
-            <Route path="register" element={<LecturePage />} />
+            <Route path="register" element={<LectureCoursePage />} />
             <Route path="history" element={<LecturePage />} />
 
             <Route path=":lectureId" element={<LectureByIdPage />} />

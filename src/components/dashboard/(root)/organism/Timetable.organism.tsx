@@ -129,7 +129,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
   const timetableContainerClasses = {
     sizes: "w-full",
     overflows: "overflow-auto",
-    boundaries: "rounded-md",
+    boundaries: "rounded-lg",
     shadows: "shadow-sm",
     heights: "max-h-[calc(100vh-200px)]",
   };
@@ -142,13 +142,14 @@ export default function TimeTable({ lectures }: TimeTableProps) {
   const tableClasses = {
     sizes: "w-full",
     displays: "border-collapse table-fixed",
+    backgrounds: "bg-white", // 테이블 기본 배경 추가
   };
 
   const tableCellBaseClasses =
     "border border-gray-100 p-1 sm:p-2 text-[10px] sm:text-xs md:text-sm";
   const thClasses = cn(
     tableCellBaseClasses,
-    "bg-gray-50 font-semibold text-gray-700 text-center"
+    "bg-gray-100 font-semibold text-gray-700 text-center"
   );
   const periodCellClasses = cn(
     tableCellBaseClasses,
