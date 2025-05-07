@@ -1,71 +1,16 @@
 import { cn } from "fast-jsx/util";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-// 임시 아이콘 컴포넌트들
-const DashboardIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-    />
-  </svg>
-);
-
-const SubjectIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-    />
-  </svg>
-);
-
-const RegisterIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-    />
-  </svg>
-);
-
-const HistoryIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
+import {
+  MdOutlineSpaceDashboard,
+  MdOutlineClass,
+  MdOutlineEditNote,
+  MdOutlineHistory,
+  MdChevronRight,
+  MdMenu,
+  MdMenuOpen, // 네비게이션 축소 아이콘
+  MdExpandMore, // 서브메뉴 확장됨 아이콘
+} from "react-icons/md";
 
 interface SubRoute {
   name: string;
@@ -84,22 +29,22 @@ const routes: Route[] = [
   {
     name: "대시보드",
     path: "/dashboard",
-    icon: DashboardIcon,
+    icon: MdOutlineSpaceDashboard,
   },
   {
     name: "수강 관리",
     path: "/dashboard/lectures",
-    icon: SubjectIcon,
+    icon: MdOutlineClass,
     subRoutes: [
       {
         name: "수강 신청",
         path: "/dashboard/lectures/register",
-        icon: RegisterIcon,
+        icon: MdOutlineEditNote,
       },
       {
         name: "수강 내역",
         path: "/dashboard/lectures/history",
-        icon: HistoryIcon,
+        icon: MdOutlineHistory,
       },
     ],
   },
@@ -112,10 +57,13 @@ export default function Navigator() {
   const [expandedRoutes, setExpandedRoutes] = useState<string[]>([]);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     // 모바일에서는 기본적으로 닫힌 상태
-    if (window.innerWidth < 768) return true;
+    if (typeof window !== "undefined" && window.innerWidth < 768) return true;
     // 로컬 스토리지에서 상태 불러오기
-    const saved = localStorage.getItem("navCollapsed");
-    return saved ? JSON.parse(saved) : false;
+    if (typeof localStorage !== "undefined") {
+      const saved = localStorage.getItem("navCollapsed");
+      return saved ? JSON.parse(saved) : false;
+    }
+    return false;
   });
 
   // 화면 크기 변경 감지
@@ -132,13 +80,15 @@ export default function Navigator() {
 
   // 상태 변경 시 로컬 스토리지에 저장
   useEffect(() => {
-    localStorage.setItem("navCollapsed", JSON.stringify(isCollapsed));
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("navCollapsed", JSON.stringify(isCollapsed));
+    }
   }, [isCollapsed]);
 
   const toggleRoute = (routePath: string) => {
     setExpandedRoutes((prev) =>
       prev.includes(routePath)
-        ? prev.filter((path) => path !== routePath)
+        ? prev.filter((p) => p !== routePath)
         : [...prev, routePath]
     );
   };
@@ -174,13 +124,13 @@ export default function Navigator() {
 
   const toggleButton = {
     displays: "flex items-center justify-center",
-    paddings: "p-2",
+    paddings: "p-1", // 사이즈 축소에 따른 패딩 조절
     backgrounds: "hover:bg-gray-50",
     boundaries: "rounded-lg",
-    fonts: "text-gray-400",
+    fonts: "text-gray-600", // 아이콘 색상 진하게 변경
     effects: "hover:shadow-sm",
     transitions: "transition-all duration-200",
-    sizes: "w-8 h-8",
+    sizes: "w-7 h-7", // 버튼 사이즈 축소 (w-8 h-8 -> w-7 h-7)
   };
 
   const buttonBox = (isSelected?: boolean, isParentActive?: boolean) => ({
@@ -197,18 +147,26 @@ export default function Navigator() {
 
   const subButtonBox = (isSelected?: boolean) => ({
     displays: "flex items-center gap-3 w-full relative",
-    fonts: "leading-none text-base font-medium",
-    paddings: isCollapsed ? "px-0 py-3" : "pl-12 pr-4 py-3",
+    fonts: `leading-none text-sm ${
+      isSelected ? "font-semibold" : "font-medium"
+    }`, // 활성 시 폰트 두께 변경, 기본 폰트 크기 text-sm
+    paddings: isCollapsed ? "px-0 py-2.5" : "pl-8 pr-4 py-2.5", // 높이 줄임 (py-3 -> py-2.5)
     fontColor: isSelected ? "text-kw-brown" : "text-gray-500",
-    backgrounds: isSelected ? "bg-gray-50" : "hover:bg-gray-50",
-    boundaries: "rounded-xl",
+    backgrounds: isSelected ? "bg-amber-50" : "hover:bg-gray-50", // 활성 시 배경색 변경 (bg-gray-50 -> bg-amber-50)
+    boundaries: "rounded-lg", // 모서리 둥글기 약간 줄임 (rounded-xl -> rounded-lg)
     transitions: "transition-all duration-200",
   });
 
   const iconBox = {
     displays: "flex items-center justify-center",
     sizes: "w-8 h-8 min-w-[32px]",
-    fonts: "text-gray-500",
+    positions: isCollapsed ? "mx-auto" : "",
+  };
+
+  const subIconBox = {
+    // 서브메뉴 아이콘 박스 (필요시 패딩 조절)
+    displays: "flex items-center justify-center",
+    sizes: "w-7 h-7 min-w-[28px]", // 아이콘 박스 크기 약간 줄임
     positions: isCollapsed ? "mx-auto" : "",
   };
 
@@ -217,23 +175,35 @@ export default function Navigator() {
     sizes: "min-w-0",
     transitions: "transition-all duration-300 ease-in-out",
     positions: "absolute",
-    paddings: isCollapsed ? "pl-12" : "pl-12",
+    paddings: isCollapsed ? "pl-10" : "pl-10", // 이 부분은 subButtonBox의 pl과 연동되어야 함
     opacities: isCollapsed ? "opacity-0" : "opacity-100",
     visibilities: isCollapsed ? "invisible" : "visible",
     transforms: isCollapsed ? "translate-x-[-8px]" : "translate-x-0",
   };
 
-  const selectedIndicator = {
+  // 서브메뉴용 textBox, 아이콘 크기 및 패딩 변경에 따라 조정
+  const subTextBox = {
+    displays: "flex items-center",
+    sizes: "min-w-0",
+    transitions: "transition-all duration-300 ease-in-out",
+    positions: "absolute",
+    paddings: isCollapsed ? "pl-10" : "pl-[44px]", // 아이콘 + 갭 이후부터 텍스트 시작
+    opacities: isCollapsed ? "opacity-0" : "opacity-100",
+    visibilities: isCollapsed ? "invisible" : "visible",
+    transforms: isCollapsed ? "translate-x-[-8px]" : "translate-x-0",
+  };
+
+  const selectedIndicator = (isSub?: boolean) => ({
     displays: "absolute left-0 top-1/2 -translate-y-1/2",
-    sizes: "w-1 h-8",
+    sizes: isSub ? "w-1 h-6" : "w-1 h-8", // 서브 메뉴일 때 높이 h-6
     backgrounds: "bg-kw-brown",
     boundaries: "rounded-r-full",
-  };
+  });
 
   return (
     <>
-      <div className={cn(container)}>
-        <div className={cn(contentWrapper)}>
+      <div className={cn(...Object.values(container))}>
+        <div className={cn(...Object.values(contentWrapper))}>
           <div
             className={cn(
               "h-14 flex items-center border-b border-gray-100",
@@ -241,32 +211,19 @@ export default function Navigator() {
             )}
           >
             <button
-              className={cn(toggleButton)}
+              className={cn(...Object.values(toggleButton))}
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
-              <div className="flex flex-col gap-1.5">
-                <div
-                  className={cn(
-                    "h-0.5 bg-gray-400 transition-all duration-300",
-                    isCollapsed ? "w-4" : "w-6"
-                  )}
-                />
-                <div
-                  className={cn(
-                    "h-0.5 bg-gray-400 transition-all duration-300",
-                    isCollapsed ? "w-5" : "w-4"
-                  )}
-                />
-                <div
-                  className={cn(
-                    "h-0.5 bg-gray-400 transition-all duration-300",
-                    isCollapsed ? "w-3" : "w-5"
-                  )}
-                />
-              </div>
+              {isCollapsed ? (
+                <MdMenu className="w-5 h-5" />
+              ) : (
+                <MdMenuOpen className="w-5 h-5" />
+              )}
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto overflow-x-hidden pt-3 space-y-1">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden pt-3 space-y-1 px-2">
+            {" "}
+            {/* 네비게이터 전체 좌우 패딩 추가 */}
             {routes.map((route) => {
               const isActive = isRouteActive(route);
               const isExpanded =
@@ -274,10 +231,13 @@ export default function Navigator() {
               return (
                 <div key={route.path} className="relative">
                   <button
-                    className={cn(buttonBox(path === route.path, isActive))}
+                    className={cn(
+                      ...Object.values(buttonBox(path === route.path, isActive))
+                    )}
                     onClick={() => {
                       if (route.subRoutes) {
                         if (isCollapsed) {
+                          // 축소 상태에서 서브메뉴가 있는 항목 클릭 시 첫번째 서브메뉴로 이동
                           router(route.subRoutes[0].path);
                         } else {
                           toggleRoute(route.path);
@@ -287,34 +247,79 @@ export default function Navigator() {
                       }
                     }}
                   >
-                    <div className={cn(iconBox)}>
+                    <div className={cn(...Object.values(iconBox))}>
                       <route.icon className="w-5 h-5" />
                     </div>
-                    <div className={cn(textBox)}>
-                      <span className="truncate">{route.name}</span>
-                    </div>
-                    {(path === route.path || isActive) && (
-                      <div className={cn(selectedIndicator)} />
+                    {!isCollapsed && (
+                      <div className={cn(...Object.values(textBox))}>
+                        <span className="truncate">{route.name}</span>
+                      </div>
+                    )}
+                    {/* 확장/축소 아이콘 (서브메뉴가 있을 경우) */}
+                    {!isCollapsed &&
+                      route.subRoutes &&
+                      (isExpanded ? (
+                        <MdExpandMore
+                          className={cn(
+                            "w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+                          )}
+                        />
+                      ) : (
+                        <MdChevronRight
+                          className={cn(
+                            "w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+                          )}
+                        />
+                      ))}
+                    {(path === route.path ||
+                      (isActive &&
+                        !route.subRoutes?.some((sr) => path === sr.path))) && ( // 부모 라우트 활성 표시 (서브 라우트가 활성 아닐 때만)
+                      <div
+                        className={cn(...Object.values(selectedIndicator()))}
+                      />
                     )}
                   </button>
                   {!isCollapsed && route.subRoutes && isExpanded && (
-                    <div className="mt-1 space-y-1">
+                    <div className="mt-1 space-y-1 pl-2">
+                      {" "}
+                      {/* 서브메뉴 들여쓰기 */}
                       {route.subRoutes.map((subRoute) => (
                         <button
                           key={subRoute.path}
-                          className={cn(subButtonBox(path === subRoute.path))}
+                          className={cn(
+                            ...Object.values(
+                              subButtonBox(path === subRoute.path)
+                            )
+                          )}
                           onClick={() => router(subRoute.path)}
                         >
                           {subRoute.icon && (
-                            <div className={cn(iconBox)}>
-                              <subRoute.icon className="w-5 h-5" />
+                            <div className={cn(...Object.values(subIconBox))}>
+                              {" "}
+                              {/* 서브메뉴 아이콘 박스 사용 */}
+                              <subRoute.icon className="w-4 h-4" />{" "}
+                              {/* 서브메뉴 아이콘 크기 약간 줄임 */}
                             </div>
                           )}
-                          <div className={cn(textBox)}>
+                          {/* 아이콘 유무에 따라 텍스트 위치 조정 */}
+                          <div
+                            className={cn(
+                              ...Object.values(subTextBox),
+                              !subRoute.icon
+                                ? isCollapsed
+                                  ? "pl-10"
+                                  : "pl-8"
+                                : undefined
+                            )}
+                          >
                             <span className="truncate">{subRoute.name}</span>
                           </div>
                           {path === subRoute.path && (
-                            <div className={cn(selectedIndicator)} />
+                            <div
+                              className={cn(
+                                ...Object.values(selectedIndicator(true))
+                              )}
+                            />
                           )}
                         </button>
                       ))}
