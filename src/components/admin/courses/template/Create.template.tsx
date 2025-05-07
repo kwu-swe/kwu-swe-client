@@ -9,13 +9,19 @@ export default function CreateTemplate({
   post: (data: CourseCreate) => void;
 }) {
   const [courseName, setCourseName] = useState<string>();
-  const [courseNumber, setCourseNumber] = useState<string>();
   const [score, setScore] = useState<string>();
   const [courseType, setCourseType] = useState<CourseType>();
   return (
     <div>
-      <Input state={[courseName, setCourseName]} placeholder="코스 이름" />
-      <Input state={[courseNumber, setCourseNumber]} placeholder="코스 번호" />
+      <Select
+        state={[score, setScore]}
+        placeholder="부여 학점"
+        selectOptions={[
+          { value: "1", title: "1" },
+          { value: "2", title: "2" },
+          { value: "3", title: "3" },
+        ]}
+      />
       <Select
         state={[courseType, setCourseType] as any}
         placeholder="코스 타입"
@@ -26,34 +32,30 @@ export default function CreateTemplate({
           { value: "GENERAL_ELECTIVE", title: "공통 선택" },
         ]}
       />
-      <Input
-        state={[score, setScore]}
-        placeholder="부여 학점"
+      <Input state={[courseName, setCourseName]} placeholder="코스 이름"
         onKeyDown={(e) => {
           if (
             e.key === "Enter" &&
             courseName &&
-            courseNumber &&
             score &&
             courseType
           ) {
             post({
               courseName,
-              courseNumber,
+              courseNumber: "",
               score: +score,
               courseType: courseType!,
             });
           }
         }}
       />
-      <Input state={[score, setScore]} placeholder="score" />
       <Button
         title="등록"
         onClick={() => {
-          if (!courseName || !courseNumber || !score || !courseType) return;
+          if (!courseName || !score || !courseType) return;
           post({
             courseName,
-            courseNumber,
+            courseNumber: "",
             score: +score,
             courseType,
           });
