@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ComponentType, Fragment } from "react";
+import { useRouteCheck } from "@/hook/useRouteCheck";
+
+// ** pages
 import RootPage from "./page";
 import {
   DashboardLayout,
@@ -11,30 +13,72 @@ import {
   LectureAnnouncementPage,
   LectureCoursePage,
 } from "./dashboard";
-import Loading from "@/design/Loading";
+
 import { SignInPage } from "./sign-in";
 import { AdminLayout, AdminPage, CoursePage, LectureAdminPage, LocationPage } from "./admin";
+
+// ** components
+import NotFound from "@/components/(common)/notfound/Page";
+
+// 라우팅 체크를 위한 래퍼 컴포넌트
+function RouteGuard({
+  children,
+  checkAuth,
+  checkRole,
+  redirectTo,
+}: {
+  children: React.ReactNode;
+  checkAuth?: boolean;
+  checkRole?: string[];
+  redirectTo?: string;
+}) {
+  const { LoadingComponent } = useRouteCheck({
+    checkAuth,
+    checkRole,
+    redirectTo,
+  });
+
+  if (LoadingComponent) return <LoadingComponent />;
+  return <>{children}</>;
+}
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* 공개 페이지 */}
         <Route path="/" element={<RootPage />} />
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/sign-in" element={<SignInPage />} />
+
+        {/* 관리자 페이지 */}
+        <Route
+          path="/admin"
+          element={
+            <RouteGuard checkAuth checkRole={["ADMIN"]} redirectTo="/dashboard">
+              <AdminLayout />
+            </RouteGuard>
+          }
+        >
           <Route index element={<AdminPage />} />
           <Route path="locations" element={<LocationPage />} />
           <Route path="courses" element={<CoursePage />} />
           <Route path="lectures" element={<LectureAdminPage />} />
         </Route>
-        <Route path="/sign-in" element={<SignInPage />} />
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<DashboardPage />} />
 
+        {/* 대시보드 페이지 */}
+        <Route
+          path="/dashboard"
+          element={
+            <RouteGuard checkAuth redirectTo="/sign-in">
+              <DashboardLayout />
+            </RouteGuard>
+          }
+        >
+          <Route index element={<DashboardPage />} />
           <Route path="lectures">
             <Route index element={<LecturePage />} />
             <Route path="register" element={<LectureCoursePage />} />
-            <Route path="history" element={<LecturePage />} />
-
+            <Route path="management" element={<LecturePage />} />
             <Route path=":lectureId" element={<LectureByIdPage />} />
             <Route
               path=":lectureId/announcement/:announcementId"
@@ -50,7 +94,9 @@ export default function App() {
             />
           </Route>
         </Route>
-        <Route path="*" element={<Loading />} />
+
+        {/* 404 페이지 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

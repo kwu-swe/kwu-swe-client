@@ -130,8 +130,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
     sizes: "w-full",
     overflows: "overflow-auto",
     boundaries: "rounded-lg",
-    shadows: "shadow-sm",
-    heights: "max-h-[calc(100vh-200px)]",
+    shadows: "shadow-card",
   };
 
   const tableWrapperClasses = {
