@@ -15,7 +15,7 @@ export default function ReadTemplate({ courses, isLoading }: { courses: Course[]
       <Action.Replace actions={[[!courses?.length, <NoData key="noData" />]]}>
         {courses?.map((course: Course) => (
           <Shelf.Row
-            key={course.id}
+            key={course.courseId}
             option={{
               height: "h-12",
               boundary: "border-b-2 border-green-dark p-4 gap-4",
