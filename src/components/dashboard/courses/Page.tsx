@@ -1,26 +1,31 @@
 // ** Hooks
 import { cn } from "fast-jsx/util";
-import useCourse from "@/hook/useCourse";
 import { useState, useCallback } from "react";
 import { useDebounce } from "@/hook/useDebounce";
+import useLecture from "@/hook/useLecture";
 
 // ** Organisms
-import CourseList from "./organism/CourseList.organism";
+import LectureApplyList from "./organism/LectureApplyList.organism";
 import ComponentLoading from "@/design/ComponentLoading";
 
 // ** Icons
 import { MdSearch } from "react-icons/md";
 
-export default function Courses() {
-  const { courses, isLoading } = useCourse();
+export default function LecturesApply() {
+  const { lectures, isLoading } = useLecture();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const filteredCourses = courses?.filter((course) => {
+  const filteredLectures = lectures?.filter((lecture) => {
     const searchLower = debouncedSearchTerm.toLowerCase();
     return (
-      course.courseName.toLowerCase().includes(searchLower) ||
-      course.courseNumber.toLowerCase().includes(searchLower)
+      lecture.courseResponseDto.courseName
+        .toLowerCase()
+        .includes(searchLower) ||
+      lecture.courseResponseDto.courseNumber
+        .toLowerCase()
+        .includes(searchLower) ||
+      lecture.professor.name.toLowerCase().includes(searchLower)
     );
   });
 
@@ -30,7 +35,7 @@ export default function Courses() {
 
   // ** styles
   const container = {
-    displays: "flex flex-col gap-y-3.5",
+    displays: "flex flex-col gap-y-3.5 py-8",
     sizes: "w-full",
   };
 
@@ -40,7 +45,7 @@ export default function Courses() {
         <div className="relative">
           <input
             type="text"
-            placeholder="과목명, 과목번호로 검색"
+            placeholder="과목명, 과목번호, 교수명으로 검색"
             className="w-full p-2 pl-10 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={searchTerm}
             onChange={handleSearch}
@@ -49,15 +54,15 @@ export default function Courses() {
         </div>
         {debouncedSearchTerm && (
           <div className="text-sm text-gray-500">
-            검색어 "{debouncedSearchTerm}"에 대한 결과 {filteredCourses?.length}
-            개
+            검색어 "{debouncedSearchTerm}"에 대한 결과{" "}
+            {filteredLectures?.length}개
           </div>
         )}
       </div>
       {isLoading ? (
         <ComponentLoading />
       ) : (
-        <CourseList courses={filteredCourses || []} />
+        <LectureApplyList lectures={filteredLectures || []} />
       )}
     </div>
   );

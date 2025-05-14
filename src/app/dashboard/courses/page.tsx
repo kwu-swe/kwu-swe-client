@@ -1,5 +1,5 @@
-import CourseList from "@/components/dashboard/courses/Page";
+import LecturesApply from "@/components/dashboard/courses/Page";
 
 export default function CoursesPage() {
-  return <CourseList />;
+  return <LecturesApply />;
 }

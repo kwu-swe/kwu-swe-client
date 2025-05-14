@@ -4,9 +4,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // ** util
 import { cn } from "fast-jsx/util";
 
-// ** connection
-import courseApi from "@/connection/api/course";
-
 // ** components
 import ComponentLoading from "@/design/ComponentLoading";
 import {
@@ -17,49 +14,80 @@ import {
 } from "@tanstack/react-table";
 
 // ** types
-import { Course, CourseCreate } from "@/types/Course";
+import { Lecture } from "@/types/Lecture";
+import useLecture from "@/hook/useLecture";
+import useUser from "@/hook/useUser";
 
-interface CourseListProps {
-  courses: Course[];
+interface LectureListProps {
+  lectures: Lecture[];
 }
 
-export default function CourseList({ courses }: CourseListProps) {
+export default function LectureApplyList({ lectures }: LectureListProps) {
   const queryClient = useQueryClient();
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [selectedLecture, setSelectedLecture] = useState<Lecture | null>(null);
+  const { postAssistant } = useLecture();
+  const { user } = useUser();
 
   const enrollMutation = useMutation({
-    mutationFn: (course: Course) =>
-      courseApi.post({
-        courseName: course.courseName,
-        courseNumber: course.courseNumber,
-        score: course.score,
-      } as CourseCreate),
+    mutationFn: async (lecture: Lecture) => {
+      if (!user) throw new Error("사용자 정보가 없습니다.");
+      return postAssistant({
+        lectureId: lecture.id,
+        assistantNumber: parseInt(user.code),
+        professorNumber: parseInt(lecture.professor.code),
+      });
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courseGet"] });
-      setSelectedCourse(null);
+      queryClient.invalidateQueries({ queryKey: ["lectureGet"] });
+      setSelectedLecture(null);
     },
   });
 
-  const handleEnroll = (course: Course) => {
-    if (window.confirm(`${course.courseName}을(를) 수강신청 하시겠습니까?`)) {
-      // enrollMutation.mutate(course);
+  const handleEnroll = (lecture: Lecture) => {
+    if (
+      window.confirm(
+        `${lecture.courseResponseDto.courseName}을(를) 수강신청 하시겠습니까?`
+      )
+    ) {
+      enrollMutation.mutate(lecture);
     }
   };
 
-  const columnHelper = createColumnHelper<Course>();
+  const columnHelper = createColumnHelper<Lecture>();
   const columns = [
-    columnHelper.accessor("courseName", {
+    columnHelper.accessor("courseResponseDto.courseName", {
       header: "과목명",
       cell: (props) => <p className="truncate max-w-xs">{props.getValue()}</p>,
       size: 200,
     }),
-    columnHelper.accessor("courseNumber", {
+    columnHelper.accessor("courseResponseDto.courseNumber", {
       header: "과목번호",
       size: 120,
     }),
-    columnHelper.accessor("score", {
+    columnHelper.accessor("courseResponseDto.score", {
       header: "학점",
       size: 80,
+    }),
+    columnHelper.accessor("professor.name", {
+      header: "교수명",
+      size: 120,
+    }),
+    columnHelper.accessor("lectureScheduleAndLocation", {
+      header: "강의시간",
+      cell: (props) => {
+        const schedules = props.getValue();
+        return (
+          <div className="flex flex-col gap-1">
+            {schedules.map((schedule, index) => (
+              <span key={index} className="text-xs">
+                {schedule.day} {schedule.periods.join(",")}교시 ({schedule.room}
+                호)
+              </span>
+            ))}
+          </div>
+        );
+      },
+      size: 200,
     }),
     columnHelper.accessor("id", {
       header: "작업",
@@ -80,7 +108,7 @@ export default function CourseList({ courses }: CourseListProps) {
   ];
 
   const table = useReactTable({
-    data: courses,
+    data: lectures,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -115,7 +143,7 @@ export default function CourseList({ courses }: CourseListProps) {
           <div className={cardStyles.headerTitle}>
             <span>강의 목록</span>
             <span className="text-xs text-gray-500 font-medium">
-              {courses.length}개
+              {lectures.length}개
             </span>
           </div>
         </div>
@@ -165,7 +193,7 @@ export default function CourseList({ courses }: CourseListProps) {
                       tableStyles.cellLast,
                       "text-center"
                     )}
-                    colSpan={4}
+                    colSpan={6}
                   >
                     <div className="flex flex-col items-center justify-center gap-8 text-gray-300">
                       <span className="text-sm font-medium">
@@ -179,7 +207,7 @@ export default function CourseList({ courses }: CourseListProps) {
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.original.id}
-                  onClick={() => setSelectedCourse(row.original)}
+                  onClick={() => setSelectedLecture(row.original)}
                   className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
                 >
                   {row.getVisibleCells().map((cell, index) => (
@@ -206,54 +234,6 @@ export default function CourseList({ courses }: CourseListProps) {
           </table>
         </div>
       </div>
-
-      {/* 상세 정보 모달 */}
-      {/* {selectedCourse && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold">{selectedCourse.courseName}</h3>
-              <button
-                onClick={() => setSelectedCourse(null)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <h4 className="text-sm font-medium text-gray-500">과목번호</h4>
-                <p className="mt-1">{selectedCourse.courseNumber}</p>
-              </div>
-              <div>
-                <h4 className="text-sm font-medium text-gray-500">학점</h4>
-                <p className="mt-1">{selectedCourse.score}</p>
-              </div>
-              <div className="pt-4">
-                <button
-                  onClick={() => handleEnroll(selectedCourse)}
-                  disabled={enrollMutation.isPending}
-                  className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-gray-400"
-                >
-                  {enrollMutation.isPending ? "신청 중..." : "수강 신청"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }
