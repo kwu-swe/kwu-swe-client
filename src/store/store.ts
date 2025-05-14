@@ -6,6 +6,7 @@ import { User } from "@/types/User";
 interface UserStoreProps {
   user?: User;
   setUser: (user: User) => void;
+  clearUser: () => void;
 }
 const useUserStore = create(
   persist<UserStoreProps>(
@@ -14,6 +15,10 @@ const useUserStore = create(
       setUser: (user: User) =>
         set({
           user,
+        }),
+      clearUser: () =>
+        set({
+          user: undefined,
         }),
     }),
     {

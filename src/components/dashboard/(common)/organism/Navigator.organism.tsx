@@ -42,7 +42,7 @@ const routes: Route[] = [
         icon: MdOutlineHistoryEdu,
       },
       {
-        name: "강의 신청",
+        name: "수강 신청",
         path: "/dashboard/lectures/register",
         icon: MdOutlineEditNote,
       },
