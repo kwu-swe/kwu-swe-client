@@ -7,14 +7,19 @@ interface Year {
   value: number;
   leap: string;
 }
-interface LectureScheduleAndLocation {
+interface LectureTimeAndLocation {
   day: string; // "월", "화", "수", "목", "금", "토"
   periods: number[]; // [1, 2, 3] 형태로 저장
-  room: string;
+  room: number;
 }
-export interface UpdateLecture extends Partial<Lecture> {}
 
-export interface Lecture {
+interface LectureAssistantCreate {
+  lectureId: number;
+  assistantNumber: number;
+  professorNumber: number;
+}
+
+interface Lecture {
   id: number;
   sizeLimit: number;
   year: Year;
@@ -22,5 +27,19 @@ export interface Lecture {
   semester: Semester;
   professor: User;
   courseResponseDto: Omit<Course, "id"> & { courseId: number };
-  lectureScheduleAndLocation: LectureScheduleAndLocation[];
+  lectureScheduleAndLocation: LectureTimeAndLocation[];
+}
+type LectureAutoSetKeys = "id" | "courseResponseDto" | "professor" | "lectureScheduleAndLocation";
+interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
+  courseId: number;
+  lectureTimeAndLocation: LectureTimeAndLocation;
+}
+interface LectureUpdate extends Partial<Lecture> { }
+
+
+export type {
+  Lecture,
+  LectureUpdate,
+  LectureAssistantCreate, LectureCreate,
+  LectureStatus, Semester
 }
