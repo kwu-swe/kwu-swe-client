@@ -40,7 +40,12 @@ const routes: Route[] = [
     name: "장소 관리",
     path: "/admin/locations",
     icon: MdOutlineSpaceDashboard,
-  }
+  },
+  {
+    name: "사용자 관리",
+    path: "/admin/users",
+    icon: MdOutlineSpaceDashboard,
+  },
 ];
 
 export default function Navigator() {

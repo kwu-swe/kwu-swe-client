@@ -3,3 +3,4 @@ export { default as AdminLayout } from "./layout";
 export { default as LocationPage } from "./locations/page";
 export { default as CoursePage } from "./courses/page";
 export { default as LectureAdminPage } from "./lectures/page";
+export { default as UserPage } from "./users/page";

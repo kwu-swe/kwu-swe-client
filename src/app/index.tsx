@@ -19,6 +19,7 @@ import { AdminLayout, AdminPage, CoursePage, LectureAdminPage, LocationPage } fr
 
 // ** components
 import NotFound from "@/components/(common)/notfound/Page";
+import UserPage from "@/components/admin/users/Page";
 
 // 라우팅 체크를 위한 래퍼 컴포넌트
 function RouteGuard({
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="locations" element={<LocationPage />} />
           <Route path="courses" element={<CoursePage />} />
           <Route path="lectures" element={<LectureAdminPage />} />
+          <Route path="users" element={<UserPage />} />
         </Route>
 
         {/* 대시보드 페이지 */}

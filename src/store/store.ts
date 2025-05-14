@@ -1,18 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { merge } from "lodash";
+import { User } from "@/types/User";
 
 interface UserStoreProps {
-  code?: string;
-  setCode: (code: string) => void;
+  user?: User;
+  setUser: (user: User) => void;
 }
 const useUserStore = create(
   persist<UserStoreProps>(
     (set) => ({
-      code: undefined,
-      setCode: (code: string) =>
+      user: undefined,
+      setUser: (user: User) =>
         set({
-          code,
+          user,
         }),
     }),
     {

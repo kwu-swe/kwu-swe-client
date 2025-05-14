@@ -3,13 +3,15 @@ import { cn } from "fast-jsx/util";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdPerson, MdLock } from "react-icons/md";
+import useUser from "@/hook/useUser";
+import { useUserStore } from "@/store";
 
 export default function SignIn() {
   const router = useNavigate();
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
-
+  const { setUser } = useUserStore()
   // 스타일 정의
   const styles = {
     container: {
@@ -155,6 +157,17 @@ export default function SignIn() {
           </div> */}
         </div>
       </div>
+      <Button title="파워 로그인" onClick={() => {
+        setUser({
+          name: "박민형",
+          code: "2020202040",
+          phoneNumber: "01035691409",
+          role: "ROLE_STUDENT",
+        })
+        router("/dashboard");
+      }} option={{
+        position: "fixed bottom-3.5 right-3.5"
+      }} />
     </div>
   );
 }

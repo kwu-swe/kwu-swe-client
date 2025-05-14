@@ -8,6 +8,8 @@ import SubjectList from "./organism/SubjectList.organism";
 
 // ** Types
 import { Lecture } from "@/types/Lecture";
+import useUser from "@/hook/useUser";
+import { useEffect } from "react";
 
 // 테스트용 임시 데이터
 const mockLectures: Lecture[] = [
@@ -19,7 +21,7 @@ const mockLectures: Lecture[] = [
     semester: "FIRST_SEMESTER",
     professor: {
       name: "김교수",
-      studentNumber: "P001",
+      code: "P001",
       phoneNumber: "010-1234-5678",
       role: "ROLE_PROFESSOR",
     },
@@ -33,12 +35,12 @@ const mockLectures: Lecture[] = [
       {
         day: "월",
         periods: [1, 2],
-        room: "공학관 101",
+        room: 1,
       },
       {
         day: "수",
         periods: [1, 2],
-        room: "공학관 101",
+        room: 1,
       },
     ],
   },
@@ -50,7 +52,7 @@ const mockLectures: Lecture[] = [
     semester: "FIRST_SEMESTER",
     professor: {
       name: "이교수",
-      studentNumber: "P002",
+      code: "P002",
       phoneNumber: "010-2345-6789",
       role: "ROLE_PROFESSOR",
     },
@@ -64,12 +66,12 @@ const mockLectures: Lecture[] = [
       {
         day: "화",
         periods: [3, 4],
-        room: "공학관 202",
+        room: 2,
       },
       {
         day: "목",
         periods: [3, 4],
-        room: "공학관 202",
+        room: 2,
       },
     ],
   },
@@ -80,6 +82,11 @@ export default function Dashboard() {
     displays: "flex flex-col gap-y-6",
     sizes: "w-full",
   };
+  const { user } = useUser();
+  useEffect(() => {
+    console.log(user)
+  }, [user])
+
   const { lectures, isLoading } = useLecture();
 
   // 테스트를 위해 임시 데이터 사용

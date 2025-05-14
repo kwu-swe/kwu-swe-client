@@ -1,6 +1,6 @@
 import { ToApi } from "@/types/Api";
 import httpRequest from "../axios";
-import { CreateUser, UpdateUser, User } from "@/types/User";
+import { UserCreate, UserUpdate, User, UserRole } from "@/types/User";
 
 const api = httpRequest.api();
 
@@ -10,12 +10,12 @@ async function getByStudentNumber(studentNumber: string) {
   });
   return response.data.result;
 }
-async function post(data: CreateUser) {
-  const response = await api.post<CreateUser>("/users", data);
+async function post(role: UserRole, data: UserCreate) {
+  const response = await api.post<UserCreate>("/users", data, { params: { role } });
   return response.data;
 }
-async function patch(studentNumber: string, data: UpdateUser) {
-  const response = await api.patch<UpdateUser>("/users", data, {
+async function patch(studentNumber: string, data: UserUpdate) {
+  const response = await api.patch<UserUpdate>("/users", data, {
     params: {
       studentNumber,
     },

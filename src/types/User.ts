@@ -1,12 +1,12 @@
 type UserRole = "ROLE_STUDENT" | "ROLE_PROFESSOR" | "ROLE_ADMIN";
 interface User {
   name: string;
-  studentNumber: string;
+  code: string;
   phoneNumber: string;
   role: UserRole;
 }
-interface CreateUser extends User {}
-interface UpdateUser extends Partial<Pick<User, "phoneNumber">> {
-  password?: string;
+interface UserCreate extends Omit<User, "role"> {
+  password: string;
 }
-export type { User, UserRole, CreateUser, UpdateUser };
+interface UserUpdate extends Partial<UserCreate> { }
+export type { User, UserRole, UserCreate, UserUpdate };
