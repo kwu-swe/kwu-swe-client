@@ -77,7 +77,7 @@ export default function App() {
           <Route path="lectures">
             <Route index element={<LecturePage />} />
             <Route path="register" element={<LectureCoursePage />} />
-            <Route path="history" element={<LecturePage />} />
+            <Route path="management" element={<LecturePage />} />
             <Route path=":lectureId" element={<LectureByIdPage />} />
             <Route
               path=":lectureId/announcement/:announcementId"

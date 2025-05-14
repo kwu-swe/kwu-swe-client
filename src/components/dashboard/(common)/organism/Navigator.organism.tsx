@@ -32,19 +32,19 @@ const routes: Route[] = [
     icon: MdOutlineSpaceDashboard,
   },
   {
-    name: "수강 관리",
+    name: "강의 관리",
     path: "/dashboard/lectures",
     icon: MdOutlineClass,
     subRoutes: [
       {
-        name: "수강 신청",
-        path: "/dashboard/lectures/register",
-        icon: MdOutlineEditNote,
+        name: "강의 목록",
+        path: "/dashboard/lectures/management",
+        icon: MdOutlineHistory,
       },
       {
-        name: "수강 내역",
-        path: "/dashboard/lectures/history",
-        icon: MdOutlineHistory,
+        name: "강의 신청",
+        path: "/dashboard/lectures/register",
+        icon: MdOutlineEditNote,
       },
     ],
   },
