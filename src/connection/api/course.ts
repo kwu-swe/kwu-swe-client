@@ -1,6 +1,6 @@
 import { ToApi } from "@/types/Api";
 import httpRequest from "../axios";
-import { Course, CourseCreate, UpdateCourse } from "@/types/Course";
+import { Course, CourseCreate, CourseUpdate } from "@/types/Course";
 
 const api = httpRequest.api();
 
@@ -14,8 +14,8 @@ async function post(data: CourseCreate) {
   return response.data;
 }
 
-async function patch(id: number, data: UpdateCourse) {
-  const response = await api.patch<UpdateCourse>(`/courses/${id}`, data);
+async function patch(id: number, data: CourseUpdate) {
+  const response = await api.patch<CourseUpdate>(`/courses/${id}`, data);
   return response.data;
 }
 

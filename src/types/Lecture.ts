@@ -34,10 +34,12 @@ interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
   lectureTimeAndLocation: LectureTimeAndLocation;
 }
-interface LectureUpdate extends Partial<Lecture> { }
+interface LectureUpdate extends Partial<LectureCreate> { }
 
 
 export type {
+  Year,
+  LectureTimeAndLocation,
   Lecture,
   LectureUpdate,
   LectureAssistantCreate, LectureCreate,
