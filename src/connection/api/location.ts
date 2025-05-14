@@ -1,6 +1,6 @@
 import { ToApi } from "@/types/Api";
 import httpRequest from "../axios";
-import { CreateLocation, Location, UpdateLocation } from "@/types/Location";
+import { LocationCreate, Location, LocationUpdate } from "@/types/Location";
 
 const api = httpRequest.api();
 
@@ -9,13 +9,13 @@ async function get() {
   return response.data.result;
 }
 
-async function post(data: CreateLocation) {
-  const response = await api.post<CreateLocation>("/locations", data);
+async function post(data: LocationCreate) {
+  const response = await api.post<LocationCreate>("/locations", data);
   return response.data;
 }
 
-async function patch(id: number, data: UpdateLocation) {
-  const response = await api.patch<UpdateLocation>(`/locations/${id}`, data);
+async function patch(id: number, data: LocationUpdate) {
+  const response = await api.patch<LocationUpdate>(`/locations/${id}`, data);
   return response.data;
 }
 
