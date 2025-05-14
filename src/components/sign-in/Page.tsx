@@ -157,7 +157,18 @@ export default function SignIn() {
           </div> */}
         </div>
       </div>
-      <Button title="파워 로그인" onClick={() => {
+      <Button title="교수 로그인" onClick={() => {
+        setUser({
+          name: "이기훈",
+          code: "P1",
+          phoneNumber: "01012345678",
+          role: "ROLE_PROFESSOR",
+        })
+        router("/admin");
+      }} option={{
+        position: "fixed bottom-12 right-3.5"
+      }} />
+      <Button title="학생 로그인" onClick={() => {
         setUser({
           name: "박민형",
           code: "2020202040",
