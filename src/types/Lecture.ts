@@ -3,14 +3,11 @@ import { User } from "./User";
 
 type LectureStatus = "BEFORE" | "IN_PROGRESS" | "COMPLETED";
 type Semester = "FIRST_SEMESTER" | "SECOND_SEMESTER" | "SUMMER" | "WINTER";
-interface Year {
-  value: number;
-  leap: string;
-}
+
+type LectureTime = "MON_1"
 interface LectureTimeAndLocation {
-  day: string; // "월", "화", "수", "목", "금", "토"
-  periods: number[]; // [1, 2, 3] 형태로 저장
-  room: number;
+  key: LectureTime;
+  value: number;
 }
 
 interface LectureAssistantCreate {
@@ -22,23 +19,21 @@ interface LectureAssistantCreate {
 interface Lecture {
   id: number;
   sizeLimit: number;
-  year: Year;
+  year: number;
   lectureStatus: LectureStatus;
   semester: Semester;
   professor: User;
   courseResponseDto: Omit<Course, "id"> & { courseId: number };
-  lectureScheduleAndLocation: LectureTimeAndLocation[];
+  lectureTimeAndLocation: LectureTimeAndLocation[];
 }
-type LectureAutoSetKeys = "id" | "courseResponseDto" | "professor" | "lectureScheduleAndLocation";
+type LectureAutoSetKeys = "id" | "courseResponseDto" | "professor";
 interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
-  lectureTimeAndLocation: LectureTimeAndLocation;
 }
 interface LectureUpdate extends Partial<LectureCreate> { }
 
 
 export type {
-  Year,
   LectureTimeAndLocation,
   Lecture,
   LectureUpdate,

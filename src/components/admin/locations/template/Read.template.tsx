@@ -17,7 +17,7 @@ export default function ReadTemplate() {
           <Card
             key={location.locationId}
             title={location.locationName}
-            contents={[`${location.sizeLimit}`]}
+            contents={[`인원 제한: ${location.sizeLimit}`, `id: ${location.locationId}`]}
           />
         ))}
       </Action.Replace>

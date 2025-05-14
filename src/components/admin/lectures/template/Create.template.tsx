@@ -2,6 +2,7 @@ import { Button, Input, Select } from "fast-jsx";
 import { useState } from "react";
 import { LectureCreate, LectureStatus, Semester } from "@/types/Lecture";
 import useCourse from "@/hook/useCourse";
+import useLocation from "@/hook/useLocation";
 
 export default function CreateTemplate({
   post,
@@ -9,10 +10,9 @@ export default function CreateTemplate({
   post: (data: LectureCreate) => void;
 }) {
   const { courses } = useCourse();
+  const { locations } = useLocation();
   const [sizeLimit, setSizeLimit] = useState<string>();
-  const [yearValue, setYearValue] = useState<string>();
-  const [yearLeap, setYearLeap] = useState<string>();
-  const [lectureStatus, setLectureStatus] = useState<LectureStatus>();
+  const [year, setYear] = useState<string>();
   const [semester, setSemester] = useState<Semester>();
   const [courseId, setCourseId] = useState<string>();
   const [day, setDay] = useState<string>();
@@ -20,22 +20,19 @@ export default function CreateTemplate({
   const [room, setRoom] = useState<string>();
 
   const handleSubmit = () => {
-    if (!sizeLimit || !yearValue || !yearLeap || !lectureStatus || !semester || !courseId || !day || !periods || !room) return;
+    if (!sizeLimit || !year || !semester || !courseId || !day || !periods || !room || !Number(room)) return;
 
     post({
       sizeLimit: +sizeLimit,
-      year: {
-        value: +yearValue,
-        leap: yearLeap
-      },
-      lectureStatus,
+      year: +year,
+      lectureStatus: "BEFORE",
       semester,
       courseId: +courseId,
       lectureTimeAndLocation: {
         day,
         periods: periods.split(',').map(p => +p),
-        room: 1
-      },
+        room: +room
+      }
     });
   };
 
@@ -47,26 +44,9 @@ export default function CreateTemplate({
         type="number"
       />
       <Input
-        state={[yearValue, setYearValue]}
+        state={[year, setYear]}
         placeholder="년도"
         type="number"
-      />
-      <Select
-        state={[yearLeap, setYearLeap]}
-        placeholder="학기 구분"
-        selectOptions={[
-          { value: "1", title: "1학기" },
-          { value: "2", title: "2학기" },
-        ]}
-      />
-      <Select
-        state={[lectureStatus, setLectureStatus] as any}
-        placeholder="강의 상태"
-        selectOptions={[
-          { value: "BEFORE", title: "시작 전" },
-          { value: "IN_PROGRESS", title: "진행 중" },
-          { value: "COMPLETED", title: "완료" },
-        ]}
       />
       <Select
         state={[semester, setSemester] as any}
@@ -102,9 +82,13 @@ export default function CreateTemplate({
         state={[periods, setPeriods]}
         placeholder="교시 (쉼표로 구분, 예: 1,2,3)"
       />
-      <Input
+      <Select
         state={[room, setRoom]}
         placeholder="강의실"
+        selectOptions={locations.map(location => ({
+          value: +(location.locationId),
+          title: location.locationName
+        }))}
       />
       <Button
         title="등록"

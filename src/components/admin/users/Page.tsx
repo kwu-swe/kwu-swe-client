@@ -10,6 +10,7 @@ export default function UserPage() {
 	const [password, setPassword] = useState<string>();
 	const [code, setCode] = useState<string>();
 	const [phoneNumber, setPhoneNumber] = useState<string>();
+	const [isProfessor, setIsProfessor] = useState<boolean>(false);
 	const { postStudent } = useUser();
 	useEffect(() => {
 		if (!name || !code || !phoneNumber || !password) return;
@@ -20,9 +21,12 @@ export default function UserPage() {
 		<Input state={[code, setCode]} placeholder="학번" />
 		<Input state={[phoneNumber, setPhoneNumber]} placeholder="전화번호" />
 		<Input state={[password, setPassword]} placeholder="비밀번호" />
-		<Button title="등록" onClick={() => {
+		<div className="flex items-center gap-2">
+			<label>교수 권한 부여</label>
+			<input type="checkbox" checked={isProfessor} onChange={(e) => setIsProfessor(e.target.checked)} className="w-4 h-4" />
+		</div><Button title="등록" onClick={() => {
 			if (!isUserCreate(userCreate)) return;
-			postStudent(userCreate)
+			postStudent({ userCreate, role: isProfessor ? "ROLE_PROFESSOR" : "ROLE_STUDENT" })
 		}} />
 	</Shelf>;
 }

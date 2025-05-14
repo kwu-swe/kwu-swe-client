@@ -2,15 +2,19 @@ import lectureApi from "@/connection/api/lecture";
 import { LectureCreate, LectureAssistantCreate, LectureUpdate } from "@/types/Lecture";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import useUser from "./useUser";
 
 export default function useLecture() {
-  const [code, setCode] = useState<string>("");
+  const { user } = useUser();
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const { mutate: post } = useMutation({
     mutationKey: ['lecturePost'],
-    mutationFn: (lecture: LectureCreate) => lectureApi.post("2020202040", lecture),
+    mutationFn: (lecture: LectureCreate) => {
+      if (!user) return Promise.resolve();
+      return lectureApi.post(user.code, lecture)
+    },
     onSuccess: () => {
       setIsCreateMode(false);
       queryClient.invalidateQueries({ queryKey: ['lectureGet'] });
@@ -50,9 +54,12 @@ export default function useLecture() {
   });
 
   const { data: studentLectures, isLoading: studentLecturesLoading } = useQuery({
-    enabled: !!code,
+    enabled: !!user,
     queryKey: ['lectureStudents'],
-    queryFn: () => lectureApi.getStudentLectures(code),
+    queryFn: () => {
+      if (!user) return Promise.resolve([]);
+      return lectureApi.getStudentLectures(user.code)
+    },
     staleTime: 0,
   });
 
