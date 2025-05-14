@@ -10,7 +10,7 @@ export default function useLecture() {
 
   const { mutate: post } = useMutation({
     mutationKey: ['lecturePost'],
-    mutationFn: (lecture: LectureCreate) => lectureApi.post(lecture),
+    mutationFn: (lecture: LectureCreate) => lectureApi.post("2020202040", lecture),
     onSuccess: () => {
       setIsCreateMode(false);
       queryClient.invalidateQueries({ queryKey: ['lectureGet'] });

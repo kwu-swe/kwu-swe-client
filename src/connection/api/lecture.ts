@@ -9,8 +9,12 @@ async function get() {
   return response.data.result;
 }
 
-async function post(data: LectureCreate) {
-  const response = await api.post<LectureCreate>("/lectures", data);
+async function post(code: string, data: LectureCreate) {
+  const response = await api.post<LectureCreate>(`/lectures`, data, {
+    params: {
+      code
+    }
+  });
   return response.data;
 }
 
