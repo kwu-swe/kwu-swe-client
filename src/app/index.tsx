@@ -13,7 +13,7 @@ import {
 } from "./dashboard";
 import Loading from "@/design/Loading";
 import { SignInPage } from "./sign-in";
-import { AdminLayout, AdminPage, CoursePage, LocationPage } from "./admin";
+import { AdminLayout, AdminPage, CoursePage, LectureAdminPage, LocationPage } from "./admin";
 
 export default function App() {
   return (
@@ -24,6 +24,7 @@ export default function App() {
           <Route index element={<AdminPage />} />
           <Route path="locations" element={<LocationPage />} />
           <Route path="courses" element={<CoursePage />} />
+          <Route path="lectures" element={<LectureAdminPage />} />
         </Route>
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
