@@ -2,55 +2,30 @@ import { cn } from "fast-jsx/util";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
-  MdOutlineSpaceDashboard,
-  MdOutlineClass,
-  MdOutlineEditNote,
-  MdOutlineHistoryEdu,
   MdChevronRight,
   MdMenu,
   MdMenuOpen, // 네비게이션 축소 아이콘
   MdExpandMore, // 서브메뉴 확장됨 아이콘
 } from "react-icons/md";
 
-interface SubRoute {
+export interface SubRoute {
   name: string;
   path: string;
   icon?: React.ComponentType<{ className?: string }>;
 }
 
-interface Route {
+export interface Route {
   name: string;
   path: string;
   icon: React.ComponentType<{ className?: string }>;
   subRoutes?: SubRoute[];
 }
 
-const routes: Route[] = [
-  {
-    name: "대시보드",
-    path: "/dashboard",
-    icon: MdOutlineSpaceDashboard,
-  },
-  {
-    name: "강의 관리",
-    path: "/dashboard/lectures",
-    icon: MdOutlineClass,
-    subRoutes: [
-      {
-        name: "수강 목록",
-        path: "/dashboard/lectures/management",
-        icon: MdOutlineHistoryEdu,
-      },
-      {
-        name: "수강 신청",
-        path: "/dashboard/lectures/register",
-        icon: MdOutlineEditNote,
-      },
-    ],
-  },
-];
+interface NavigatorProps {
+  routes: Route[];
+}
 
-export default function Navigator() {
+export default function Navigator({ routes }: NavigatorProps) {
   const location = useLocation();
   const path = location.pathname;
   const router = useNavigate();
@@ -105,11 +80,21 @@ export default function Navigator() {
     return false;
   };
 
+  const isParentRouteActive = (route: Route) => {
+    if (
+      route.path === "/dashboard/lectures" &&
+      path.startsWith("/dashboard/lectures")
+    )
+      return true;
+    return false;
+  };
+
   const container = {
     displays: "flex flex-col",
     sizes: isCollapsed ? "w-16 min-w-16" : "w-64 min-w-64 md:w-64 sm:w-64",
-    boundaries: "border-r border-gray-100",
+    boundaries: "border-r border-gray-200",
     backgrounds: "bg-white",
+    shadows: "shadow-[0_0_10px_0_rgba(0,0,0,0.05)]",
     transitions: "transition-all duration-300 ease-in-out",
     positions: "relative md:relative fixed md:static",
     zIndex: "z-40",
@@ -226,13 +211,18 @@ export default function Navigator() {
             {/* 네비게이터 전체 좌우 패딩 추가 */}
             {routes.map((route) => {
               const isActive = isRouteActive(route);
+              const isParentActive = isParentRouteActive(route);
               const isExpanded =
-                expandedRoutes.includes(route.path) || isActive;
+                expandedRoutes.includes(route.path) ||
+                isActive ||
+                isParentActive;
               return (
                 <div key={route.path} className="relative">
                   <button
                     className={cn(
-                      ...Object.values(buttonBox(path === route.path, isActive))
+                      ...Object.values(
+                        buttonBox(path === route.path, isParentActive)
+                      )
                     )}
                     onClick={() => {
                       if (route.subRoutes) {
@@ -271,9 +261,7 @@ export default function Navigator() {
                           )}
                         />
                       ))}
-                    {(path === route.path ||
-                      (isActive &&
-                        !route.subRoutes?.some((sr) => path === sr.path))) && ( // 부모 라우트 활성 표시 (서브 라우트가 활성 아닐 때만)
+                    {(path === route.path || isParentActive) && (
                       <div
                         className={cn(...Object.values(selectedIndicator()))}
                       />

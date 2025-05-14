@@ -43,10 +43,10 @@ const AnnouncementTable = ({
   // [#] table render
   const columnHelper = createColumnHelper<Announcement>();
   const columns = [
-    columnHelper.accessor("id", {
-      header: "번호",
-      size: 60,
-    }),
+    // columnHelper.accessor("id", {
+    //   header: "번호",
+    //   size: 60,
+    // }),
     columnHelper.accessor("title", {
       header: "제목",
       cell: (props) => <p className="truncate max-w-xs">{props.getValue()}</p>,

@@ -41,7 +41,7 @@ const LectureCard = ({
     displays:
       "flex flex-col bg-white border border-gray-100 overflow-hidden cursor-pointer",
     transitions:
-      "transition-all duration-200 hover:shadow-sm hover:border-kw-brown/20",
+      "transition-all duration-200 hover:border-kw-brown hover:shadow-card",
     rounded: "rounded-lg",
   };
 

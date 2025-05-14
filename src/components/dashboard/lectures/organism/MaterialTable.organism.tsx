@@ -45,10 +45,10 @@ const MaterialTable = ({
   // [#] table render
   const columnHelper = createColumnHelper<Material>();
   const columns = [
-    columnHelper.accessor("id", {
-      header: "번호",
-      size: 60,
-    }),
+    // columnHelper.accessor("id", {
+    //   header: "번호",
+    //   size: 60,
+    // }),
     columnHelper.accessor("title", {
       header: "제목",
       size: 160,

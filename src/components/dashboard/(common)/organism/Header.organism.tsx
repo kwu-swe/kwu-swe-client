@@ -10,12 +10,12 @@ export default function Header() {
 
   const container = {
     displays: "flex items-center justify-between px-4 sm:px-6",
-    boundaries: "border-b border-gray-200",
+    boundaries: "border-b border-gray-100",
     backgrounds: "bg-white",
     sizes: "w-full h-[3.5rem]",
     positions: "relative",
     zIndex: "z-50",
-    effects: "shadow-sm",
+    effects: "shadow-[0_0_10px_0_rgba(0,0,0,0.1)]",
   };
 
   const logoText = {
@@ -25,8 +25,10 @@ export default function Header() {
   };
 
   const subText = {
-    fonts: "text-sm sm:text-base font-medium text-gray-400 select-none",
+    fonts:
+      "text-sm sm:text-base font-medium text-gray-400/80 select-none mb-0.5",
     displays: "hidden sm:block",
+    effects: "drop-shadow-[0_1px_1px_rgba(0,0,0,0.1)]",
   };
 
   const userInfo = {

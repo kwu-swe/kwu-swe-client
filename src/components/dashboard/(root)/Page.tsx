@@ -198,7 +198,7 @@ const mockMaterials = {
 
 export default function Dashboard() {
   const container = {
-    displays: "flex flex-col gap-y-10",
+    displays: "flex flex-col gap-y-10 pb-20",
     sizes: "w-full",
   };
   const { user } = useUser();

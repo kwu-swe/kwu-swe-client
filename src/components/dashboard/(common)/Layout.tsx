@@ -1,7 +1,38 @@
 import { cn } from "fast-jsx/util";
 import { ReactNode } from "react";
 import Header from "./organism/Header.organism";
-import Navigator from "./organism/Navigator.organism";
+import Navigator, { Route } from "./organism/Navigator.organism";
+import {
+  MdOutlineSpaceDashboard,
+  MdOutlineClass,
+  MdOutlineEditNote,
+  MdOutlineHistoryEdu,
+} from "react-icons/md";
+
+const routes: Route[] = [
+  {
+    name: "대시보드",
+    path: "/dashboard",
+    icon: MdOutlineSpaceDashboard,
+  },
+  {
+    name: "강의 관리",
+    path: "/dashboard/lectures",
+    icon: MdOutlineClass,
+    subRoutes: [
+      {
+        name: "수강 목록",
+        path: "/dashboard/lectures/management",
+        icon: MdOutlineHistoryEdu,
+      },
+      {
+        name: "수강 신청",
+        path: "/dashboard/lectures/register",
+        icon: MdOutlineEditNote,
+      },
+    ],
+  },
+];
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const container = {
@@ -30,7 +61,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   const mainContainer = {
     displays: "flex-1",
-    sizes: "w-full max-w-full md:max-w-5xl mx-auto",
+    sizes: "w-full max-w-full md:max-w-3xl mx-auto",
     // paddings: "p-0 md:p-6",
     overflows: "overflow-hidden",
   };
@@ -40,8 +71,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <div className={cn(headerWrapper)}>
         <Header />
       </div>
+
       <div className={cn(body)}>
-        <Navigator />
+        <Navigator routes={routes} />
         <div className={cn(mainContainer)}>
           <main className={cn(content)}>{children}</main>
         </div>

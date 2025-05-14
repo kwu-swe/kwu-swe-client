@@ -167,8 +167,6 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
         />
       </div>
 
-      <hr className="md:col-span-2 w-full border-gray-100" />
-
       {/* 공지사항 및 자료 테이블 */}
       <div className="md:col-span-1 w-full">
         <AnnouncementTable
