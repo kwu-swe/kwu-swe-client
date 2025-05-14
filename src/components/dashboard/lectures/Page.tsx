@@ -1,5 +1,10 @@
 import { useState, useMemo } from "react";
-import LectureCard from "./molecules/LectureCard";
+
+// ** design
+import TitleBox from "@/design/Titles";
+
+// ** molecules
+import LectureCard from "./molecules/LectureCard.molecules";
 
 // ** types
 import { Lecture } from "@/types/Lecture";
@@ -143,10 +148,10 @@ export default function LecturePage({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>수강 강의</h1>
-        <p className={styles.subtitle}>
-          {filteredAndSortedLectures.length}개의 강의를 수강하고 있습니다
-        </p>
+        <TitleBox
+          title="수강 강의"
+          subtitle={`${filteredAndSortedLectures.length}개의 강의를 수강하고 있습니다`}
+        />
       </div>
 
       <div className={styles.controls}>

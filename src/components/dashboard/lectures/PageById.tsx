@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // ** organism
-import AnnouncementTable from "@/components/dashboard/lectures/organism/AnnouncementTable";
-import MaterialTable from "@/components/dashboard/lectures/organism/MaterialTable";
-import AssignmentTable from "@/components/dashboard/lectures/organism/AssignmentTable";
+import AnnouncementTable from "@/components/dashboard/lectures/organism/AnnouncementTable.organism";
+import MaterialTable from "@/components/dashboard/lectures/organism/MaterialTable.organism";
+import AssignmentTable from "@/components/dashboard/lectures/organism/AssignmentTable.organism";
 
 // ** molecules
-import LectureInfo from "@/components/dashboard/lectures/molecules/LectureInfo";
-import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats";
+import LectureInfo from "@/components/dashboard/lectures/molecules/LectureInfo.molecules";
+import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats.molecules";
 
 // ** types
 import { Announcement } from "@/types/Announcement";
