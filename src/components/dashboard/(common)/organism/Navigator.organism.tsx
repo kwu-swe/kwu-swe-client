@@ -5,7 +5,7 @@ import {
   MdOutlineSpaceDashboard,
   MdOutlineClass,
   MdOutlineEditNote,
-  MdOutlineHistory,
+  MdOutlineHistoryEdu,
   MdChevronRight,
   MdMenu,
   MdMenuOpen, // 네비게이션 축소 아이콘
@@ -37,9 +37,9 @@ const routes: Route[] = [
     icon: MdOutlineClass,
     subRoutes: [
       {
-        name: "강의 목록",
+        name: "수강 목록",
         path: "/dashboard/lectures/management",
-        icon: MdOutlineHistory,
+        icon: MdOutlineHistoryEdu,
       },
       {
         name: "강의 신청",

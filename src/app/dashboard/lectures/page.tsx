@@ -1,5 +1,8 @@
 import LecturePage from "@/components/dashboard/lectures/Page";
 
+// ** types
+import { Lecture } from "@/types/Lecture";
+
 // 테스트용 데이터
 const mockLectures = [
   {
@@ -181,7 +184,7 @@ const mockMaterials = {
 export default function Page() {
   return (
     <LecturePage
-      lectures={mockLectures}
+      lectures={mockLectures as unknown as Lecture[]}
       assignments={mockAssignments}
       announcements={mockAnnouncements}
       materials={mockMaterials}
