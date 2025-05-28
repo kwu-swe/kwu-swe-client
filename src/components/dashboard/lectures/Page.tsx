@@ -31,7 +31,6 @@ type SemesterOption = "all" | "FIRST_SEMESTER" | "SECOND_SEMESTER";
 
 export default function LecturePage() {
   const { lectures, isLoading } = useLecture();
-
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );
