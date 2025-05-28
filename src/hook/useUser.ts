@@ -26,7 +26,7 @@ export default function useUser() {
   })
   useEffect(() => {
     if (pathname === '/sign-in') return;
-    if (pathname.includes('/admin') && user?.role !== 'ROLE_PROFESSOR') callbackAdmin();
+    if (pathname.includes('/admin') && !isLoading && user?.role !== 'ROLE_PROFESSOR') callbackAdmin();
     if (!isLoading && !!error) callback();
   }, [isLoading]);
   return { user, postStudent };
