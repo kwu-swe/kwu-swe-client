@@ -80,7 +80,7 @@ export default function CreateTemplate({
           title: course.courseName
         }))}
       />
-      
+
       {/* 강의 시간 및 장소 선택 */}
       <div className="flex flex-col gap-2">
         <h3 className="font-medium">강의 시간 및 장소</h3>

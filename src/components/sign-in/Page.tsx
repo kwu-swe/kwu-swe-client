@@ -138,7 +138,7 @@ export default function SignIn() {
       <Button
         title="학생 로그인"
         onClick={() => {
-          signIn({ code: "2020202040", password: "asdfasdf" });
+          signIn({ code: "2019202087", password: "asdfasdf" });
         }}
         option={{
           position: "fixed bottom-3.5 right-3.5",

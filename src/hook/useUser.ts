@@ -10,6 +10,11 @@ const callback = () => {
   return window.location.href = '/sign-in';
 }
 
+const callbackAdmin = () => {
+  alert('교수님만 접근 가능합니다.');
+  return window.location.href = '/dashboard';
+}
+
 export default function useUser() {
   const { pathname } = useLocation()
   const { mutate: postStudent } = useMutation({
@@ -21,6 +26,7 @@ export default function useUser() {
   })
   useEffect(() => {
     if (pathname === '/sign-in') return;
+    if (pathname.includes('/admin') && user?.role !== 'ROLE_PROFESSOR') callbackAdmin();
     if (!isLoading && !!error) callback();
   }, [isLoading]);
   return { user, postStudent };
