@@ -8,6 +8,12 @@ async function get() {
   const response = await api.get<ToApi<User>>("/users");
   return response.data.result;
 }
+
+async function getIsValid() {
+  const response = await api.get<ToApi<User>>("/users");
+  return response.data.isSuccess;
+}
+
 async function post(role: UserRole, data: UserCreate) {
   const response = await api.post<UserCreate>("/users", data, { params: { role } });
   return response.data;
@@ -23,6 +29,7 @@ async function patch(studentNumber: string, data: UserUpdate) {
 
 const userApi = {
   get,
+  getIsValid,
   post,
   patch,
 };
