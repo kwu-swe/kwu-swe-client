@@ -1,4 +1,5 @@
 import tokenApi from "@/service/api/token"
+import userApi from "@/service/api/user";
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react";
 import { useCookies } from "react-cookie";
@@ -11,7 +12,7 @@ export default function useToken() {
 
 	const { mutate: signIn } = useMutation({
 		mutationFn: ({ code, password }: { code: string, password: string }) => tokenApi.post(code, password),
-		onSuccess: (data) => {
+		onSuccess: async (data) => {
 			setIsLoading(false);
 			setCookie('accessToken', data.result.accessToken, {
 				path: '/',
@@ -25,7 +26,9 @@ export default function useToken() {
 				sameSite: 'strict',
 				maxAge: 7 * 24 * 3600
 			});
-			return router('/dashboard')
+			const user = await userApi.get();
+			if (user.role === 'ROLE_PROFESSOR') return router('/admin');
+			return router('/dashboard');
 		},
 		onSettled: () => {
 			setIsLoading(false);

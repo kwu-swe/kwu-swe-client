@@ -84,7 +84,6 @@ export default function SignIn() {
               alt="광운대학교"
               className={cn(styles.logo)}
             />
-
             <div>
               <h1 className={cn(styles.title)}>로그인</h1>
               <p className={cn(styles.subtitle)}>
@@ -125,34 +124,12 @@ export default function SignIn() {
               }}
             />
           </div>
-
-          {/* <div className="mt-6 text-center">
-            <a
-              href="#"
-              className="text-sm text-gray-500 hover:text-kw-brown transition-colors"
-            >
-              아이디/비밀번호 찾기
-            </a>
-            <span className="mx-2 text-gray-300">|</span>
-            <a
-              href="#"
-              className="text-sm text-gray-500 hover:text-kw-brown transition-colors"
-            >
-              회원가입
-            </a>
-          </div> */}
         </div>
       </div>
       <Button
         title="교수 로그인"
         onClick={() => {
-          setUser({
-            name: "이기훈",
-            code: "P1",
-            phoneNumber: "01012345678",
-            role: "ROLE_PROFESSOR",
-          });
-          router("/admin");
+          signIn({ code: "P1", password: "asdfasdf" });
         }}
         option={{
           position: "fixed bottom-12 right-3.5",
@@ -161,13 +138,7 @@ export default function SignIn() {
       <Button
         title="학생 로그인"
         onClick={() => {
-          setUser({
-            name: "박민형",
-            code: "2020202040",
-            phoneNumber: "01035691409",
-            role: "ROLE_STUDENT",
-          });
-          router("/dashboard");
+          signIn({ code: "2020202040", password: "asdfasdf" });
         }}
         option={{
           position: "fixed bottom-3.5 right-3.5",
