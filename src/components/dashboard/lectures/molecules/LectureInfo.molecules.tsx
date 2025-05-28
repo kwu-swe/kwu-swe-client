@@ -63,37 +63,29 @@ const LectureInfo = ({ data, className }: Props) => {
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>강의실</div>
           <div className={tableStyles.value}>
-            {data?.lectureTimeAndLocation?.map((item, index) => (
-              <span key={index}>
-                {item.value}호
-                {index < data.lectureTimeAndLocation.length - 1 ? ", " : ""}
-              </span>
-            ))}
+            {Object.entries(data.lectureTimeAndLocation).map(
+              ([time, location], index, arr) => (
+                <span key={time}>
+                  {location}호{index < arr.length - 1 ? ", " : ""}
+                </span>
+              )
+            )}
           </div>
         </div>
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>수업 시간</div>
           <div className={tableStyles.value}>
-            {data?.lectureTimeAndLocation?.map((item, index) => {
-              const [day, period] = item.key.split("_");
-              return (
-                <span key={index}>
-                  {day === "MON"
-                    ? "월"
-                    : day === "TUE"
-                    ? "화"
-                    : day === "WED"
-                    ? "수"
-                    : day === "THU"
-                    ? "목"
-                    : day === "FRI"
-                    ? "금"
-                    : "토"}
-                  요일 {period}교시
-                  {index < data.lectureTimeAndLocation.length - 1 ? ", " : ""}
-                </span>
-              );
-            })}
+            {Object.entries(data.lectureTimeAndLocation).map(
+              ([time, _], index, arr) => {
+                const [day, period] = time.split("_");
+                return (
+                  <span key={time}>
+                    {day}요일 {period}교시
+                    {index < arr.length - 1 ? ", " : ""}
+                  </span>
+                );
+              }
+            )}
           </div>
         </div>
       </div>

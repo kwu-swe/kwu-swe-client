@@ -54,7 +54,7 @@ function parseLectureTime(
   if (!timeAndLocation) return [];
   const result: Array<{ dayIndex: number; periodIndex: number; room: string }> = [];
 
-  timeAndLocation.forEach(({ key, value }) => {
+  Object.entries(timeAndLocation).forEach(([key, value]) => {
     const [day, period] = key.split('_');
     const dayIndex = DAY_MAP[day];
     if (dayIndex === undefined || dayIndex >= MAX_DAYS) return;

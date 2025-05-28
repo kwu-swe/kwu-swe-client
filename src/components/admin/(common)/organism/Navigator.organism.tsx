@@ -27,6 +27,11 @@ interface Route {
 
 const routes: Route[] = [
   {
+    name: "홈",
+    path: "/admin",
+    icon: MdOutlineSpaceDashboard,
+  },
+  {
     name: "코스 관리",
     path: "/admin/courses",
     icon: MdOutlineSpaceDashboard,

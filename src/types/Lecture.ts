@@ -65,7 +65,7 @@ interface Lecture {
   semester: Semester;
   professor: User;
   courseResponseDto: Omit<Course, "id"> & { courseId: number };
-  lectureTimeAndLocation: LectureTimeAndLocation[];
+  lectureTimeAndLocation: Partial<Record<LectureTime, number>>;
 }
 
 type LectureAutoSetKeys = "id" | "courseResponseDto" | "professor";

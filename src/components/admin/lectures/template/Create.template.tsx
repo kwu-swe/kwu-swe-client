@@ -38,10 +38,7 @@ export default function CreateTemplate({
       lectureStatus: "BEFORE",
       semester,
       courseId: +courseId,
-      lectureTimeAndLocation: selectedTimes.map(({ time, location }) => ({
-        key: time,
-        value: location
-      }))
+      lectureTimeAndLocation: selectedTimes.reduce((acc, { time, location }) => ({ ...acc, [time]: location }), {}) as Record<LectureTime, number>
     });
   };
 

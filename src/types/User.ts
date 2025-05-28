@@ -4,6 +4,7 @@ interface User {
   code: string;
   phoneNumber: string;
   role: UserRole;
+  createdAt: Date;
 }
 interface UserCreate extends Omit<User, "role"> {
   password: string;

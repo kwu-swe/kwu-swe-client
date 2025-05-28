@@ -166,15 +166,22 @@ const LectureCard = ({
 
         <div className={cn(info)}>
           <p className="font-medium">{data.professor.name} 교수</p>
-          {data.lectureTimeAndLocation &&
-          data.lectureTimeAndLocation.length > 0 ? (
-            <>
-              <p>
-                {data.lectureTimeAndLocation[0].key.split("_")[0]}{" "}
-                {data.lectureTimeAndLocation[0].value}호
-              </p>
-              <p>{data.lectureTimeAndLocation[0].key.split("_")[1]}교시</p>
-            </>
+          {Object.entries(data.lectureTimeAndLocation).length > 0 ? (
+            <div>
+              {Object.entries(data.lectureTimeAndLocation)
+                .slice(0, 1)
+                .map(([time, location]) => {
+                  const [day, period] = time.split("_");
+                  return (
+                    <>
+                      <p>
+                        {day} {location}호
+                      </p>
+                      <p>{period}교시</p>
+                    </>
+                  );
+                })}
+            </div>
           ) : (
             <p>시간/장소 미정</p>
           )}

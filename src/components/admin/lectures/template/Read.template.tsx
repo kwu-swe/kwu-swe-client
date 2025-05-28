@@ -42,12 +42,16 @@ export default function ReadTemplate({ lectures, isLoading }: { lectures: Lectur
               <p>교수: {lecture.professor.name}</p>
               <div>
                 강의시간:
-                {lecture.lectureTimeAndLocation.map((schedule, index) => (
-                  <span key={index}>
-                    {formatLectureTime(schedule.key)} ({schedule.value}호)
-                    {index < lecture.lectureTimeAndLocation.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
+                {lecture.lectureTimeAndLocation && Object.keys(lecture.lectureTimeAndLocation).length > 0 ? (
+                  Object.entries(lecture.lectureTimeAndLocation).map(([time, location], index, arr) => (
+                    <span key={time}>
+                      {formatLectureTime(time)} ({location}호)
+                      {index < arr.length - 1 ? ', ' : ''}
+                    </span>
+                  ))
+                ) : (
+                  <span>미정</span>
+                )}
               </div>
             </div>
           </Shelf.Row>
