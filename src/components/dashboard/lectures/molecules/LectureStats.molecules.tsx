@@ -99,7 +99,7 @@ const LectureStats = ({
             <div className="flex items-center gap-2">
               <p className="font-medium">{materials.length}개</p>
 
-              {materials.some((m) => isNewItem(m.createdAt)) && <NewBadge />}
+              {materials.some((m) => isNewItem(m.createdAt!)) && <NewBadge />}
             </div>
           </div>
         </div>

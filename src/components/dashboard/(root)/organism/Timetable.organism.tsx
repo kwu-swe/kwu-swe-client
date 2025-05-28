@@ -99,7 +99,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
         const parsedTimes = parseLectureTime(
           lecture.lectureTimeAndLocation
         );
-        const lectureColor = getRandomColor(lecture.id);
+        const lectureColor = getRandomColor(lecture.lectureId);
         parsedTimes.forEach(({ dayIndex, periodIndex, room }) => {
           if (periodIndex < MAX_PERIODS && dayIndex < MAX_DAYS) {
             newTable[periodIndex][dayIndex] = {
@@ -203,13 +203,13 @@ export default function TimeTable({ lectures }: TimeTableProps) {
 
                     const isStartOfLectureBlock =
                       periodIndex === 0 ||
-                      scheduleTable[periodIndex - 1][dayIndex]?.id !==
-                      lecture.id;
+                      scheduleTable[periodIndex - 1][dayIndex]?.lectureId !==
+                      lecture.lectureId;
 
                     if (isStartOfLectureBlock) {
                       let rowSpan = 1;
                       for (let i = periodIndex + 1; i < MAX_PERIODS; i++) {
-                        if (scheduleTable[i][dayIndex]?.id === lecture.id) {
+                        if (scheduleTable[i][dayIndex]?.lectureId === lecture.lectureId) {
                           rowSpan++;
                         } else {
                           break;
@@ -220,7 +220,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
                         <td
                           key={`${periodIndex}-${dayIndex}`}
                           rowSpan={rowSpan}
-                          onClick={() => handleLectureClick(lecture.id)}
+                          onClick={() => handleLectureClick(lecture.lectureId)}
                           className={cn(
                             tableCellBaseClasses,
                             lecture.color,

@@ -11,16 +11,12 @@ import { Lecture } from "@/types/Lecture";
 
 interface Props {
   lectures: Lecture[];
-  assignments: Record<string, any[]>;
-  announcements: Record<string, any[]>;
-  materials: Record<string, any[]>;
+
 }
 
 export default function SubjectList({
   lectures,
-  assignments,
-  announcements,
-  materials,
+
 }: Props) {
   const container = {
     base: "flex flex-col gap-y-3.5",
@@ -33,11 +29,9 @@ export default function SubjectList({
       <div className={container.grid}>
         {lectures.map((lecture) => (
           <LectureCard
-            key={lecture.id}
+            key={lecture.lectureId}
             data={lecture}
-            assignments={assignments[lecture.id] || []}
-            announcements={announcements[lecture.id] || []}
-            materials={materials[lecture.id] || []}
+
           />
         ))}
       </div>

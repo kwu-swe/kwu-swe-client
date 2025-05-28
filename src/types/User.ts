@@ -6,7 +6,7 @@ interface User {
   role: UserRole;
   createdAt: Date;
 }
-interface UserCreate extends Omit<User, "role"> {
+interface UserCreate extends Omit<User, "role" | "createdAt"> {
   password: string;
 }
 interface UserUpdate extends Partial<UserCreate> { }

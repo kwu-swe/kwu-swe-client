@@ -3,5 +3,5 @@ import { useParams } from "react-router-dom";
 
 export default function Page() {
   const { lectureId } = useParams();
-  return <LectureById lectureId={lectureId} />;
+  return <LectureById lectureId={Number(lectureId)} />;
 }

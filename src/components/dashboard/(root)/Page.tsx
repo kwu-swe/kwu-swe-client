@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { cn } from "fast-jsx/util";
 
 // ** Hooks
@@ -38,12 +37,7 @@ export default function Dashboard() {
   return (
     <div className={cn(container)}>
       <TimeTable lectures={lectures} />
-      <SubjectList
-        lectures={lectures}
-        assignments={{}}
-        announcements={{}}
-        materials={{}}
-      />
+      <SubjectList lectures={lectures} />
     </div>
   );
 }
