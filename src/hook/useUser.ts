@@ -1,4 +1,4 @@
-import userApi from "@/connection/api/user";
+import userApi from "@/service/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { UserCreate, User, UserRole } from "@/types/User";

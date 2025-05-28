@@ -1,4 +1,4 @@
-import locationApi from "@/connection/api/location";
+import locationApi from "@/service/api/location";
 import { LocationCreate } from "@/types/Location";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

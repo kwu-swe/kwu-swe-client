@@ -5,24 +5,24 @@ import { LocationCreate } from "@/types/Location";
 export default function CreateTemplate(
   { post }: { post: (data: LocationCreate) => void }
 ) {
-  const [location, setLocation] = useState<string>();
+  const [locationName, setLocationName] = useState<string>();
   const [sizeLimit, setSizeLimit] = useState<string>();
   return (
     <div >
-      <Input state={[location, setLocation]}
+      <Input state={[locationName, setLocationName]}
         placeholder="강의실 이름" />
       <Input state={[sizeLimit, setSizeLimit]} placeholder="인원 제한"
         onKeyDown={(e) => e.key === "Enter" && post({
-          location: location!,
+          locationName: locationName!,
           sizeLimit: +sizeLimit!,
         })}
       />
       <Button
         title="등록"
         onClick={() => {
-          if (!location || !sizeLimit) return;
+          if (!locationName || !sizeLimit) return;
           post({
-            location,
+            locationName,
             sizeLimit: +sizeLimit,
           });
         }}

@@ -56,20 +56,37 @@ const LectureInfo = ({ data, className }: Props) => {
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>학기</div>
           <div className={tableStyles.value}>
-            {data.year.value}년 {data.semester === "FIRST_SEMESTER" ? "1" : "2"}
+            {data.year}년 {data.semester === "FIRST_SEMESTER" ? "1" : "2"}
             학기
           </div>
         </div>
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>강의실</div>
           <div className={tableStyles.value}>
-            {data.lectureScheduleAndLocation[0]?.additionalProp1 || "미정"}
+            {data.lectureTimeAndLocation.map((item, index) => (
+              <span key={index}>
+                {item.value}호
+                {index < data.lectureTimeAndLocation.length - 1 ? ', ' : ''}
+              </span>
+            ))}
           </div>
         </div>
         <div className={tableStyles.row}>
-          <div className={tableStyles.label}>수업 교시</div>
+          <div className={tableStyles.label}>수업 시간</div>
           <div className={tableStyles.value}>
-            {data.lectureScheduleAndLocation[0]?.additionalProp2 || "미정"}
+            {data.lectureTimeAndLocation.map((item, index) => {
+              const [day, period] = item.key.split('_');
+              return (
+                <span key={index}>
+                  {day === 'MON' ? '월' : 
+                   day === 'TUE' ? '화' : 
+                   day === 'WED' ? '수' : 
+                   day === 'THU' ? '목' : 
+                   day === 'FRI' ? '금' : '토'}요일 {period}교시
+                  {index < data.lectureTimeAndLocation.length - 1 ? ', ' : ''}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ const mockLectures = [
   {
     id: 1,
     sizeLimit: 30,
-    year: { value: 2024, leap: "윤년" },
+    year: 2024,
     lectureStatus: "IN_PROGRESS",
     semester: "FIRST_SEMESTER",
     professor: {
@@ -31,80 +31,97 @@ const mockLectures = [
       score: 3,
       courseId: 1,
     },
-    lectureScheduleAndLocation: [
+    lectureTimeAndLocation: [
       {
-        day: "월",
-        periods: [1, 2],
-        room: 1,
+        key: "MON_1",
+        value: 101,
       },
       {
-        day: "수",
-        periods: [1, 2],
-        room: 1,
+        key: "MON_2",
+        value: 101,
       },
+      {
+        key: "WED_1",
+        value: 101,
+      },
+      {
+        key: "WED_2",
+        value: 101,
+      }
     ],
   },
   {
     id: 2,
-    courseResponseDto: {
-      courseName: "데이터베이스 시스템",
-      courseNumber: "CS102",
-      score: 3,
-      courseId: 2,
-    },
+    sizeLimit: 25,
+    year: 2024,
+    semester: "FIRST_SEMESTER",
     professor: {
       name: "이교수",
       code: "P002",
       phoneNumber: "010-2345-6789",
       role: "ROLE_PROFESSOR" as const,
     },
-    year: {
-      value: 2025,
-      leap: "false",
+    courseResponseDto: {
+      courseName: "데이터베이스 시스템",
+      courseNumber: "CS102",
+      score: 3,
+      courseId: 2,
     },
-    semester: "FIRST_SEMESTER" as const,
-    lectureScheduleAndLocation: [
+    lectureTimeAndLocation: [
       {
-        day: "화",
-        periods: [3, 4],
-        room: 2,
+        key: "TUE_3",
+        value: 102,
       },
       {
-        day: "목",
-        periods: [3, 4],
-        room: 2,
+        key: "TUE_4",
+        value: 102,
       },
+      {
+        key: "THU_3",
+        value: 102,
+      },
+      {
+        key: "THU_4",
+        value: 102,
+      }
     ],
-    sizeLimit: 25,
     lectureStatus: "IN_PROGRESS" as const,
   },
   {
     id: 3,
+    sizeLimit: 35,
+    year: 2024,
+    semester: "FIRST_SEMESTER",
+    professor: {
+      name: "박교수",
+      code: "P003",
+      phoneNumber: "010-3456-7890",
+      role: "ROLE_PROFESSOR" as const,
+    },
     courseResponseDto: {
       courseName: "운영체제",
       courseNumber: "CS103",
       score: 3,
       courseId: 3,
     },
-    professor: {
-      name: "박교수",
-      studentNumber: "P2025003",
-      phoneNumber: "010-3456-7890",
-      role: "ROLE_PROFESSOR" as const,
-    },
-    year: {
-      value: 2025,
-      leap: "false",
-    },
-    semester: "FIRST_SEMESTER" as const,
-    lectureScheduleAndLocation: [
+    lectureTimeAndLocation: [
       {
-        day: "수",
-        periods: [1, 2],
-        room: 303,
+        key: "WED_5",
+        value: 103,
       },
+      {
+        key: "WED_6",
+        value: 103,
+      },
+      {
+        key: "FRI_5",
+        value: 103,
+      },
+      {
+        key: "FRI_6",
+        value: 103,
+      }
     ],
-    sizeLimit: 35,
     lectureStatus: "IN_PROGRESS" as const,
   },
 ] as Lecture[];

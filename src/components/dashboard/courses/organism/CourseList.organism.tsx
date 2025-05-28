@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn } from "fast-jsx/util";
 
 // ** connection
-import courseApi from "@/connection/api/course";
+import courseApi from "@/service/api/course";
 
 // ** components
 import ComponentLoading from "@/design/ComponentLoading";
@@ -61,7 +61,7 @@ export default function CourseList({ courses }: CourseListProps) {
       header: "학점",
       size: 80,
     }),
-    columnHelper.accessor("id", {
+    columnHelper.accessor("courseId", {
       header: "작업",
       cell: (props) => (
         <button
@@ -145,9 +145,9 @@ export default function CourseList({ courses }: CourseListProps) {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </th>
                   ))}
                 </tr>
@@ -178,7 +178,7 @@ export default function CourseList({ courses }: CourseListProps) {
 
               {table.getRowModel().rows.map((row) => (
                 <tr
-                  key={row.original.id}
+                  key={row.original.courseId}
                   onClick={() => setSelectedCourse(row.original)}
                   className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
                 >

@@ -17,12 +17,12 @@ interface TimeTableProps {
 // 시간표 설정
 const DAYS = ["월", "화", "수", "목", "금", "토"];
 const DAY_MAP: { [key: string]: number } = {
-  월: 0,
-  화: 1,
-  수: 2,
-  목: 3,
-  금: 4,
-  토: 5,
+  MON: 0,
+  TUE: 1,
+  WED: 2,
+  THU: 3,
+  FRI: 4,
+  SAT: 5,
 };
 const PERIODS = Array.from({ length: 9 }, (_, i) => i + 1);
 const MAX_PERIODS = PERIODS.length;
@@ -49,22 +49,20 @@ function getRandomColor(id: number): string {
  * 강의 시간 정보를 파싱하여 요일 및 교시 인덱스 배열로 변환합니다.
  */
 function parseLectureTime(
-  scheduleAndLocation: Lecture["lectureScheduleAndLocation"]
+  timeAndLocation: Lecture["lectureTimeAndLocation"]
 ): Array<{ dayIndex: number; periodIndex: number; room: string }> {
-  if (!scheduleAndLocation) return [];
-  const result: Array<{ dayIndex: number; periodIndex: number; room: string }> =
-    [];
+  if (!timeAndLocation) return [];
+  const result: Array<{ dayIndex: number; periodIndex: number; room: string }> = [];
 
-  scheduleAndLocation.forEach(({ day, periods, room }) => {
+  timeAndLocation.forEach(({ key, value }) => {
+    const [day, period] = key.split('_');
     const dayIndex = DAY_MAP[day];
     if (dayIndex === undefined || dayIndex >= MAX_DAYS) return;
 
-    periods.forEach((period) => {
-      const periodIndex = period - 1; // 1-based to 0-based
-      if (periodIndex >= 0 && periodIndex < MAX_PERIODS) {
-        result.push({ dayIndex, periodIndex, room });
-      }
-    });
+    const periodIndex = parseInt(period) - 1;
+    if (periodIndex >= 0 && periodIndex < MAX_PERIODS) {
+      result.push({ dayIndex, periodIndex, room: value.toString() });
+    }
   });
   return result;
 }
@@ -99,7 +97,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
     if (lectures) {
       lectures.forEach((lecture) => {
         const parsedTimes = parseLectureTime(
-          lecture.lectureScheduleAndLocation
+          lecture.lectureTimeAndLocation
         );
         const lectureColor = getRandomColor(lecture.id);
         parsedTimes.forEach(({ dayIndex, periodIndex, room }) => {
@@ -206,7 +204,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
                     const isStartOfLectureBlock =
                       periodIndex === 0 ||
                       scheduleTable[periodIndex - 1][dayIndex]?.id !==
-                        lecture.id;
+                      lecture.id;
 
                     if (isStartOfLectureBlock) {
                       let rowSpan = 1;

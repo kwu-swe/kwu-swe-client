@@ -1,4 +1,4 @@
-import lectureApi from "@/connection/api/lecture";
+import lectureApi from "@/service/api/lecture";
 import { LectureCreate, LectureAssistantCreate, LectureUpdate } from "@/types/Lecture";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

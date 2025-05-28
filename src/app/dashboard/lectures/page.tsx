@@ -7,143 +7,272 @@ import { Lecture } from "@/types/Lecture";
 const mockLectures = [
   {
     id: 1,
-    courseResponseDto: {
-      courseName: "웹 프로그래밍",
-      courseNumber: "CS101",
-      score: 3,
-      courseId: 1,
-    },
-    professor: {
-      name: "김교수",
-      studentNumber: "P2025001",
-      phoneNumber: "010-1234-5678",
-      role: "ROLE_PROFESSOR" as const,
-    },
-    year: {
-      value: 2025,
-      leap: "false",
-    },
-    semester: "FIRST_SEMESTER" as const,
-    lectureScheduleAndLocation: [
-      {
-        day: "월",
-        periods: [1, 2],
-        room: "정보관 301호",
-      },
-    ],
     sizeLimit: 30,
+    year: 2024,
+    semester: "FIRST_SEMESTER" as const,
+    professor: {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com",
+      role: "PROFESSOR" as const,
+      studentNumber: null,
+      professorNumber: "P001",
+      department: "Computer Science",
+    },
+    courseResponseDto: {
+      courseId: 1,
+      name: "Software Engineering",
+      code: "CS101",
+      description: "Introduction to software engineering principles",
+      credit: 3,
+      department: "Computer Science",
+    },
+    lectureTimeAndLocation: [
+      {
+        key: "MON_2",
+        value: 101,
+      },
+      {
+        key: "MON_3",
+        value: 101,
+      },
+      {
+        key: "WED_2",
+        value: 101,
+      },
+      {
+        key: "WED_3",
+        value: 101,
+      }
+    ],
     lectureStatus: "IN_PROGRESS" as const,
   },
   {
     id: 2,
-    courseResponseDto: {
-      courseName: "데이터베이스 시스템",
-      courseNumber: "CS102",
-      score: 3,
-      courseId: 2,
-    },
-    professor: {
-      name: "이교수",
-      studentNumber: "P2025002",
-      phoneNumber: "010-2345-6789",
-      role: "ROLE_PROFESSOR" as const,
-    },
-    year: {
-      value: 2025,
-      leap: "false",
-    },
-    semester: "FIRST_SEMESTER" as const,
-    lectureScheduleAndLocation: [
-      {
-        day: "화",
-        periods: [3, 4],
-        room: "정보관 302호",
-      },
-    ],
     sizeLimit: 25,
+    year: 2024,
+    semester: "FIRST_SEMESTER" as const,
+    professor: {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane@example.com",
+      role: "PROFESSOR" as const,
+      studentNumber: null,
+      professorNumber: "P002",
+      department: "Computer Science",
+    },
+    courseResponseDto: {
+      courseId: 2,
+      name: "Database Systems",
+      code: "CS102",
+      description: "Introduction to database systems",
+      credit: 3,
+      department: "Computer Science",
+    },
+    lectureTimeAndLocation: [
+      {
+        key: "TUE_4",
+        value: 102,
+      },
+      {
+        key: "TUE_5",
+        value: 102,
+      },
+      {
+        key: "THU_4",
+        value: 102,
+      },
+      {
+        key: "THU_5",
+        value: 102,
+      }
+    ],
     lectureStatus: "IN_PROGRESS" as const,
   },
   {
     id: 3,
-    courseResponseDto: {
-      courseName: "운영체제",
-      courseNumber: "CS103",
-      score: 3,
-      courseId: 3,
-    },
-    professor: {
-      name: "박교수",
-      studentNumber: "P2025003",
-      phoneNumber: "010-3456-7890",
-      role: "ROLE_PROFESSOR" as const,
-    },
-    year: {
-      value: 2025,
-      leap: "false",
-    },
+    sizeLimit: 40,
+    year: 2024,
     semester: "FIRST_SEMESTER" as const,
-    lectureScheduleAndLocation: [
+    professor: {
+      id: 3,
+      name: "Bob Wilson",
+      email: "bob@example.com",
+      role: "PROFESSOR" as const,
+      studentNumber: null,
+      professorNumber: "P003",
+      department: "Computer Science",
+    },
+    courseResponseDto: {
+      courseId: 3,
+      name: "Web Programming",
+      code: "CS103",
+      description: "Introduction to web programming",
+      credit: 3,
+      department: "Computer Science",
+    },
+    lectureTimeAndLocation: [
       {
-        day: "수",
-        periods: [1, 2],
-        room: "정보관 303호",
+        key: "MON_6",
+        value: 103,
       },
+      {
+        key: "MON_7",
+        value: 103,
+      },
+      {
+        key: "WED_6",
+        value: 103,
+      },
+      {
+        key: "WED_7",
+        value: 103,
+      }
     ],
-    sizeLimit: 35,
     lectureStatus: "IN_PROGRESS" as const,
   },
+  {
+    id: 4,
+    sizeLimit: 35,
+    year: 2024,
+    semester: "FIRST_SEMESTER" as const,
+    professor: {
+      id: 4,
+      name: "Alice Johnson",
+      email: "alice@example.com",
+      role: "PROFESSOR" as const,
+      studentNumber: null,
+      professorNumber: "P004",
+      department: "Computer Science",
+    },
+    courseResponseDto: {
+      courseId: 4,
+      name: "Data Structures",
+      code: "CS104",
+      description: "Advanced data structures and algorithms",
+      credit: 3,
+      department: "Computer Science",
+    },
+    lectureTimeAndLocation: [
+      {
+        key: "TUE_1",
+        value: 104,
+      },
+      {
+        key: "TUE_2",
+        value: 104,
+      },
+      {
+        key: "THU_1",
+        value: 104,
+      },
+      {
+        key: "THU_2",
+        value: 104,
+      }
+    ],
+    lectureStatus: "IN_PROGRESS" as const,
+  },
+  {
+    id: 5,
+    sizeLimit: 30,
+    year: 2024,
+    semester: "FIRST_SEMESTER" as const,
+    professor: {
+      id: 5,
+      name: "Charlie Brown",
+      email: "charlie@example.com",
+      role: "PROFESSOR" as const,
+      studentNumber: null,
+      professorNumber: "P005",
+      department: "Computer Science",
+    },
+    courseResponseDto: {
+      courseId: 5,
+      name: "Operating Systems",
+      code: "CS105",
+      description: "Introduction to operating systems",
+      credit: 3,
+      department: "Computer Science",
+    },
+    lectureTimeAndLocation: [
+      {
+        key: "FRI_3",
+        value: 105,
+      },
+      {
+        key: "FRI_4",
+        value: 105,
+      },
+      {
+        key: "FRI_5",
+        value: 105,
+      }
+    ],
+    lectureStatus: "IN_PROGRESS" as const,
+  }
 ];
 
 const mockAssignments = {
   "1": [
     {
       id: 1,
+      title: "Assignment 1",
+      content: "First assignment content",
+      dueDate: new Date("2024-03-20"),
       lectureId: 1,
-      title: "웹 프로젝트 과제",
-      description: "React를 이용한 웹 애플리케이션 개발",
-      content: "상세 내용...",
-      dueDate: new Date("2025-04-30"),
-      createdAt: new Date("2025-03-15"),
-      isPublic: true,
-      extendedDueDate: new Date("2025-04-30"),
+      createdAt: new Date("2024-03-01"),
+      updatedAt: new Date("2024-03-01"),
+      extendedDueDate: new Date("2024-03-25"),
       allowResubmission: false,
+      isPublic: true
     },
   ],
   "2": [
     {
       id: 2,
+      title: "Assignment 2",
+      content: "Second assignment content",
+      dueDate: new Date("2024-03-25"),
       lectureId: 2,
-      title: "데이터베이스 설계 과제",
-      description: "ERD 설계 및 정규화",
-      content: "상세 내용...",
-      dueDate: new Date("2025-04-25"),
-      createdAt: new Date("2025-03-20"),
-      isPublic: true,
-      extendedDueDate: new Date("2025-04-25"),
+      createdAt: new Date("2024-03-05"),
+      updatedAt: new Date("2024-03-05"),
+      extendedDueDate: new Date("2024-03-30"),
       allowResubmission: false,
+      isPublic: true
     },
   ],
-  "3": [],
 };
 
 const mockAnnouncements = {
   "1": [
     {
       id: 1,
+      title: "Announcement 1",
+      content: "First announcement content",
       lectureId: 1,
-      title: "중간고사 일정 안내",
-      content: "4월 15일 오후 2시",
-      createdAt: new Date("2025-03-25"),
+      createdAt: new Date("2024-03-01"),
+      updatedAt: new Date("2024-03-01")
     },
   ],
-  "2": [],
+  "2": [
+    {
+      id: 2,
+      title: "Announcement 2",
+      content: "Second announcement content",
+      lectureId: 2,
+      createdAt: new Date("2024-03-05"),
+      updatedAt: new Date("2024-03-05")
+    },
+  ],
   "3": [
     {
       id: 3,
+      title: "Announcement 3",
+      content: "Third announcement content",
       lectureId: 3,
-      title: "강의 자료 업로드",
-      content: "프로세스 관리 챕터 자료",
-      createdAt: new Date("2025-03-28"),
+      createdAt: new Date("2024-03-10"),
+      updatedAt: new Date("2024-03-10")
     },
   ],
 };
@@ -152,31 +281,31 @@ const mockMaterials = {
   "1": [
     {
       id: 1,
+      title: "Material 1",
+      content: "First material content",
       lectureId: 1,
-      title: "React 기초",
-      content: "React 기초 강의 자료",
-      fileUrl: "/materials/react-basics.pdf",
-      createdAt: new Date("2025-03-10"),
+      createdAt: new Date("2024-03-01"),
+      updatedAt: new Date("2024-03-01")
     },
   ],
   "2": [
     {
       id: 2,
+      title: "Material 2",
+      content: "Second material content",
       lectureId: 2,
-      title: "SQL 기초",
-      content: "SQL 기초 강의 자료",
-      fileUrl: "/materials/sql-basics.pdf",
-      createdAt: new Date("2025-03-12"),
+      createdAt: new Date("2024-03-05"),
+      updatedAt: new Date("2024-03-05")
     },
   ],
   "3": [
     {
       id: 3,
+      title: "Material 3",
+      content: "Third material content",
       lectureId: 3,
-      title: "프로세스 관리",
-      content: "프로세스 관리 강의 자료",
-      fileUrl: "/materials/process-management.pdf",
-      createdAt: new Date("2025-03-28"),
+      createdAt: new Date("2024-03-10"),
+      updatedAt: new Date("2024-03-10")
     },
   ],
 };

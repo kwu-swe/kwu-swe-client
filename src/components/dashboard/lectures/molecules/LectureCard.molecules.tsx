@@ -166,11 +166,16 @@ const LectureCard = ({
 
         <div className={cn(info)}>
           <p className="font-medium">{data.professor.name} 교수</p>
-          <p>
-            {data.lectureScheduleAndLocation[0]?.day || "미정"}{" "}
-            {data.lectureScheduleAndLocation[0]?.periods?.join() || "미정"}교시
-          </p>
-          <p>{data.lectureScheduleAndLocation[0]?.room || "미정"}</p>
+          {data.lectureTimeAndLocation && data.lectureTimeAndLocation.length > 0 ? (
+            <>
+              <p>
+                {data.lectureTimeAndLocation[0].key.split('_')[0]} {data.lectureTimeAndLocation[0].value}호
+              </p>
+              <p>{data.lectureTimeAndLocation[0].key.split('_')[1]}교시</p>
+            </>
+          ) : (
+            <p>시간/장소 미정</p>
+          )}
         </div>
 
         <div className={cn(stats)}>

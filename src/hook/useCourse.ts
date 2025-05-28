@@ -1,4 +1,4 @@
-import courseApi from "@/connection/api/course";
+import courseApi from "@/service/api/course";
 import { CourseCreate } from "@/types/Course";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

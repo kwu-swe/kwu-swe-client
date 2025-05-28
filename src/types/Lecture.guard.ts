@@ -2,9 +2,8 @@ import { createTypeGuard, isNumber } from "type-wizard";
 import { LectureCreate, LectureTimeAndLocation, LectureUpdate } from "./Lecture";
 
 const isLectureTimeAndLocation = createTypeGuard<LectureTimeAndLocation>({
-	day: { type: "string" },
-	periods: { type: "array", of: isNumber },
-	room: { type: "number" }
+	key: { type: "string" },
+	value: { type: "number" }
 })
 
 export const isLectureCreate = createTypeGuard<LectureCreate>({

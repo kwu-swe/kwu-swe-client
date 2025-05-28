@@ -104,15 +104,12 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
   const lectureData: Lecture = {
     id: 1,
     sizeLimit: 30,
-    year: {
-      value: 2025,
-      leap: "false", // boolean에서 string으로 수정
-    },
+    year: 2025,
     lectureStatus: "IN_PROGRESS",
     semester: "FIRST_SEMESTER",
     professor: {
       name: "홍길동",
-      studentNumber: "12345",
+      code: "12345",
       phoneNumber: "010-1234-5678",
       role: "ROLE_PROFESSOR",
     },
@@ -122,13 +119,12 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
       courseNumber: "CS101",
       score: 3,
     },
-    lectureScheduleAndLocation: [
+    lectureTimeAndLocation: [
       {
-        additionalProp1: "공학관 401호",
-        additionalProp2: "월 1,2교시",
-        additionalProp3: "",
+        key: "MON_1",
+        value: 401,
       },
-    ] as any,
+    ],
   };
 
   return (

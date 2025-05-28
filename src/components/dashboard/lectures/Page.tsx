@@ -114,12 +114,12 @@ export default function LecturePage({
     if (selectedSemester !== "all") {
       filtered = filtered.filter(
         (lecture) =>
-          lecture.year.value === selectedYear &&
+          lecture.year === selectedYear &&
           lecture.semester === selectedSemester
       );
     } else {
       filtered = filtered.filter(
-        (lecture) => lecture.year.value === selectedYear
+        (lecture) => lecture.year === selectedYear
       );
     }
 

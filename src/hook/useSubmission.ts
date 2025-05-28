@@ -1,4 +1,4 @@
-import submissionApi from "@/connection/api/submission";
+import submissionApi from "@/service/api/submission";
 import { SubmissionCreate } from "@/types/Submission";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
