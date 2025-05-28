@@ -10,7 +10,7 @@ export default function useToken() {
 	const [_, setCookie] = useCookies(['accessToken', 'refreshToken']);
 
 	const { mutate: signIn } = useMutation({
-		mutationFn: (code: string) => tokenApi.post(code),
+		mutationFn: ({ code, password }: { code: string, password: string }) => tokenApi.post(code, password),
 		onSuccess: (data) => {
 			setIsLoading(false);
 			setCookie('accessToken', data.result.accessToken, {
@@ -27,8 +27,11 @@ export default function useToken() {
 			});
 			return router('/dashboard')
 		},
-		onError: () => {
+		onSettled: () => {
 			setIsLoading(false);
+		},
+		onError: () => {
+			alert('로그인 실패')
 		},
 	})
 	return { signIn, isLoading }

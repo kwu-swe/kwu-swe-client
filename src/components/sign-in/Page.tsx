@@ -116,7 +116,7 @@ export default function SignIn() {
           <div className="mt-6">
             <Button
               title={isLoading ? "로그인 중..." : "로그인"}
-              onClick={() => signIn(username!)}
+              onClick={() => signIn({ code: username!, password: password! })}
               option={{
                 ...styles.button,
                 background: isButtonDisabled

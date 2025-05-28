@@ -3,8 +3,8 @@ import httpRequest from "../axios";
 import { TokenSign } from "@/types/Token";
 const api = httpRequest.api()
 
-async function post(code: string) {
-	const response = await api.post<undefined, ToApi<TokenSign>>(`/tokens/login?code=${code}`)
+async function post(code: string, password: string) {
+	const response = await api.post<undefined, ToApi<TokenSign>>(`/tokens/login?code=${code}&password=${password}`)
 	return response.data
 }
 
