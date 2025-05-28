@@ -70,7 +70,7 @@ function parseLectureTime(
 export default function TimeTable({ lectures }: TimeTableProps) {
   const navigate = useNavigate();
   const containerClasses = {
-    displays: "flex flex-col gap-y-3.5",
+    displays: "flex flex-col gap-y-3.5 py-0 md:py-8",
     sizes: "w-full",
   };
 
@@ -127,7 +127,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
   const timetableContainerClasses = {
     sizes: "w-full",
     overflows: "overflow-auto",
-    boundaries: "rounded-lg",
+    boundaries: "rounded-xl",
     shadows: "shadow-card",
   };
 
@@ -165,7 +165,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
 
   return (
     <div className={cn(containerClasses)}>
-      <TitleBox title="시간표" />
+      {/* <TitleBox title="시간표" /> */}
       <div className={cn(timetableContainerClasses)}>
         <div className={cn(tableWrapperClasses)}>
           <table className={cn(tableClasses)}>

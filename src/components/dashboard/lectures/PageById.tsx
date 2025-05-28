@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 // ** organism
@@ -10,6 +10,9 @@ import AssignmentTable from "@/components/dashboard/lectures/organism/Assignment
 import LectureInfo from "@/components/dashboard/lectures/molecules/LectureInfo.molecules";
 import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats.molecules";
 
+// ** hooks
+import useLecture from "@/hook/useLecture";
+
 // ** types
 import { Announcement } from "@/types/Announcement";
 import { Material } from "@/types/Material";
@@ -18,6 +21,14 @@ import { Lecture } from "@/types/Lecture";
 
 export default function LectureById({ lectureId }: { lectureId?: string }) {
   const navigate = useNavigate();
+  const { lectures, isLoading } = useLecture();
+
+  // 해당 강의 데이터 찾기
+  const lectureData = useMemo(() => {
+    if (!lectureId || !lectures) return null;
+    return lectures.find((lecture) => lecture.id === Number(lectureId));
+  }, [lectureId, lectures]);
+
   // 임의의 공지사항 데이터
   const [announcements] = useState<Announcement[]>([
     {
@@ -100,48 +111,53 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
     },
   ]);
 
-  // 임의의 강의 데이터
-  const lectureData: Lecture = {
-    id: 1,
-    sizeLimit: 30,
-    year: 2025,
-    lectureStatus: "IN_PROGRESS",
-    semester: "FIRST_SEMESTER",
-    professor: {
-      name: "홍길동",
-      code: "12345",
-      phoneNumber: "010-1234-5678",
-      role: "ROLE_PROFESSOR",
-    },
-    courseResponseDto: {
-      courseId: 1,
-      courseName: "프로그래밍 기초",
-      courseNumber: "CS101",
-      score: 3,
-    },
-    lectureTimeAndLocation: [
-      {
-        key: "MON_1",
-        value: 401,
-      },
-    ],
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (!lectureData) {
+    return <div>강의를 찾을 수 없습니다.</div>;
+  }
+
+  const container = {
+    displays: "grid grid-cols-1 md:grid-cols-2 gap-5 pb-20",
+  };
+
+  const header = {
+    displays: "md:col-span-2 px-2.5",
+  };
+
+  const title = {
+    displays: "text-xl font-bold text-gray-900",
+  };
+
+  const subtitle = {
+    displays: "ml-2 text-base font-medium text-gray-500",
+  };
+
+  const content = {
+    displays: "md:col-span-1",
+  };
+
+  const fullWidth = {
+    displays: "md:col-span-2",
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pb-20">
-      <div className="md:col-span-2 px-2.5">
-        <h1 className="text-xl font-bold text-gray-900">
+    <div className={container.displays}>
+      <div className={header.displays}>
+        <h1 className={title.displays}>
           {lectureData.courseResponseDto.courseName}
-          <span className="ml-2 text-base font-medium text-gray-500">
+          <span className={subtitle.displays}>
             {lectureData.courseResponseDto.courseNumber}
           </span>
         </h1>
       </div>
 
-      <div className="md:col-span-1">
+      <div className={content.displays}>
         <LectureInfo data={lectureData} />
       </div>
-      <div className="md:col-span-1">
+      <div className={content.displays}>
         <LectureStats
           assignments={assignments}
           announcements={announcements}
@@ -151,7 +167,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
       </div>
 
       {/* 과제 목록 테이블 */}
-      <div className="md:col-span-2">
+      <div className={fullWidth.displays}>
         <AssignmentTable
           data={assignments}
           count={assignments.length}
@@ -166,7 +182,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
       <hr className="md:col-span-2 w-full border-gray-100" />
 
       {/* 공지사항 및 자료 테이블 */}
-      <div className="md:col-span-1 w-full">
+      <div className={content.displays}>
         <AnnouncementTable
           data={announcements}
           count={announcements.length}
@@ -180,7 +196,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
           }}
         />
       </div>
-      <div className="md:col-span-1 w-full">
+      <div className={content.displays}>
         <MaterialTable
           data={materials}
           count={materials.length}

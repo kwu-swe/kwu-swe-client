@@ -11,7 +11,7 @@ export default function SignIn() {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const { setUser } = useUserStore();
-  const { signIn, isLoading } = useToken()
+  const { signIn, isLoading } = useToken();
   // 스타일 정의
   const styles = {
     container: {
@@ -143,28 +143,36 @@ export default function SignIn() {
           </div> */}
         </div>
       </div>
-      <Button title="교수 로그인" onClick={() => {
-        setUser({
-          name: "이기훈",
-          code: "P1",
-          phoneNumber: "01012345678",
-          role: "ROLE_PROFESSOR",
-        })
-        router("/admin");
-      }} option={{
-        position: "fixed bottom-12 right-3.5"
-      }} />
-      <Button title="학생 로그인" onClick={() => {
-        setUser({
-          name: "박민형",
-          code: "2020202040",
-          phoneNumber: "01035691409",
-          role: "ROLE_STUDENT",
-        })
-        router("/dashboard");
-      }} option={{
-        position: "fixed bottom-3.5 right-3.5"
-      }} />
+      <Button
+        title="교수 로그인"
+        onClick={() => {
+          setUser({
+            name: "이기훈",
+            code: "P1",
+            phoneNumber: "01012345678",
+            role: "ROLE_PROFESSOR",
+          });
+          router("/admin");
+        }}
+        option={{
+          position: "fixed bottom-12 right-3.5",
+        }}
+      />
+      <Button
+        title="학생 로그인"
+        onClick={() => {
+          setUser({
+            name: "박민형",
+            code: "2020202040",
+            phoneNumber: "01035691409",
+            role: "ROLE_STUDENT",
+          });
+          router("/dashboard");
+        }}
+        option={{
+          position: "fixed bottom-3.5 right-3.5",
+        }}
+      />
     </div>
   );
 }

@@ -51,32 +51,54 @@ export default function CourseList({ courses }: CourseListProps) {
     columnHelper.accessor("courseName", {
       header: "과목명",
       cell: (props) => <p className="truncate max-w-xs">{props.getValue()}</p>,
-      size: 200,
+      size: 140,
     }),
     columnHelper.accessor("courseNumber", {
       header: "과목번호",
-      size: 120,
+      size: 140,
     }),
     columnHelper.accessor("score", {
       header: "학점",
-      size: 80,
+      size: 60,
+      cell: (props) => <p>{props.getValue()}학점</p>,
     }),
-    columnHelper.accessor("courseId", {
-      header: "작업",
-      cell: (props) => (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleEnroll(props.row.original);
-          }}
-          disabled={enrollMutation.isPending}
-          className="text-blue-600 hover:text-blue-900 disabled:text-gray-400"
-        >
-          수강신청
-        </button>
-      ),
-      size: 100,
-    }),
+    // columnHelper.accessor("professor.name", {
+    //   header: "교수명",
+    //   size: 80,
+    // }),
+    // columnHelper.accessor("lectureScheduleAndLocation", {
+    //   header: "강의시간",
+    //   cell: (props) => {
+    //     const schedules = props.getValue();
+    //     return (
+    //       <div className="flex flex-col gap-1">
+    //         {schedules.map((schedule, index) => (
+    //           <span key={index} className="text-xs">
+    //             {schedule.day} {schedule.periods.join(",")}교시 ({schedule.room}
+    //             호)
+    //           </span>
+    //         ))}
+    //       </div>
+    //     );
+    //   },
+    //   size: 150,
+    // }),
+    // columnHelper.accessor("id", {
+    //   header: "액션",
+    //   cell: (props) => (
+    //     <button
+    //       onClick={(e) => {
+    //         e.stopPropagation();
+    //         handleEnroll(props.row.original);
+    //       }}
+    //       disabled={enrollMutation.isPending}
+    //       className="text-blue-600 hover:text-blue-900 disabled:text-gray-400"
+    //     >
+    //       수강신청
+    //     </button>
+    //   ),
+    //   size: 100,
+    // }),
   ];
 
   const table = useReactTable({
@@ -145,9 +167,9 @@ export default function CourseList({ courses }: CourseListProps) {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </th>
                   ))}
                 </tr>
