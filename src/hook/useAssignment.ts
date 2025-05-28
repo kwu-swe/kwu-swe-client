@@ -10,7 +10,7 @@ export default function useAssignment({
   assignmentId?: number;
 }) {
   const [
-    { data: assignments, isLoading: isLoadingAssignments },
+    { data: assignment, isLoading: isLoadingAssignment },
     { data: assignmentsByLecture, isLoading: isAssignmentByLecture },
   ] = useQueries({
     queries: [
@@ -34,13 +34,13 @@ export default function useAssignment({
       },
     ],
   }) as [
-    UseQueryResult<Assignment[] | undefined, Error>,
+    UseQueryResult<Assignment | undefined, Error>,
     UseQueryResult<AssignmentByLecture[] | undefined, Error>
   ];
 
   return {
-    assignments,
-    isLoadingAssignments,
+    assignment,
+    isLoadingAssignment,
     assignmentsByLecture,
     isAssignmentByLecture,
   };

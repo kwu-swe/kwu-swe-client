@@ -63,29 +63,31 @@ const LectureInfo = ({ data, className }: Props) => {
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>강의실</div>
           <div className={tableStyles.value}>
-            {Object.entries(data.lectureTimeAndLocation).map(
-              ([time, location], index, arr) => (
-                <span key={time}>
-                  {location}호{index < arr.length - 1 ? ", " : ""}
-                </span>
-              )
-            )}
+            {data.lectureTimeAndLocation &&
+              Object.entries(data.lectureTimeAndLocation).map(
+                ([time, location], index, arr) => (
+                  <span key={time}>
+                    {location}호{index < arr.length - 1 ? ", " : ""}
+                  </span>
+                )
+              )}
           </div>
         </div>
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>수업 시간</div>
           <div className={tableStyles.value}>
-            {Object.entries(data.lectureTimeAndLocation).map(
-              ([time, _], index, arr) => {
-                const [day, period] = time.split("_");
-                return (
-                  <span key={time}>
-                    {day}요일 {period}교시
-                    {index < arr.length - 1 ? ", " : ""}
-                  </span>
-                );
-              }
-            )}
+            {data.lectureTimeAndLocation &&
+              Object.entries(data.lectureTimeAndLocation).map(
+                ([time, _], index, arr) => {
+                  const [day, period] = time.split("_");
+                  return (
+                    <span key={time}>
+                      {day}요일 {period}교시
+                      {index < arr.length - 1 ? ", " : ""}
+                    </span>
+                  );
+                }
+              )}
           </div>
         </div>
       </div>

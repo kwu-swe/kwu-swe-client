@@ -4,6 +4,9 @@ import { useState } from "react";
 import { cn } from "fast-jsx/util";
 import { useNavigate } from "react-router-dom";
 
+// ** hook
+import useAssignment from "@/hook/useAssignment";
+
 // ** organism
 
 // ** molecules
@@ -12,11 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdAttachFile } from "react-icons/md";
 
 // ** typest
-import {
-  AssignmentClient,
-  AssignmentSubmission,
-  AssignmentFile,
-} from "@/types/Assignment";
+import { AssignmentSubmission, AssignmentFile } from "@/types/Assignment";
 
 export default function LectureAssignmentById({
   lectureId,
@@ -26,18 +25,8 @@ export default function LectureAssignmentById({
   assignmentId?: string;
 }) {
   const navigate = useNavigate();
-
-  // 과제 상세 정보 상태
-  const [assignment, setAssignment] = useState<AssignmentClient>({
-    id: 1,
-    lectureId: Number(lectureId) || 1,
-    title: "프로그래밍 과제 1",
-    content: "자바스크립트를 이용한 웹 애플리케이션 개발",
-    dueDate: new Date("2023-12-31"),
-    extendedDueDate: new Date("2024-01-07"),
-    allowResubmission: true,
-    isPublic: true,
-    createdAt: new Date("2023-12-01"),
+  const { assignment } = useAssignment({
+    assignmentId: Number(assignmentId),
   });
 
   // 과제 제출 상태
@@ -98,30 +87,30 @@ export default function LectureAssignmentById({
           <div className="flex flex-col">
             <div className={tableStyles.row}>
               <div className={tableStyles.label}>제목</div>
-              <div className={tableStyles.value}>{assignment.title}</div>
+              <div className={tableStyles.value}>{assignment?.title}</div>
             </div>
             <div className={tableStyles.row}>
               <div className={tableStyles.label}>내용</div>
-              <div className={tableStyles.value}>{assignment.content}</div>
+              <div className={tableStyles.value}>{assignment?.content}</div>
             </div>
             <div className={tableStyles.row}>
               <div className={tableStyles.label}>제출 기한</div>
               <div className={tableStyles.value}>
-                {assignment.dueDate.toLocaleDateString()}
+                {assignment?.dueDate.toLocaleDateString()}
               </div>
             </div>
-            {assignment.extendedDueDate && (
+            {assignment?.extendedDueDate && (
               <div className={tableStyles.row}>
                 <div className={tableStyles.label}>연장 기한</div>
                 <div className={tableStyles.value}>
-                  {assignment.extendedDueDate.toLocaleDateString()}
+                  {assignment?.extendedDueDate.toLocaleDateString()}
                 </div>
               </div>
             )}
             <div className={tableStyles.row}>
               <div className={tableStyles.label}>재제출</div>
               <div className={tableStyles.value}>
-                {assignment.allowResubmission ? "허용" : "불가"}
+                {assignment?.allowResubmission ? "허용" : "불가"}
               </div>
             </div>
             <div className={tableStyles.row}>
