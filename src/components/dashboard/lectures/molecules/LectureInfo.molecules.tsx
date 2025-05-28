@@ -63,10 +63,10 @@ const LectureInfo = ({ data, className }: Props) => {
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>강의실</div>
           <div className={tableStyles.value}>
-            {data.lectureTimeAndLocation.map((item, index) => (
+            {data?.lectureTimeAndLocation?.map((item, index) => (
               <span key={index}>
                 {item.value}호
-                {index < data.lectureTimeAndLocation.length - 1 ? ', ' : ''}
+                {index < data.lectureTimeAndLocation.length - 1 ? ", " : ""}
               </span>
             ))}
           </div>
@@ -74,16 +74,23 @@ const LectureInfo = ({ data, className }: Props) => {
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>수업 시간</div>
           <div className={tableStyles.value}>
-            {data.lectureTimeAndLocation.map((item, index) => {
-              const [day, period] = item.key.split('_');
+            {data?.lectureTimeAndLocation?.map((item, index) => {
+              const [day, period] = item.key.split("_");
               return (
                 <span key={index}>
-                  {day === 'MON' ? '월' : 
-                   day === 'TUE' ? '화' : 
-                   day === 'WED' ? '수' : 
-                   day === 'THU' ? '목' : 
-                   day === 'FRI' ? '금' : '토'}요일 {period}교시
-                  {index < data.lectureTimeAndLocation.length - 1 ? ', ' : ''}
+                  {day === "MON"
+                    ? "월"
+                    : day === "TUE"
+                    ? "화"
+                    : day === "WED"
+                    ? "수"
+                    : day === "THU"
+                    ? "목"
+                    : day === "FRI"
+                    ? "금"
+                    : "토"}
+                  요일 {period}교시
+                  {index < data.lectureTimeAndLocation.length - 1 ? ", " : ""}
                 </span>
               );
             })}

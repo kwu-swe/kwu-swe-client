@@ -58,7 +58,7 @@ interface LectureAssistantCreate {
 }
 
 interface Lecture {
-  id: number;
+  lectureId: number;
   sizeLimit: number;
   year: number;
   lectureStatus: LectureStatus;
@@ -72,7 +72,7 @@ type LectureAutoSetKeys = "id" | "courseResponseDto" | "professor";
 interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
 }
-interface LectureUpdate extends Partial<LectureCreate> { }
+interface LectureUpdate extends Partial<LectureCreate> {}
 
 export type {
   LectureTimeAndLocation,
@@ -82,5 +82,5 @@ export type {
   LectureCreate,
   LectureStatus,
   Semester,
-  LectureTime
+  LectureTime,
 };

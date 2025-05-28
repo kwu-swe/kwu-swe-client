@@ -146,7 +146,7 @@ const LectureCard = ({
   return (
     <div
       className={cn(container, className)}
-      onClick={() => navigate(`/dashboard/lectures/${data.id}`)}
+      onClick={() => navigate(`/dashboard/lectures/${data.lectureId}`)}
     >
       <div className={cn(body)}>
         <div className={cn(header)}>
@@ -166,12 +166,14 @@ const LectureCard = ({
 
         <div className={cn(info)}>
           <p className="font-medium">{data.professor.name} 교수</p>
-          {data.lectureTimeAndLocation && data.lectureTimeAndLocation.length > 0 ? (
+          {data.lectureTimeAndLocation &&
+          data.lectureTimeAndLocation.length > 0 ? (
             <>
               <p>
-                {data.lectureTimeAndLocation[0].key.split('_')[0]} {data.lectureTimeAndLocation[0].value}호
+                {data.lectureTimeAndLocation[0].key.split("_")[0]}{" "}
+                {data.lectureTimeAndLocation[0].value}호
               </p>
-              <p>{data.lectureTimeAndLocation[0].key.split('_')[1]}교시</p>
+              <p>{data.lectureTimeAndLocation[0].key.split("_")[1]}교시</p>
             </>
           ) : (
             <p>시간/장소 미정</p>

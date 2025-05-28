@@ -17,7 +17,6 @@ import useLecture from "@/hook/useLecture";
 import { Announcement } from "@/types/Announcement";
 import { Material } from "@/types/Material";
 import { AssignmentClient } from "@/types/Assignment";
-import { Lecture } from "@/types/Lecture";
 
 export default function LectureById({ lectureId }: { lectureId?: string }) {
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
   // 해당 강의 데이터 찾기
   const lectureData = useMemo(() => {
     if (!lectureId || !lectures) return null;
-    return lectures.find((lecture) => lecture.id === Number(lectureId));
+    return lectures.find((lecture) => lecture.lectureId === Number(lectureId));
   }, [lectureId, lectures]);
 
   // 임의의 공지사항 데이터

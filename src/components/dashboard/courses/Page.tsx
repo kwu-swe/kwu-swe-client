@@ -1,8 +1,11 @@
 // ** Hooks
 import { cn } from "fast-jsx/util";
-import useCourse from "@/hook/useCourse";
 import { useState, useCallback } from "react";
 import { useDebounce } from "@/hook/useDebounce";
+
+// ** Hooks
+import useCourse from "@/hook/useCourse";
+import useLecture from "@/hook/useLecture";
 
 // ** Organisms
 import CourseList from "./organism/CourseList.organism";
@@ -12,15 +15,18 @@ import ComponentLoading from "@/design/ComponentLoading";
 import { MdSearch } from "react-icons/md";
 
 export default function Courses() {
-  const { courses, isLoading } = useCourse();
+  const { courses } = useCourse();
+  const { lectures, isLoading } = useLecture();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const filteredCourses = courses?.filter((course) => {
+  const filteredCourses = lectures?.filter((lecture) => {
     const searchLower = debouncedSearchTerm.toLowerCase();
     return (
-      course.courseName.toLowerCase().includes(searchLower) ||
-      course.courseNumber.toLowerCase().includes(searchLower)
+      lecture.courseResponseDto.courseName
+        .toLowerCase()
+        .includes(searchLower) ||
+      lecture.courseResponseDto.courseNumber.toLowerCase().includes(searchLower)
     );
   });
 
@@ -57,7 +63,7 @@ export default function Courses() {
       {isLoading ? (
         <ComponentLoading />
       ) : (
-        <CourseList courses={filteredCourses || []} />
+        <CourseList lectures={filteredCourses || []} />
       )}
     </div>
   );

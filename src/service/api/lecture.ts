@@ -1,4 +1,9 @@
-import { Lecture, LectureAssistantCreate, LectureCreate, LectureUpdate } from "@/types/Lecture";
+import {
+  Lecture,
+  LectureAssistantCreate,
+  LectureCreate,
+  LectureUpdate,
+} from "@/types/Lecture";
 import httpRequest from "../axios";
 import { ToApi } from "@/types/Api";
 
@@ -12,8 +17,8 @@ async function get() {
 async function post(code: string, data: LectureCreate) {
   const response = await api.post<LectureCreate>(`/lectures`, data, {
     params: {
-      code
-    }
+      code,
+    },
   });
   return response.data;
 }
@@ -28,17 +33,25 @@ async function _delete(id: number) {
   return response.data;
 }
 
+async function postStudentLecture(lectureId: number) {
+  const response = await api.post<LectureCreate>(`/lectures/${lectureId}`);
+  return response.data;
+}
+
 async function getStudentLectures(code: string) {
   const response = await api.get<ToApi<Lecture[]>>("/lectures/students", {
     params: {
-      code
-    }
+      code,
+    },
   });
   return response.data.result;
 }
 
 async function postAssistant(data: LectureAssistantCreate) {
-  const response = await api.post<LectureAssistantCreate>(`/lectures/${data.lectureId}/assistants/${data.assistantNumber}`, data);
+  const response = await api.post<LectureAssistantCreate>(
+    `/lectures/${data.lectureId}/assistants/${data.assistantNumber}`,
+    data
+  );
   return response.data;
 }
 
@@ -47,8 +60,9 @@ const lectureApi = {
   post,
   patch,
   delete: _delete,
-  getStudentLectures,
   postAssistant,
+  getStudentLectures,
+  postStudentLecture,
 };
 
 export default lectureApi;

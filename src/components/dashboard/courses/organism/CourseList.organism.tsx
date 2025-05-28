@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // ** util
 import { cn } from "fast-jsx/util";
 
-// ** connection
-import courseApi from "@/service/api/course";
+// ** hooks
+import useLecture from "@/hook/useLecture";
 
 // ** components
 import ComponentLoading from "@/design/ComponentLoading";
@@ -17,92 +17,103 @@ import {
 } from "@tanstack/react-table";
 
 // ** types
-import { Course, CourseCreate } from "@/types/Course";
+import { Lecture } from "@/types/Lecture"; // LectureTime 추가 (가정)
 
 interface CourseListProps {
-  courses: Course[];
+  lectures: Lecture[];
 }
 
-export default function CourseList({ courses }: CourseListProps) {
+export default function CourseList({ lectures }: CourseListProps) {
   const queryClient = useQueryClient();
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const { postStudentLecture } = useLecture();
+  const [selectedLecture, setSelectedLecture] = useState<Lecture | null>(null);
 
-  const enrollMutation = useMutation({
-    mutationFn: (course: Course) =>
-      courseApi.post({
-        courseName: course.courseName,
-        courseNumber: course.courseNumber,
-        score: course.score,
-      } as CourseCreate),
+  const enrollMutation = useMutation<unknown, Error, number>({
+    mutationFn: async (lectureId: number) => {
+      return await postStudentLecture(lectureId);
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courseGet"] });
-      setSelectedCourse(null);
+      queryClient.invalidateQueries({ queryKey: ["lectureGet"] });
+      setSelectedLecture(null);
     },
   });
 
-  const handleEnroll = (course: Course) => {
-    if (window.confirm(`${course.courseName}을(를) 수강신청 하시겠습니까?`)) {
-      // enrollMutation.mutate(course);
+  const handleEnroll = (lecture: Lecture) => {
+    if (
+      window.confirm(
+        `${lecture.courseResponseDto.courseName}을(를) 수강신청 하시겠습니까?`
+      )
+    ) {
+      enrollMutation.mutate(lecture.lectureId);
     }
   };
 
-  const columnHelper = createColumnHelper<Course>();
+  const columnHelper = createColumnHelper<Lecture>();
   const columns = [
-    columnHelper.accessor("courseName", {
+    columnHelper.accessor((row) => row.courseResponseDto.courseName, {
+      id: "courseName",
       header: "과목명",
       cell: (props) => <p className="truncate max-w-xs">{props.getValue()}</p>,
       size: 140,
     }),
-    columnHelper.accessor("courseNumber", {
+    columnHelper.accessor((row) => row.courseResponseDto.courseNumber, {
+      id: "courseNumber",
       header: "과목번호",
       size: 140,
     }),
-    columnHelper.accessor("score", {
+    columnHelper.accessor((row) => row.courseResponseDto.score, {
+      id: "score",
       header: "학점",
       size: 60,
       cell: (props) => <p>{props.getValue()}학점</p>,
     }),
-    // columnHelper.accessor("professor.name", {
-    //   header: "교수명",
-    //   size: 80,
-    // }),
-    // columnHelper.accessor("lectureScheduleAndLocation", {
-    //   header: "강의시간",
-    //   cell: (props) => {
-    //     const schedules = props.getValue();
-    //     return (
-    //       <div className="flex flex-col gap-1">
-    //         {schedules.map((schedule, index) => (
-    //           <span key={index} className="text-xs">
-    //             {schedule.day} {schedule.periods.join(",")}교시 ({schedule.room}
-    //             호)
-    //           </span>
-    //         ))}
-    //       </div>
-    //     );
-    //   },
-    //   size: 150,
-    // }),
-    // columnHelper.accessor("id", {
-    //   header: "액션",
-    //   cell: (props) => (
-    //     <button
-    //       onClick={(e) => {
-    //         e.stopPropagation();
-    //         handleEnroll(props.row.original);
-    //       }}
-    //       disabled={enrollMutation.isPending}
-    //       className="text-blue-600 hover:text-blue-900 disabled:text-gray-400"
-    //     >
-    //       수강신청
-    //     </button>
-    //   ),
-    //   size: 100,
-    // }),
+    columnHelper.accessor("professor.name", {
+      header: "교수명",
+      size: 80,
+    }),
+    columnHelper.accessor(
+      (row) => ({
+        year: row.year,
+        semester: row.semester,
+      }),
+      {
+        id: "lectureScheduleAndLocation",
+        header: "강의 학기",
+        cell: (props) => {
+          const { year, semester } = props.getValue();
+          // LectureTime 타입이 실제 프로젝트에 맞게 정의되어 있다고 가정합니다.
+          // 예: interface LectureTime { dayOfWeek: string; startPeriod: number; endPeriod: number; }
+          if (!year || !semester) return <span>-</span>;
+          return (
+            <div className="flex flex-col gap-1">
+              {year}년 {semester === "FIRST_SEMESTER" ? "1" : "2"}학기
+            </div>
+          );
+        },
+        size: 150,
+      }
+    ),
+    columnHelper.accessor("lectureId", {
+      header: "액션",
+      cell: (props) => (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log("props.row.original", props.row.original);
+            handleEnroll(props.row.original);
+          }}
+          disabled={enrollMutation.isPending}
+          className="text-blue-600 hover:text-blue-900 disabled:text-gray-400"
+        >
+          수강신청
+        </button>
+      ),
+      size: 100,
+    }),
   ];
 
   const table = useReactTable({
-    data: courses,
+    data: lectures,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -137,7 +148,7 @@ export default function CourseList({ courses }: CourseListProps) {
           <div className={cardStyles.headerTitle}>
             <span>강의 목록</span>
             <span className="text-xs text-gray-500 font-medium">
-              {courses.length}개
+              {lectures.length}개
             </span>
           </div>
         </div>
@@ -187,7 +198,7 @@ export default function CourseList({ courses }: CourseListProps) {
                       tableStyles.cellLast,
                       "text-center"
                     )}
-                    colSpan={4}
+                    colSpan={columns.length} // 컬럼 수에 맞게 동적으로 설정
                   >
                     <div className="flex flex-col items-center justify-center gap-8 text-gray-300">
                       <span className="text-sm font-medium">
@@ -200,8 +211,8 @@ export default function CourseList({ courses }: CourseListProps) {
 
               {table.getRowModel().rows.map((row) => (
                 <tr
-                  key={row.original.courseId}
-                  onClick={() => setSelectedCourse(row.original)}
+                  key={row.original.lectureId} // Lecture의 id를 key로 사용
+                  onClick={() => setSelectedLecture(row.original)}
                   className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
                 >
                   {row.getVisibleCells().map((cell, index) => (
@@ -230,13 +241,15 @@ export default function CourseList({ courses }: CourseListProps) {
       </div>
 
       {/* 상세 정보 모달 */}
-      {/* {selectedCourse && (
+      {selectedLecture && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold">{selectedCourse.courseName}</h3>
+              <h3 className="text-xl font-bold">
+                {selectedLecture.courseResponseDto.courseName}
+              </h3>
               <button
-                onClick={() => setSelectedCourse(null)}
+                onClick={() => setSelectedLecture(null)}
                 className="text-gray-500 hover:text-gray-700"
               >
                 <svg
@@ -257,15 +270,44 @@ export default function CourseList({ courses }: CourseListProps) {
             <div className="space-y-4">
               <div>
                 <h4 className="text-sm font-medium text-gray-500">과목번호</h4>
-                <p className="mt-1">{selectedCourse.courseNumber}</p>
+                <p className="mt-1">
+                  {selectedLecture.courseResponseDto.courseNumber}
+                </p>
               </div>
               <div>
                 <h4 className="text-sm font-medium text-gray-500">학점</h4>
-                <p className="mt-1">{selectedCourse.score}</p>
+                <p className="mt-1">
+                  {selectedLecture.courseResponseDto.score}학점
+                </p>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-gray-500">교수명</h4>
+                <p className="mt-1">{selectedLecture.professor.name}</p>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-gray-500">
+                  강의시간/장소
+                </h4>
+                {/* <div className="mt-1 flex flex-col gap-1">
+                  {selectedLecture.lectureTimeRequests.map(
+                    (time: LectureTime, index: number) => {
+                      const periods = Array.from(
+                        { length: time.endPeriod - time.startPeriod + 1 },
+                        (_, i) => time.startPeriod + i
+                      );
+                      return (
+                        <span key={index} className="text-xs">
+                          {time.dayOfWeek} {periods.join(",")}교시 (
+                          {selectedLecture.lectureRoom})
+                        </span>
+                      );
+                    }
+                  )}
+                </div> */}
               </div>
               <div className="pt-4">
                 <button
-                  onClick={() => handleEnroll(selectedCourse)}
+                  onClick={() => handleEnroll(selectedLecture)}
                   disabled={enrollMutation.isPending}
                   className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-gray-400"
                 >
@@ -275,7 +317,7 @@ export default function CourseList({ courses }: CourseListProps) {
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

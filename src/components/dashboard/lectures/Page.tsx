@@ -10,27 +10,14 @@ import ComponentLoading from "@/design/ComponentLoading";
 // ** molecules
 import LectureCard from "./molecules/LectureCard.molecules";
 
-// ** types
-import { Lecture } from "@/types/Lecture";
-import { Announcement } from "@/types/Announcement";
-import { AssignmentClient } from "@/types/Assignment";
-import { Material } from "@/types/Material";
-
 // ** icons
 import { MdAssignment } from "react-icons/md";
-
-interface Props {
-  lectures: Lecture[];
-  assignments: Record<string, AssignmentClient[]>;
-  announcements: Record<string, Announcement[]>;
-  materials: Record<string, Material[]>;
-}
 
 type SortOption = "dueDate" | "name" | "professor";
 type SemesterOption = "all" | "FIRST_SEMESTER" | "SECOND_SEMESTER";
 
 export default function LecturePage() {
-  const { lectures, isLoading } = useLecture();
+  const { studentLectures: lectures, isLoading } = useLecture();
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );
@@ -188,9 +175,9 @@ export default function LecturePage() {
         </div>
       ) : (
         <div className={grid.displays}>
-          {filteredAndSortedLectures.map((lecture: Lecture) => (
+          {filteredAndSortedLectures.map((lecture) => (
             <LectureCard
-              key={lecture.id}
+              key={lecture.lectureId}
               data={lecture}
               assignments={[]} // assignments[lecture.id.toString()] ||
               announcements={[]} // announcements[lecture.id.toString()] ||

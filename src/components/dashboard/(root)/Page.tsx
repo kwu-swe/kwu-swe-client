@@ -14,11 +14,7 @@ import SubjectList from "./organism/SubjectList.organism";
 
 export default function Dashboard() {
   const { user } = useUser();
-  const { lectures, isLoading } = useLecture();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const { studentLectures: lectures, isLoading } = useLecture();
 
   const container = {
     displays: "flex flex-col gap-y-10 pb-20",
