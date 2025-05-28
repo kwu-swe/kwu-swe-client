@@ -45,7 +45,7 @@ const MaterialTable = ({
   // [#] table render
   const columnHelper = createColumnHelper<Material>();
   const columns = [
-    columnHelper.accessor("id", {
+    columnHelper.accessor("materialId", {
       header: "번호",
       size: 60,
     }),
@@ -61,15 +61,15 @@ const MaterialTable = ({
       ),
       size: 60,
     }),
-    columnHelper.accessor("createdAt", {
-      header: "등록일",
-      cell: (props) => (
-        <p className="text-sm text-gray-500">
-          {formatDate(props.getValue(), "YYYY-MM-DD")}
-        </p>
-      ),
-      size: 120,
-    }),
+    // columnHelper.accessor("createdAt", {
+    //   header: "등록일",
+    //   cell: (props) => (
+    //     <p className="text-sm text-gray-500">
+    //       {formatDate(props.getValue() as string, "YYYY-MM-DD")}
+    //     </p>
+    //   ),
+    //   size: 120,
+    // }),
   ];
 
   const table = useReactTable({
@@ -177,8 +177,8 @@ const MaterialTable = ({
 
             {table.getRowModel().rows.map((row) => (
               <tr
-                key={row.original.id}
-                onClick={() => onClick(row.original.id)} // props로 전달된 onClick 호출
+                key={row.original.materialId}
+                onClick={() => onClick(row.original.materialId)} // props로 전달된 onClick 호출
                 className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
               >
                 {row.getVisibleCells().map((cell, index) => (

@@ -1,38 +1,21 @@
 import { cn } from "fast-jsx/util";
 import { useNavigate } from "react-router-dom";
 
-// ** organism
-
-// ** molecules
+// ** hook
+import useMaterial from "@/hook/useMaterial";
 
 // ** assets
 import { MdArrowBack, MdAttachFile } from "react-icons/md";
 
-// ** types
-import { Material } from "@/types/Material";
-
 export default function LectureMaterialById({
   lectureId,
+  materialId,
 }: {
-  lectureId?: string;
-  materialId?: string;
+  lectureId?: number;
+  materialId?: number;
 }) {
   const navigate = useNavigate();
-  const material: Material = {
-    id: 1,
-    lectureId: 123,
-    title: "리액트 컴포넌트의 이해",
-    content: `리액트 컴포넌트는 UI를 구성하는 가장 기본적인 단위입니다.
-
-컴포넌트의 주요 특징:
-- 재사용성이 높음
-- 독립적으로 동작
-- Props를 통한 데이터 전달
-- State를 통한 상태 관리
-
-컴포넌트를 잘 설계하면 유지보수가 쉽고 확장성 있는 애플리케이션을 만들 수 있습니다.`,
-    createdAt: new Date("2024-01-15"),
-  };
+  const { material } = useMaterial({ materialId: materialId });
 
   const cardStyles = {
     base: "flex flex-col bg-white border border-gray-100 overflow-hidden",
@@ -71,18 +54,18 @@ export default function LectureMaterialById({
         <div className="flex flex-col">
           <div className={tableStyles.row}>
             <div className={tableStyles.label}>제목</div>
-            <div className={tableStyles.value}>{material.title}</div>
+            <div className={tableStyles.value}>{material?.title}</div>
           </div>
           <div className={tableStyles.row}>
             <div className={tableStyles.label}>작성일</div>
             <div className={tableStyles.value}>
-              {material.createdAt.toLocaleDateString()}
+              {material?.createdAt?.toLocaleDateString()}
             </div>
           </div>
           <div className={tableStyles.row}>
             <div className={cn(tableStyles.label, "align-top")}>내용</div>
             <div className={tableStyles.value}>
-              <div className="whitespace-pre-wrap">{material.content}</div>
+              <div className="whitespace-pre-wrap">{material?.content}</div>
             </div>
           </div>
           <div className={tableStyles.row}>

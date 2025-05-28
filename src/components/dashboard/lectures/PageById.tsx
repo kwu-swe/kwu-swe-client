@@ -12,103 +12,20 @@ import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats
 
 // ** hooks
 import useLecture from "@/hook/useLecture";
+import useAssignment from "@/hook/useAssignment";
 
-// ** types
-import { Announcement } from "@/types/Announcement";
-import { Material } from "@/types/Material";
-import { AssignmentClient } from "@/types/Assignment";
-
-export default function LectureById({ lectureId }: { lectureId?: string }) {
+export default function LectureById({ lectureId }: { lectureId?: number }) {
   const navigate = useNavigate();
   const { lectures, isLoading } = useLecture();
+  const { assignmentsByLecture } = useAssignment({
+    lectureId: Number(lectureId),
+  });
 
   // 해당 강의 데이터 찾기
   const lectureData = useMemo(() => {
     if (!lectureId || !lectures) return null;
     return lectures.find((lecture) => lecture.lectureId === Number(lectureId));
   }, [lectureId, lectures]);
-
-  // 임의의 공지사항 데이터
-  const [announcements] = useState<Announcement[]>([
-    {
-      id: 1,
-      lectureId: Number(lectureId) || 1,
-      title: "중간고사 일정 안내",
-      content:
-        "중간고사는 4월 15일에 진행됩니다. 시험 범위는 1장부터 5장까지입니다.",
-      createdAt: new Date("2025-04-01"),
-    },
-    {
-      id: 2,
-      lectureId: Number(lectureId) || 1,
-      title: "과제 제출 기한 연장",
-      content: "프로젝트 제출 기한이 4월 20일로 연장되었습니다.",
-      createdAt: new Date("2025-04-05"),
-    },
-    {
-      id: 3,
-      lectureId: Number(lectureId) || 1,
-      title:
-        "과제 제출 기한 연장 + 긴 텍스트일 경우 (과제 제출 기한 연장과제 제출 기한 연장과제 제출 기한 연장)",
-      content: "프로젝트 제출 기한이 4월 20일로 연장되었습니다.",
-      createdAt: new Date("2025-04-08"),
-    },
-  ]);
-
-  // 임의의 자료실 데이터
-  const [materials] = useState<Material[]>([
-    {
-      id: 1,
-      lectureId: Number(lectureId) || 1,
-      title: "1주차 강의자료",
-      content: "1주차 강의자료",
-      createdAt: new Date("2025-03-02"),
-    },
-    {
-      id: 2,
-      lectureId: Number(lectureId) || 1,
-      title: "프로그래밍 과제 안내서",
-      content: "프로그래밍 과제 안내서",
-      createdAt: new Date("2025-03-15"),
-    },
-  ]);
-
-  // 임의의 과제 데이터
-  const [assignments] = useState<AssignmentClient[]>([
-    {
-      id: 1,
-      lectureId: Number(lectureId) || 1,
-      title: "프로그래밍 기초 과제 1",
-      content: "변수와 자료형에 대한 기초 문제 풀이",
-      dueDate: new Date("2025-04-15"),
-      extendedDueDate: new Date("2025-04-20"),
-      allowResubmission: true,
-      isPublic: true,
-      createdAt: new Date("2025-04-01"),
-    },
-    {
-      id: 2,
-      lectureId: Number(lectureId) || 1,
-      title: "중간 프로젝트",
-      content: "간단한 계산기 프로그램 구현하기",
-      dueDate: new Date("2025-04-20"),
-      extendedDueDate: new Date("2025-04-25"),
-      allowResubmission: false,
-      isPublic: true,
-      createdAt: new Date("2025-04-05"),
-    },
-    {
-      id: 3,
-      lectureId: Number(lectureId) || 1,
-      title: "기말 프로젝트",
-      content: "미니 게임 개발하기",
-      dueDate: new Date("2025-06-15"),
-      extendedDueDate: new Date("2025-06-20"),
-      allowResubmission: true,
-      isPublic: true,
-      createdAt: new Date("2025-04-09"),
-    },
-  ]);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -157,19 +74,20 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
         <LectureInfo data={lectureData} />
       </div>
       <div className={content.displays}>
-        <LectureStats
+        {/* <LectureStats
           assignments={assignments}
           announcements={announcements}
           materials={materials}
           className="h-full"
-        />
+        /> */}
       </div>
 
       {/* 과제 목록 테이블 */}
       <div className={fullWidth.displays}>
         <AssignmentTable
-          data={assignments}
-          count={assignments.length}
+          lectureId={Number(lectureId)}
+          data={assignmentsByLecture || []}
+          count={assignmentsByLecture?.length || 0}
           page={1}
           totalPages={1}
           onClick={(id) =>
@@ -181,7 +99,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
       <hr className="md:col-span-2 w-full border-gray-100" />
 
       {/* 공지사항 및 자료 테이블 */}
-      <div className={content.displays}>
+      {/* <div className={content.displays}>
         <AnnouncementTable
           data={announcements}
           count={announcements.length}
@@ -208,7 +126,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
             console.log(page);
           }}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

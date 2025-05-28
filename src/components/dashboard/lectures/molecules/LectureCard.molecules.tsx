@@ -9,30 +9,30 @@ import {
 
 // ** types
 import { Lecture } from "@/types/Lecture";
-import { Announcement } from "@/types/Announcement";
-import { AssignmentClient } from "@/types/Assignment";
-import { Material } from "@/types/Material";
+// import { Announcement } from "@/types/Announcement";
+// import { AssignmentClient } from "@/types/Assignment";
+// import { Material } from "@/types/Material";
 
 interface Props {
   data: Lecture;
-  assignments: AssignmentClient[];
-  announcements: Announcement[];
-  materials: Material[];
-  hasNewContent?: boolean;
-  recentUpdates?: Array<{
-    type: "assignment" | "announcement" | "material";
-    title: string;
-  }>;
+  // assignments: AssignmentClient[];
+  // announcements: Announcement[];
+  // materials: Material[];
+  // hasNewContent?: boolean;
+  // recentUpdates?: Array<{
+  //   type: "assignment" | "announcement" | "material";
+  //   title: string;
+  // }>;
   className?: string;
 }
 
 const LectureCard = ({
   data,
-  assignments,
-  announcements,
-  materials,
-  hasNewContent,
-  recentUpdates = [],
+  // assignments,
+  // announcements,
+  // materials,
+  // hasNewContent,
+  // recentUpdates = [],
   className,
 }: Props) => {
   const navigate = useNavigate();
@@ -134,9 +134,9 @@ const LectureCard = ({
   };
 
   // 과제 제출 현황 계산 (임시 데이터)
-  const submittedAssignments = assignments.filter(
-    (a) => a.dueDate > new Date()
-  ).length;
+  // const submittedAssignments = assignments.filter(
+  //   (a) => a.dueDate > new Date()
+  // ).length;
 
   const formatStatValue = (value: number, total?: number) => {
     if (value === 0 && (!total || total === 0)) return "-";
@@ -153,9 +153,9 @@ const LectureCard = ({
           <div className={cn(title)}>
             <h3 className={cn(courseName)}>
               {data.courseResponseDto.courseName}
-              {hasNewContent && (
+              {/* {hasNewContent && (
                 <span className={cn(newBadge, "ml-2")}>NEW</span>
-              )}
+              )} */}
             </h3>
             <span className={cn(courseCode)}>
               ({data.courseResponseDto.courseNumber})
@@ -166,7 +166,8 @@ const LectureCard = ({
 
         <div className={cn(info)}>
           <p className="font-medium">{data.professor.name} 교수</p>
-          {Object.entries(data.lectureTimeAndLocation).length > 0 ? (
+          {data.lectureTimeAndLocation &&
+          Object.entries(data.lectureTimeAndLocation).length > 0 ? (
             <div>
               {Object.entries(data.lectureTimeAndLocation)
                 .slice(0, 1)
@@ -187,7 +188,7 @@ const LectureCard = ({
           )}
         </div>
 
-        <div className={cn(stats)}>
+        {/* <div className={cn(stats)}>
           <div className={cn(stat)}>
             <span className={cn(statValue)}>
               {formatStatValue(submittedAssignments, assignments.length)}
@@ -217,7 +218,7 @@ const LectureCard = ({
               </div>
             ))}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

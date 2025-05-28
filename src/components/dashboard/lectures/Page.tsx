@@ -18,6 +18,7 @@ type SemesterOption = "all" | "FIRST_SEMESTER" | "SECOND_SEMESTER";
 
 export default function LecturePage() {
   const { studentLectures: lectures, isLoading } = useLecture();
+
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );
@@ -179,11 +180,11 @@ export default function LecturePage() {
             <LectureCard
               key={lecture.lectureId}
               data={lecture}
-              assignments={[]} // assignments[lecture.id.toString()] ||
-              announcements={[]} // announcements[lecture.id.toString()] ||
-              materials={[]} // materials[lecture.id.toString()] ||
-              hasNewContent={false} // hasNewContent
-              recentUpdates={[]} // recentUpdates
+              // assignments={[]} // assignments[lecture.id.toString()] ||
+              // announcements={[]} // announcements[lecture.id.toString()] ||
+              // materials={[]} // materials[lecture.id.toString()] ||
+              // hasNewContent={false} // hasNewContent
+              // recentUpdates={[]} // recentUpdates
             />
           ))}
         </div>

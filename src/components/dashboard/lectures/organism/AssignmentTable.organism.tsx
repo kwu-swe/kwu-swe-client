@@ -14,10 +14,15 @@ import {
 } from "@tanstack/react-table";
 
 // ** types
-import { AssignmentClient, AssignmentSubmissionStatus } from "@/types/Assignment";
+import {
+  Assignment,
+  AssignmentByLecture,
+  AssignmentSubmissionStatus,
+} from "@/types/Assignment";
 
 interface Props {
-  data: AssignmentClient[];
+  lectureId: number;
+  data: AssignmentByLecture[];
   count: number;
   page: number;
   totalPages: number;
@@ -32,6 +37,7 @@ interface Props {
 // 과제 제출 인터페이스는 AssignmentSubmission 타입으로 대체
 
 const AssignmentTable = ({
+  lectureId,
   data,
   count,
   page,
@@ -59,9 +65,9 @@ const AssignmentTable = ({
   };
 
   // [#] table render
-  const columnHelper = createColumnHelper<AssignmentClient>();
+  const columnHelper = createColumnHelper<AssignmentByLecture>();
   const columns = [
-    columnHelper.accessor("id", {
+    columnHelper.accessor("assignmentId", {
       header: "번호",
       size: 60,
     }),
@@ -79,21 +85,21 @@ const AssignmentTable = ({
       ),
       size: 120,
     }),
-    columnHelper.accessor("content", {
-      //"submission.status"
-      header: "제출 상태",
-      cell: (props) => renderSubmissionStatus(props.getValue() as any),
-      size: 100,
-    }),
-    columnHelper.accessor("createdAt", {
-      header: "등록일",
-      cell: (props) => (
-        <p className="text-sm text-gray-500">
-          {formatDate(props.getValue(), "YYYY-MM-DD")}
-        </p>
-      ),
-      size: 120,
-    }),
+    // columnHelper.accessor("submissionStatus", {
+    //   //"submission.status"
+    //   header: "제출 상태",
+    //   cell: (props) => renderSubmissionStatus(props.getValue() as any),
+    //   size: 100,
+    // }),
+    // columnHelper.accessor("createdAt", {
+    //   header: "등록일",
+    //   cell: (props) => (
+    //     <p className="text-sm text-gray-500">
+    //       {formatDate(props.getValue(), "YYYY-MM-DD")}
+    //     </p>
+    //   ),
+    //   size: 120,
+    // }),
   ];
 
   const table = useReactTable({
@@ -167,9 +173,9 @@ const AssignmentTable = ({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </th>
                 ))}
               </tr>
@@ -201,10 +207,10 @@ const AssignmentTable = ({
 
             {table.getRowModel().rows.map((row) => (
               <tr
-                key={row.original.id}
+                key={row.original.assignmentId}
                 onClick={() =>
                   navigate(
-                    `/dashboard/lectures/${row.original.lectureId}/assignment/${row.original.id}`
+                    `/dashboard/lectures/${lectureId}/assignment/${row.original.assignmentId}`
                   )
                 }
                 className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
