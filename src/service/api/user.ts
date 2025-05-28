@@ -4,10 +4,8 @@ import { UserCreate, UserUpdate, User, UserRole } from "@/types/User";
 
 const api = httpRequest.api();
 
-async function getByStudentNumber(studentNumber: string) {
-  const response = await api.get<ToApi<User>>("/users", {
-    params: { studentNumber },
-  });
+async function get() {
+  const response = await api.get<ToApi<User>>("/users");
   return response.data.result;
 }
 async function post(role: UserRole, data: UserCreate) {
@@ -24,7 +22,7 @@ async function patch(studentNumber: string, data: UserUpdate) {
 }
 
 const userApi = {
-  getByStudentNumber,
+  get,
   post,
   patch,
 };

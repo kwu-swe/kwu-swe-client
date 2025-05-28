@@ -1,17 +1,17 @@
-import { Button, Input, Shelf } from "fast-jsx";
+import { Button, Input } from "fast-jsx";
 import { cn } from "fast-jsx/util";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdPerson, MdLock } from "react-icons/md";
-import useUser from "@/hook/useUser";
 import { useUserStore } from "@/store";
+import useToken from "@/hook/useToken";
 
 export default function SignIn() {
   const router = useNavigate();
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useUserStore()
+  const { setUser } = useUserStore();
+  const { signIn, isLoading } = useToken()
   // 스타일 정의
   const styles = {
     container: {
@@ -72,20 +72,6 @@ export default function SignIn() {
     },
   };
 
-  const handleLogin = async () => {
-    if (!username || !password) return;
-    setIsLoading(true);
-    try {
-      // TODO: 실제 로그인 로직 구현
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 임시 딜레이
-      router("/dashboard");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const isButtonDisabled = isLoading || !username || !password;
 
   return (
@@ -130,7 +116,7 @@ export default function SignIn() {
           <div className="mt-6">
             <Button
               title={isLoading ? "로그인 중..." : "로그인"}
-              onClick={handleLogin}
+              onClick={() => signIn(username!)}
               option={{
                 ...styles.button,
                 background: isButtonDisabled
