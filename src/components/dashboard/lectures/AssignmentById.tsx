@@ -11,9 +11,9 @@ import { useNavigate } from "react-router-dom";
 // ** assets
 import { MdArrowBack, MdAttachFile } from "react-icons/md";
 
-// ** types
+// ** typest
 import {
-  Assignment,
+  AssignmentClient,
   AssignmentSubmission,
   AssignmentFile,
 } from "@/types/Assignment";
@@ -28,7 +28,7 @@ export default function LectureAssignmentById({
   const navigate = useNavigate();
 
   // 과제 상세 정보 상태
-  const [assignment, setAssignment] = useState<Assignment>({
+  const [assignment, setAssignment] = useState<AssignmentClient>({
     id: 1,
     lectureId: Number(lectureId) || 1,
     title: "프로그래밍 과제 1",

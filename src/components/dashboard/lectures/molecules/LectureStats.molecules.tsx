@@ -2,11 +2,11 @@ import { cn } from "fast-jsx/util";
 
 // ** types
 import { Announcement } from "@/types/Announcement";
-import { Assignment } from "@/types/Assignment";
+import { AssignmentClient } from "@/types/Assignment";
 import { Material } from "@/types/Material";
 
 interface Props {
-  assignments: Assignment[];
+  assignments: AssignmentClient[];
   announcements: Announcement[];
   materials: Material[];
   className?: string;

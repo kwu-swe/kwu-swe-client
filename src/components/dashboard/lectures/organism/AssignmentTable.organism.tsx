@@ -14,10 +14,10 @@ import {
 } from "@tanstack/react-table";
 
 // ** types
-import { Assignment, AssignmentSubmissionStatus } from "@/types/Assignment";
+import { AssignmentClient, AssignmentSubmissionStatus } from "@/types/Assignment";
 
 interface Props {
-  data: Assignment[];
+  data: AssignmentClient[];
   count: number;
   page: number;
   totalPages: number;
@@ -59,7 +59,7 @@ const AssignmentTable = ({
   };
 
   // [#] table render
-  const columnHelper = createColumnHelper<Assignment>();
+  const columnHelper = createColumnHelper<AssignmentClient>();
   const columns = [
     columnHelper.accessor("id", {
       header: "번호",
@@ -167,9 +167,9 @@ const AssignmentTable = ({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </th>
                 ))}
               </tr>

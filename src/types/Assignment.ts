@@ -3,6 +3,19 @@ export type AssignmentSubmissionStatus = "SUBMITTED" | "LATE";
 
 // 과제 인터페이스
 export interface Assignment {
+  assignmentId: number;
+  title: string;
+  content: string;
+  dueDate: Date;
+  dueDateAfterDays: number;
+  encodedFiles: string[];
+}
+
+export interface AssignmentByLecture extends Pick<Assignment, "assignmentId" | "title" | "dueDate"> { }
+export interface AssignmentCreate extends Omit<Assignment, "assignmentId"> { }
+
+
+export interface AssignmentClient {
   id: number;
   lectureId: number;
   //-contents

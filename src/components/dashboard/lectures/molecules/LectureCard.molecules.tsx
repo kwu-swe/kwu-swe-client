@@ -10,12 +10,12 @@ import {
 // ** types
 import { Lecture } from "@/types/Lecture";
 import { Announcement } from "@/types/Announcement";
-import { Assignment } from "@/types/Assignment";
+import { AssignmentClient } from "@/types/Assignment";
 import { Material } from "@/types/Material";
 
 interface Props {
   data: Lecture;
-  assignments: Assignment[];
+  assignments: AssignmentClient[];
   announcements: Announcement[];
   materials: Material[];
   hasNewContent?: boolean;

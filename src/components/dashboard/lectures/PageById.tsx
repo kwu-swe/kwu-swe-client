@@ -13,7 +13,7 @@ import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats
 // ** types
 import { Announcement } from "@/types/Announcement";
 import { Material } from "@/types/Material";
-import { Assignment } from "@/types/Assignment";
+import { AssignmentClient } from "@/types/Assignment";
 import { Lecture } from "@/types/Lecture";
 
 export default function LectureById({ lectureId }: { lectureId?: string }) {
@@ -64,7 +64,7 @@ export default function LectureById({ lectureId }: { lectureId?: string }) {
   ]);
 
   // 임의의 과제 데이터
-  const [assignments] = useState<Assignment[]>([
+  const [assignments] = useState<AssignmentClient[]>([
     {
       id: 1,
       lectureId: Number(lectureId) || 1,

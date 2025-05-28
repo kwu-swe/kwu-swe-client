@@ -9,12 +9,12 @@ import LectureCard from "./molecules/LectureCard.molecules";
 // ** types
 import { Lecture } from "@/types/Lecture";
 import { Announcement } from "@/types/Announcement";
-import { Assignment } from "@/types/Assignment";
+import { AssignmentClient } from "@/types/Assignment";
 import { Material } from "@/types/Material";
 
 interface Props {
   lectures: Lecture[];
-  assignments: Record<string, Assignment[]>;
+  assignments: Record<string, AssignmentClient[]>;
   announcements: Record<string, Announcement[]>;
   materials: Record<string, Material[]>;
 }
