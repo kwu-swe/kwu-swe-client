@@ -4,6 +4,7 @@ import {
   LectureAssistantCreate,
   LectureUpdate,
   LecturePlanCreate,
+  LecturePlan,
 } from "@/types/Lecture";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -98,9 +99,13 @@ export default function useLecture() {
 
 export function usePlan({ lectureId }: { lectureId: number }) {
   const queryClient = useQueryClient();
-  const { data: plan, isLoading: planLoading } = useQuery({
+  const { data: plan, isLoading: planLoading } = useQuery<LecturePlan
+  >({
     queryKey: ["lecturePlanGet", lectureId],
-    queryFn: () => lectureApi.plan.get(lectureId),
+    queryFn: async () => {
+      const response = await lectureApi.plan.get(lectureId);
+      return response.result;
+    },
     staleTime: 0,
   });
 

@@ -7,6 +7,8 @@ import AnnouncementModal from "../molecule/AnnouncementModal.molecule";
 import AnnouncementListModal from "../molecule/AnnouncementListModal.molecule";
 import MaterialModal from "../molecule/MaterialModal.molecule";
 import MaterialListModal from "../molecule/MaterialListModal.molecule";
+import LecturePlanModal from "../molecule/LecturePlanModal.molecule";
+import LecturePlanViewModal from "../molecule/LecturePlanViewModal.molecule";
 import imageApi from "@/service/api/image";
 
 const formatLectureTime = (key: string) => {
@@ -29,6 +31,8 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 	const [isAnnouncementListModalOpen, setIsAnnouncementListModalOpen] = useState(false);
 	const [isMaterialModalOpen, setIsMaterialModalOpen] = useState(false);
 	const [isMaterialListModalOpen, setIsMaterialListModalOpen] = useState(false);
+	const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
+	const [isPlanViewModalOpen, setIsPlanViewModalOpen] = useState(false);
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [dueDateAfterDays, setDueDateAfterDays] = useState(7);
@@ -74,8 +78,8 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 				assignment: {
 					title,
 					content,
-					dueDate,
-					dueDateAfterDays,
+					dueDate: dueDate.toISOString(),
+					createdAt: new Date().toISOString(),
 					encodedFiles: fileUrls
 				}
 			});
@@ -105,7 +109,6 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 					<p className="text-sm text-gray-500">교수</p>
 					<p className="font-medium text-gray-900">{lecture.professor.name}</p>
 				</div>
-
 				{/* Semester/Year */}
 				<div className="col-span-2">
 					<p className="text-sm text-gray-500">학기/년도</p>
@@ -130,6 +133,20 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 				<div className="col-span-2 flex justify-end items-center gap-1.5">
 					<div className="flex gap-1">
 						<button
+							onClick={() => setIsPlanModalOpen(true)}
+							className="px-2 py-1 text-xs bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+						>
+							강의계획서 +
+						</button>
+						<button
+							onClick={() => setIsPlanViewModalOpen(true)}
+							className="px-2 py-1 text-xs bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors opacity-75 hover:opacity-100"
+						>
+							목록
+						</button>
+					</div>
+					<div className="flex gap-1">
+						<button
 							onClick={() => setIsAnnouncementModalOpen(true)}
 							className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
 						>
@@ -142,7 +159,6 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 							목록
 						</button>
 					</div>
-
 					<div className="flex gap-1">
 						<button
 							onClick={() => setIsMaterialModalOpen(true)}
@@ -157,7 +173,6 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 							목록
 						</button>
 					</div>
-
 					<div className="flex gap-1">
 						<button
 							onClick={() => setIsModalOpen(true)}
@@ -238,6 +253,18 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 			<MaterialListModal
 				isOpen={isMaterialListModalOpen}
 				onClose={() => setIsMaterialListModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+
+			<LecturePlanModal
+				isOpen={isPlanModalOpen}
+				onClose={() => setIsPlanModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+
+			<LecturePlanViewModal
+				isOpen={isPlanViewModalOpen}
+				onClose={() => setIsPlanViewModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
 		</div>
