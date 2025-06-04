@@ -139,7 +139,7 @@ export function useGrade({ lectureId }: { lectureId: number }) {
 
   const { mutate: patchGrade } = useMutation({
     mutationKey: ["lectureGradePost", lectureId],
-    mutationFn: (data: GradeType) => lectureApi.grade.patch(lectureId, data),
+    mutationFn: ({ studentId, grade }: { studentId: number, grade: GradeType }) => lectureApi.grade.patch(lectureId, studentId, grade),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lectureGradeGet", lectureId] });
     },

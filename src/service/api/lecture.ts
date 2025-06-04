@@ -72,8 +72,8 @@ async function getGrade(lectureId: number) {
   return response.data;
 }
 
-async function patchGrade(lectureId: number, grade: GradeType) {
-  const response = await api.patch<Grade>(`/lectures/${lectureId}/grades`, undefined, {
+async function patchGrade(lectureId: number, studentId: number, grade: GradeType) {
+  const response = await api.patch<Grade>(`/lectures/${lectureId}/students/${studentId}/grades`, undefined, {
     params: {
       grade,
     },

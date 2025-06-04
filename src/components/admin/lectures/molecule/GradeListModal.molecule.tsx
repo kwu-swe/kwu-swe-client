@@ -99,7 +99,7 @@ export default function GradeListModal({ lectureId, isOpen, onClose }: Props) {
                 <select
                   onChange={(e) => {
                     const grade = e.target.value as GradeType;
-                    patchGrade(grade);
+                    patchGrade({ studentId: selectedStudentId!, grade });
                     setIsGradeModalOpen(false);
                   }}
                   className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md"
