@@ -5,6 +5,7 @@ import userApi from "./api/user";
 const cookies = new Cookies();
 const httpRequest = handler({
   api: import.meta.env.VITE_API_ORIGIN,
+  subApi: import.meta.env.VITE_API_ORIGIN,
 }, {
   interceptor: {
     async onRequest(config) {
