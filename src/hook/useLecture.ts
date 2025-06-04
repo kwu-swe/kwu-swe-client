@@ -9,6 +9,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import useUser from "./useUser";
+import { Grade, GradeType } from "@/types/Grade";
 
 export default function useLecture() {
   const { user } = useUser();
@@ -121,5 +122,32 @@ export function usePlan({ lectureId }: { lectureId: number }) {
     plan,
     isLoading: planLoading,
     postPlan,
+  };
+}
+
+export function useGrade({ lectureId }: { lectureId: number }) {
+  const queryClient = useQueryClient();
+  const { data: grades, isLoading: gradeLoading } = useQuery<Grade[]
+  >({
+    queryKey: ["lectureGradeGet", lectureId],
+    queryFn: async () => {
+      const response = await lectureApi.grade.get(lectureId);
+      return response.result;
+    },
+    staleTime: 0,
+  });
+
+  const { mutate: postGrade } = useMutation({
+    mutationKey: ["lectureGradePost", lectureId],
+    mutationFn: (data: GradeType) => lectureApi.grade.post(lectureId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lectureGradeGet", lectureId] });
+    },
+  });
+
+  return {
+    grades,
+    isLoading: gradeLoading,
+    postGrade,
   };
 }

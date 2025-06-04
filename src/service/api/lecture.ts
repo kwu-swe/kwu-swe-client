@@ -8,6 +8,7 @@ import {
 } from "@/types/Lecture";
 import httpRequest from "../axios";
 import { ToApi } from "@/types/Api";
+import { Grade, GradeType } from "@/types/Grade";
 
 const api = httpRequest.api();
 
@@ -66,6 +67,20 @@ async function postPlan(lectureId: number, data: LecturePlanCreate) {
   return response.data;
 }
 
+async function getGrade(lectureId: number) {
+  const response = await api.get<ToApi<Grade[]>>(`/lectures/${lectureId}/grades`);
+  return response.data;
+}
+
+async function postGrade(lectureId: number, grade: GradeType) {
+  const response = await api.post<Grade>(`/lectures/${lectureId}/grades`, undefined, {
+    params: {
+      grade,
+    },
+  });
+  return response.data;
+}
+
 const lectureApi = {
   get,
   post,
@@ -77,6 +92,10 @@ const lectureApi = {
   plan: {
     get: getPlan,
     post: postPlan,
+  },
+  grade: {
+    get: getGrade,
+    post: postGrade,
   },
 };
 

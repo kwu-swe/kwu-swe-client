@@ -84,7 +84,7 @@ export interface LecturePlan {
 }
 export interface LecturePlanCreate extends Omit<LecturePlan, "id" | "sizeLimit" | "year" | "lectureStatus" | "courseId" | "courseName" | "professorId" | "professorName"> { }
 
-type LectureAutoSetKeys = "lectureId" | "courseResponseDto" | "professor";
+type LectureAutoSetKeys = "lectureId" | "courseResponseDto" | "professor" | "createdAt";
 interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
 }
