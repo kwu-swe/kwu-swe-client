@@ -1,7 +1,7 @@
 import { cn } from "fast-jsx/util";
 
 // ** types
-import { Announcement } from "@/types/Announcement";
+import { Announcement, AnnouncementList } from "@/types/Announcement";
 import { AssignmentByLecture } from "@/types/Assignment";
 import { Material } from "@/types/Material";
 
@@ -26,7 +26,7 @@ export type Grade =
 
 interface Props {
   assignments: AssignmentByLecture[];
-  announcements: Announcement[];
+  announcements: AnnouncementList[];
   materials: Material[];
   grade?: Grade; // grade prop 추가 (optional로 우선 설정)
   className?: string;
@@ -144,9 +144,9 @@ const LectureStats = ({
             <div className="flex items-center gap-2">
               <p className="font-medium">{announcements.length}개</p>
 
-              {announcements.some((a) => isNewItem(a.createdAt)) && (
+              {/* {announcements.some((a) => isNewItem(a.createdAt)) && (
                 <NewBadge />
-              )}
+              )} */}
             </div>
           </div>
         </div>

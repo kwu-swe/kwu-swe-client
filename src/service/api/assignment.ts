@@ -7,20 +7,20 @@ import {
 } from "@/types/Assignment";
 const api = httpRequest.api();
 
-async function get(assignmentId: number): Promise<ToApi<Assignment>> {
+async function get(assignmentId: number): Promise<Assignment> {
   const response = await api.get<ToApi<Assignment>>(
     `/assignments/${assignmentId}`
   );
-  return response.data;
+  return response.data.result;
 }
 
 async function getByLectureId(
   lectureId: number
-): Promise<ToApi<AssignmentByLecture[]>> {
+): Promise<AssignmentByLecture[]> {
   const response = await api.get<ToApi<AssignmentByLecture[]>>(
     `/assignments/lectures/${lectureId}`
   );
-  return response.data;
+  return response.data.result;
 }
 
 async function post(

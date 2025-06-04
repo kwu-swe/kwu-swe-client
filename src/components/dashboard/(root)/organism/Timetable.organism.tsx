@@ -52,10 +52,11 @@ function parseLectureTime(
   timeAndLocation: Lecture["lectureTimeAndLocation"]
 ): Array<{ dayIndex: number; periodIndex: number; room: string }> {
   if (!timeAndLocation) return [];
-  const result: Array<{ dayIndex: number; periodIndex: number; room: string }> = [];
+  const result: Array<{ dayIndex: number; periodIndex: number; room: string }> =
+    [];
 
   Object.entries(timeAndLocation).forEach(([key, value]) => {
-    const [day, period] = key.split('_');
+    const [day, period] = key.split("_");
     const dayIndex = DAY_MAP[day];
     if (dayIndex === undefined || dayIndex >= MAX_DAYS) return;
 
@@ -70,7 +71,7 @@ function parseLectureTime(
 export default function TimeTable({ lectures }: TimeTableProps) {
   const navigate = useNavigate();
   const containerClasses = {
-    displays: "flex flex-col gap-y-3.5 py-0 md:py-8",
+    displays: "flex flex-col gap-y-3.5 py-0",
     sizes: "w-full",
   };
 
@@ -96,9 +97,7 @@ export default function TimeTable({ lectures }: TimeTableProps) {
 
     if (lectures) {
       lectures.forEach((lecture) => {
-        const parsedTimes = parseLectureTime(
-          lecture.lectureTimeAndLocation
-        );
+        const parsedTimes = parseLectureTime(lecture.lectureTimeAndLocation);
         const lectureColor = getRandomColor(lecture.lectureId);
         parsedTimes.forEach(({ dayIndex, periodIndex, room }) => {
           if (periodIndex < MAX_PERIODS && dayIndex < MAX_DAYS) {
@@ -204,12 +203,15 @@ export default function TimeTable({ lectures }: TimeTableProps) {
                     const isStartOfLectureBlock =
                       periodIndex === 0 ||
                       scheduleTable[periodIndex - 1][dayIndex]?.lectureId !==
-                      lecture.lectureId;
+                        lecture.lectureId;
 
                     if (isStartOfLectureBlock) {
                       let rowSpan = 1;
                       for (let i = periodIndex + 1; i < MAX_PERIODS; i++) {
-                        if (scheduleTable[i][dayIndex]?.lectureId === lecture.lectureId) {
+                        if (
+                          scheduleTable[i][dayIndex]?.lectureId ===
+                          lecture.lectureId
+                        ) {
                           rowSpan++;
                         } else {
                           break;

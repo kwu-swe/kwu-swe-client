@@ -14,10 +14,10 @@ import {
 } from "@tanstack/react-table";
 
 // ** types
-import { Announcement } from "@/types/Announcement";
+import { AnnouncementList } from "@/types/Announcement";
 
 interface Props {
-  data: Announcement[];
+  data: AnnouncementList[];
   count: number;
   page: number;
   totalPages: number;
@@ -41,9 +41,9 @@ const AnnouncementTable = ({
   };
 
   // [#] table render
-  const columnHelper = createColumnHelper<Announcement>();
+  const columnHelper = createColumnHelper<AnnouncementList>();
   const columns = [
-    columnHelper.accessor("id", {
+    columnHelper.accessor("announcementId", {
       header: "번호",
       size: 60,
     }),
@@ -166,8 +166,8 @@ const AnnouncementTable = ({
 
             {table.getRowModel().rows.map((row) => (
               <tr
-                key={row.original.id}
-                onClick={() => onClick(row.original.id)} // 부모로부터 받은 onClick 함수 호출
+                key={row.original.announcementId}
+                onClick={() => onClick(row.original.announcementId)} // 부모로부터 받은 onClick 함수 호출
                 className="hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-all"
               >
                 {row.getVisibleCells().map((cell, index) => (

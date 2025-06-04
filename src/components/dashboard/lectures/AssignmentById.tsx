@@ -96,35 +96,43 @@ export default function LectureAssignmentById({
             <div className={tableStyles.row}>
               <div className={tableStyles.label}>제출 기한</div>
               <div className={tableStyles.value}>
-                {assignment?.dueDate.toLocaleDateString()}
+                {assignment?.dueDate
+                  ? new Date(assignment.dueDate).toLocaleDateString()
+                  : "-"}
               </div>
             </div>
-            {assignment?.extendedDueDate && (
+
+            {/* {assignment?.extendedDueDate && (
               <div className={tableStyles.row}>
                 <div className={tableStyles.label}>연장 기한</div>
                 <div className={tableStyles.value}>
                   {assignment?.extendedDueDate.toLocaleDateString()}
                 </div>
               </div>
-            )}
-            <div className={tableStyles.row}>
-              <div className={tableStyles.label}>재제출</div>
-              <div className={tableStyles.value}>
-                {assignment?.allowResubmission ? "허용" : "불가"}
-              </div>
-            </div>
+            )} */}
+
             <div className={tableStyles.row}>
               <div className={cn(tableStyles.label, "align-top")}>첨부파일</div>
               <div className={tableStyles.value}>
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
-                    <MdAttachFile className="text-gray-500" size={16} />
-                    <span>과제설명서.pdf</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
-                    <MdAttachFile className="text-gray-500" size={16} />
-                    <span>참고자료.zip</span>
-                  </div>
+                  {assignment?.encodedFiles?.map((fileUrl, index) => (
+                    <a
+                      key={index}
+                      href={fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900"
+                    >
+                      <MdAttachFile className="text-gray-500" size={16} />
+                      <span>첨부파일 {index + 1}</span>
+                    </a>
+                  ))}
+                  {(!assignment?.encodedFiles ||
+                    assignment.encodedFiles.length === 0) && (
+                    <span className="text-sm text-gray-500">
+                      첨부파일이 없습니다.
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

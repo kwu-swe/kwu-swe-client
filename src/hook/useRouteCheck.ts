@@ -33,8 +33,8 @@ export function useRouteCheck(options: RouteCheckOptions = {}) {
         //   return;
         // }
 
-        // 임시 딜레이 (실제 구현 시 제거)
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        // TODO : 임시 딜레이 (실제 구현 시 제거)
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setIsChecking(false);
       } catch (error) {

@@ -6,14 +6,15 @@ export interface Assignment {
   assignmentId: number;
   title: string;
   content: string;
-  dueDate: Date;
-  dueDateAfterDays: number;
+  dueDate: string;
+  createdAt: string;
   encodedFiles: string[];
+  submitAssignmentResponseDto: any | null;
 }
 
-export interface AssignmentByLecture extends Pick<Assignment, "assignmentId" | "title" | "dueDate"> { }
-export interface AssignmentCreate extends Omit<Assignment, "assignmentId"> { }
-
+export interface AssignmentByLecture
+  extends Pick<Assignment, "assignmentId" | "title" | "dueDate"> {}
+export interface AssignmentCreate extends Omit<Assignment, "assignmentId"> {}
 
 export interface AssignmentClient {
   id: number;

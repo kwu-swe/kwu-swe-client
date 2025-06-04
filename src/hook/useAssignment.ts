@@ -41,16 +41,19 @@ export default function useAssignment({
     Error,
     { lectureId: number; assignment: AssignmentCreate }
   >({
-    mutationFn: ({ lectureId, assignment }) => assignmentApi.post(lectureId, assignment),
+    mutationFn: ({ lectureId, assignment }) =>
+      assignmentApi.post(lectureId, assignment),
     onError: (error) => {
-      console.error('과제 등록 실패:', error);
-      alert('과제 등록에 실패했습니다.');
+      console.error("과제 등록 실패:", error);
+      alert("과제 등록에 실패했습니다.");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getAssignmentByLectureId", lectureId] });
-      alert('과제가 성공적으로 등록되었습니다.');
-    }
-  })
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignmentByLectureId", lectureId],
+      });
+      alert("과제가 성공적으로 등록되었습니다.");
+    },
+  });
 
   return {
     assignment,
