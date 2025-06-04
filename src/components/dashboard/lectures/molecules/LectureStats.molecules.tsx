@@ -2,13 +2,33 @@ import { cn } from "fast-jsx/util";
 
 // ** types
 import { Announcement } from "@/types/Announcement";
-import { AssignmentClient } from "@/types/Assignment";
+import { AssignmentByLecture } from "@/types/Assignment";
 import { Material } from "@/types/Material";
 
+// Grade 타입 정의 (String Literal Union)
+export type Grade =
+  | "A+"
+  | "A0"
+  | "A-"
+  | "B+"
+  | "B0"
+  | "B-"
+  | "C+"
+  | "C0"
+  | "C-"
+  | "D+"
+  | "D0"
+  | "D-"
+  | "F"
+  | "P"
+  | "NP"
+  | null;
+
 interface Props {
-  assignments: AssignmentClient[];
+  assignments: AssignmentByLecture[];
   announcements: Announcement[];
   materials: Material[];
+  grade?: Grade; // grade prop 추가 (optional로 우선 설정)
   className?: string;
 }
 
@@ -22,6 +42,7 @@ const LectureStats = ({
   assignments,
   announcements,
   materials,
+  grade = null,
   className,
 }: Props) => {
   const cardStyles = {
@@ -40,6 +61,26 @@ const LectureStats = ({
     label:
       "py-1 px-4.5 text-gray-500 text-xs font-medium w-[120px] bg-gray-100",
     value: "py-1 px-3 text-gray-700 text-sm flex-1",
+    gradeValue: "py-1 px-3 text-sm font-semibold flex-1", // 학점용 스타일 추가
+  };
+
+  // 학점별 스타일 (예시)
+  const gradeStyles: Record<string, string> = {
+    "A+": "text-green-600",
+    A0: "text-green-500",
+    "A-": "text-green-400",
+    "B+": "text-blue-600",
+    B0: "text-blue-500",
+    "B-": "text-blue-400",
+    "C+": "text-yellow-600",
+    C0: "text-yellow-500",
+    "C-": "text-yellow-400",
+    "D+": "text-orange-600",
+    D0: "text-orange-500",
+    "D-": "text-orange-400",
+    F: "text-red-600",
+    P: "text-purple-500",
+    NP: "text-gray-500",
   };
 
   // 최근 3일 이내 생성된 항목인지 확인하는 함수
@@ -66,16 +107,33 @@ const LectureStats = ({
       </div>
 
       <div className="flex flex-col h-full">
+        {/* 취득 학점 행 추가 */}
+        <div className={tableStyles.row}>
+          <div className={tableStyles.label}>취득 학점</div>
+          <div
+            className={cn(
+              tableStyles.gradeValue,
+              grade && gradeStyles[grade] ? gradeStyles[grade] : "text-gray-700"
+            )}
+          >
+            {grade !== null ? grade : "-"}
+          </div>
+        </div>
+
         <div className={tableStyles.row}>
           <div className={tableStyles.label}>과제</div>
           <div className={tableStyles.value}>
             <div className="flex items-center gap-2">
-              <p className="font-medium">{assignments.length}개</p>
-              <p className="text-gray-500 text-xs">
-                (제출: 0/{assignments.length})
-              </p>
+              <p className="font-medium">{assignments.length || 0}개</p>
+              {!!assignments?.length && (
+                <p className="text-gray-500 text-xs">
+                  (제출: 0/{assignments.length})
+                </p>
+              )}
 
-              {assignments.some((a) => isNewItem(a.createdAt)) && <NewBadge />}
+              {/* {assignments.some((a) => isNewItem(a?.createdAt)) && (
+                <NewBadge />
+              )} */}
             </div>
           </div>
         </div>

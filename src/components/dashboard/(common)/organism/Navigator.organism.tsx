@@ -48,6 +48,18 @@ const routes: Route[] = [
       },
     ],
   },
+  {
+    name: "편의 기능",
+    path: "/dashboard/conveniences",
+    icon: MdOutlineEditNote,
+    subRoutes: [
+      {
+        name: "AI 학생 상담",
+        path: "/dashboard/conveniences/consults",
+        icon: MdOutlineEditNote,
+      }
+    ]
+  }
 ];
 
 export default function Navigator() {
@@ -147,9 +159,8 @@ export default function Navigator() {
 
   const subButtonBox = (isSelected?: boolean) => ({
     displays: "flex items-center gap-3 w-full relative",
-    fonts: `leading-none text-sm ${
-      isSelected ? "font-semibold" : "font-medium"
-    }`, // 활성 시 폰트 두께 변경, 기본 폰트 크기 text-sm
+    fonts: `leading-none text-sm ${isSelected ? "font-semibold" : "font-medium"
+      }`, // 활성 시 폰트 두께 변경, 기본 폰트 크기 text-sm
     paddings: isCollapsed ? "px-0 py-2.5" : "pl-8 pr-4 py-2.5", // 높이 줄임 (py-3 -> py-2.5)
     fontColor: isSelected ? "text-kw-brown" : "text-gray-500",
     backgrounds: isSelected ? "bg-amber-50" : "hover:bg-gray-50", // 활성 시 배경색 변경 (bg-gray-50 -> bg-amber-50)
@@ -274,10 +285,10 @@ export default function Navigator() {
                     {(path === route.path ||
                       (isActive &&
                         !route.subRoutes?.some((sr) => path === sr.path))) && ( // 부모 라우트 활성 표시 (서브 라우트가 활성 아닐 때만)
-                      <div
-                        className={cn(...Object.values(selectedIndicator()))}
-                      />
-                    )}
+                        <div
+                          className={cn(...Object.values(selectedIndicator()))}
+                        />
+                      )}
                   </button>
                   {!isCollapsed && route.subRoutes && isExpanded && (
                     <div className="mt-1 space-y-1 pl-2">

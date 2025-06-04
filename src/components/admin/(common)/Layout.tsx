@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   const mainContainer = {
     displays: "flex-1",
-    sizes: "w-full max-w-full md:max-w-5xl mx-auto",
+    sizes: "w-full max-w-full md:max-w-[calc(100%-200px)] mx-auto",
     // paddings: "p-0 md:p-6",
     overflows: "overflow-hidden",
   };

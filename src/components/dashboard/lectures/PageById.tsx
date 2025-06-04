@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 // ** organism
@@ -13,6 +13,8 @@ import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats
 // ** hooks
 import useLecture from "@/hook/useLecture";
 import useAssignment from "@/hook/useAssignment";
+import useMaterial from "@/hook/useMaterial";
+import useAnnouncement from "@/hook/useAnnouncement";
 
 export default function LectureById({ lectureId }: { lectureId?: number }) {
   const navigate = useNavigate();
@@ -20,6 +22,13 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
   const { assignmentsByLecture } = useAssignment({
     lectureId: Number(lectureId),
   });
+  const { materialsByLecture, isLoadingMaterialsByLecture } = useMaterial({
+    lectureId: Number(lectureId),
+  });
+  const { announcementsByLecture, isLoadingAnnouncementsByLecture } =
+    useAnnouncement({
+      lectureId: Number(lectureId),
+    });
 
   // 해당 강의 데이터 찾기
   const lectureData = useMemo(() => {
@@ -27,7 +36,11 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
     return lectures.find((lecture) => lecture.lectureId === Number(lectureId));
   }, [lectureId, lectures]);
 
-  if (isLoading) {
+  if (
+    isLoading ||
+    isLoadingMaterialsByLecture ||
+    isLoadingAnnouncementsByLecture
+  ) {
     return <div>로딩 중...</div>;
   }
 
@@ -74,12 +87,12 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
         <LectureInfo data={lectureData} />
       </div>
       <div className={content.displays}>
-        {/* <LectureStats
-          assignments={assignments}
-          announcements={announcements}
-          materials={materials}
+        <LectureStats
+          assignments={assignmentsByLecture || []}
+          announcements={announcementsByLecture || []}
+          materials={materialsByLecture || []}
           className="h-full"
-        /> */}
+        />
       </div>
 
       {/* 과제 목록 테이블 */}
@@ -99,12 +112,12 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
       <hr className="md:col-span-2 w-full border-gray-100" />
 
       {/* 공지사항 및 자료 테이블 */}
-      {/* <div className={content.displays}>
+      <div className={content.displays}>
         <AnnouncementTable
-          data={announcements}
-          count={announcements.length}
+          data={announcementsByLecture || []}
+          count={announcementsByLecture?.length || 0}
           page={1}
-          totalPages={3}
+          totalPages={1}
           onClick={(id) =>
             navigate(`/dashboard/lectures/${lectureId}/announcement/${id}`)
           }
@@ -115,10 +128,10 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
       </div>
       <div className={content.displays}>
         <MaterialTable
-          data={materials}
-          count={materials.length}
+          data={materialsByLecture || []}
+          count={materialsByLecture?.length || 0}
           page={1}
-          totalPages={5}
+          totalPages={1}
           onClick={(id) =>
             navigate(`/dashboard/lectures/${lectureId}/material/${id}`)
           }
@@ -126,7 +139,7 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
             console.log(page);
           }}
         />
-      </div> */}
+      </div>
     </div>
   );
 }
