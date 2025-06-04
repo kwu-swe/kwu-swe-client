@@ -70,6 +70,7 @@ const LectureCard = ({
     displays: "flex flex-row gap-4",
     texts: "text-sm text-gray-500",
     margins: "mb-3",
+    details: "text-xs text-gray-400",
   };
 
   const stats = {
@@ -164,29 +165,67 @@ const LectureCard = ({
           <MdChevronRight className={cn(arrow, "w-5 h-5")} />
         </div>
 
-        <div className={cn(info)}>
+        <div className={cn(info.displays, info.texts, info.margins)}>
           <p className="font-medium">{data.professor.name} 교수</p>
-          {data.lectureTimeAndLocation &&
-          Object.entries(data.lectureTimeAndLocation).length > 0 ? (
-            <div>
-              {Object.entries(data.lectureTimeAndLocation)
-                .slice(0, 1)
-                .map(([time, location]) => {
-                  const [day, period] = time.split("_");
-                  return (
-                    <>
-                      <p>
-                        {day} {location}호
-                      </p>
-                      <p>{period}교시</p>
-                    </>
-                  );
-                })}
-            </div>
-          ) : (
-            <p>시간/장소 미정</p>
-          )}
+          <div>
+            <p>
+              {data.year}년{" "}
+              {data.semester === "FIRST_SEMESTER"
+                ? "1학기"
+                : data.semester === "SECOND_SEMESTER"
+                ? "2학기"
+                : data.semester === "SUMMER"
+                ? "여름학기"
+                : "겨울학기"}
+            </p>
+            <p className={cn(info.details)}>수강 제한: {data.sizeLimit}명</p>
+            {/* <p className={cn(info.details)}>
+              강의 상태:{" "}
+              {data.lectureStatus === "BEFORE"
+                ? "개설 예정"
+                : data.lectureStatus === "IN_PROGRESS"
+                ? "진행중"
+                : "종료"}
+            </p> */}
+          </div>
         </div>
+
+        {data.lectureTimeAndLocation &&
+        Object.keys(data.lectureTimeAndLocation).length > 0 ? (
+          <div
+            className={cn(info.displays, info.texts, "flex-wrap items-center")}
+          >
+            <p className="font-medium mr-2">시간/장소</p>
+            <div className="flex flex-wrap gap-x-2 gap-y-1">
+              {Object.entries(data.lectureTimeAndLocation).map(
+                ([time, location], index, arr) => {
+                  const [day, period] = time.split("_");
+                  const dayKorean =
+                    { MON: "월", TUE: "화", WED: "수", THU: "목", FRI: "금" }[
+                      day
+                    ] || day;
+                  return (
+                    <span
+                      key={time}
+                      className={cn(info.details, "whitespace-nowrap")}
+                    >
+                      {dayKorean} {period}교시 ({location}호)
+                      {index < arr.length - 1 ? "" : ""}
+                    </span>
+                  );
+                }
+              )}
+            </div>
+          </div>
+        ) : (
+          <p className={cn(info.texts, info.details, "mb-1")}>
+            시간/장소: 미정
+          </p>
+        )}
+
+        {/* <p className={cn(info.texts, info.details, "text-right mt-2")}>
+          개설일: {new Date(data.createdAt).toLocaleDateString()}
+        </p> */}
 
         {/* <div className={cn(stats)}>
           <div className={cn(stat)}>

@@ -63,6 +63,7 @@ interface Lecture {
   year: number;
   lectureStatus: LectureStatus;
   semester: Semester;
+  createdAt: string;
   professor: User;
   courseResponseDto: Omit<Course, "id"> & { courseId: number };
   lectureTimeAndLocation: Partial<Record<LectureTime, number>>;
@@ -72,7 +73,7 @@ type LectureAutoSetKeys = "lectureId" | "courseResponseDto" | "professor";
 interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
 }
-interface LectureUpdate extends Partial<LectureCreate> { }
+interface LectureUpdate extends Partial<LectureCreate> {}
 
 export type {
   LectureTimeAndLocation,
