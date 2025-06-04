@@ -1,5 +1,5 @@
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv) => {
@@ -14,14 +14,6 @@ export default ({ mode }: ConfigEnv) => {
     },
     build: {
       outDir: "build",
-      rollupOptions: {
-        context: 'globalThis',
-        // Disable native optimization to avoid platform-specific dependencies
-        maxParallelFileOps: 1,
-        treeshake: {
-          moduleSideEffects: true
-        }
-      }
     },
     define: {
       "process.env": process.env,
