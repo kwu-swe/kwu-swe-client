@@ -14,6 +14,14 @@ export default ({ mode }: ConfigEnv) => {
     },
     build: {
       outDir: "build",
+      rollupOptions: {
+        context: 'globalThis',
+        // Disable native optimization to avoid platform-specific dependencies
+        maxParallelFileOps: 1,
+        treeshake: {
+          moduleSideEffects: true
+        }
+      }
     },
     define: {
       "process.env": process.env,
