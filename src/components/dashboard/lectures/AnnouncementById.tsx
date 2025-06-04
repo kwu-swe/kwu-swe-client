@@ -138,7 +138,7 @@ export default function LectureAnnouncementById({
             </div>
           </div>
           {/* encodedFiles가 있다면 표시하는 로직 (필요시 추가) */}
-          {announcement.encodedFiles &&
+          {/* {announcement.encodedFiles &&
             announcement.encodedFiles.length > 0 && (
               <div className={tableStyles.row}>
                 <div className={cn(tableStyles.label, "align-top")}>
@@ -155,13 +155,12 @@ export default function LectureAnnouncementById({
                         className="text-sm text-blue-600 hover:underline cursor-pointer"
                       >
                         {`첨부파일 ${index + 1}`}
-                        {/* 실제 파일 이름이나 링크 정보를 표시해야 합니다. */}
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
-            )}
+            )} */}
         </div>
       </div>
     </div>

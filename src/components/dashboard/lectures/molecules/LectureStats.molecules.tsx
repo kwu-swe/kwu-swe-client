@@ -1,9 +1,9 @@
 import { cn } from "fast-jsx/util";
 
 // ** types
-import { Announcement, AnnouncementList } from "@/types/Announcement";
+import { AnnouncementList } from "@/types/Announcement";
 import { AssignmentByLecture } from "@/types/Assignment";
-import { Material } from "@/types/Material";
+import { MaterialByLectureId } from "@/types/Material";
 
 // Grade 타입 정의 (String Literal Union)
 export type Grade =
@@ -27,7 +27,7 @@ export type Grade =
 interface Props {
   assignments: AssignmentByLecture[];
   announcements: AnnouncementList[];
-  materials: Material[];
+  materials: MaterialByLectureId[];
   grade?: Grade; // grade prop 추가 (optional로 우선 설정)
   className?: string;
 }

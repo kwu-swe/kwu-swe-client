@@ -1,8 +1,5 @@
 import { cn } from "fast-jsx/util";
 
-// ** modules
-import dayjs from "dayjs";
-
 // ** components
 import Pagination from "@/components/pagination/Pagination";
 import {
@@ -16,10 +13,10 @@ import {
 import { MdAttachFile } from "react-icons/md";
 
 // ** types
-import { Material } from "@/types/Material";
+import { MaterialByLectureId } from "@/types/Material";
 
 interface Props {
-  data: Material[];
+  data: MaterialByLectureId[];
   count: number;
   page: number;
   totalPages: number;
@@ -38,12 +35,12 @@ const MaterialTable = ({
   className,
 }: Props) => {
   // 날짜 포맷 함수
-  const formatDate = (date: string | Date, format: string = "YYYY-MM-DD") => {
-    return date ? dayjs(date).format(format) : "(입력전)";
-  };
+  // const formatDate = (date: string | Date, format: string = "YYYY-MM-DD") => {
+  //   return date ? dayjs(date).format(format) : "(입력전)";
+  // };
 
   // [#] table render
-  const columnHelper = createColumnHelper<Material>();
+  const columnHelper = createColumnHelper<MaterialByLectureId>();
   const columns = [
     columnHelper.accessor("materialId", {
       header: "번호",

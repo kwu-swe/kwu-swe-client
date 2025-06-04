@@ -14,11 +14,7 @@ import {
 } from "@tanstack/react-table";
 
 // ** types
-import {
-  Assignment,
-  AssignmentByLecture,
-  AssignmentSubmissionStatus,
-} from "@/types/Assignment";
+import { AssignmentByLecture } from "@/types/Assignment";
 
 interface Props {
   lectureId: number;
@@ -53,16 +49,16 @@ const AssignmentTable = ({
   };
 
   // 제출 상태 표시 함수
-  const renderSubmissionStatus = (status: AssignmentSubmissionStatus) => {
-    switch (status) {
-      case "SUBMITTED":
-        return <span className="text-green-500">제출 완료</span>;
-      case "LATE":
-        return <span className="text-yellow-500">지연 제출</span>;
-      default:
-        return <span className="text-gray-500">제출 전</span>;
-    }
-  };
+  // const renderSubmissionStatus = (status: AssignmentSubmissionStatus) => {
+  //   switch (status) {
+  //     case "SUBMITTED":
+  //       return <span className="text-green-500">제출 완료</span>;
+  //     case "LATE":
+  //       return <span className="text-yellow-500">지연 제출</span>;
+  //     default:
+  //       return <span className="text-gray-500">제출 전</span>;
+  //   }
+  // };
 
   // [#] table render
   const columnHelper = createColumnHelper<AssignmentByLecture>();

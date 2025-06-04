@@ -7,20 +7,20 @@ export interface Material {
   content: string;
   writer: string;
   encodedFiles: string[];
+  createdAt: Date;
 }
 
 export interface MaterialByLectureId {
-  materialId: number,
-  title: string,
-  createdAt: Date
+  materialId: number;
+  title: string;
+  createdAt: Date;
 }
 
 export interface MaterialCreate {
-  title: string,
-  content: string,
-  encodedFiles: string[]
+  title: string;
+  content: string;
+  encodedFiles: string[];
 }
-
 
 // 자료 파일 인터페이스 (단일 조회 시 encodedFiles로 대체됨)
 /*
