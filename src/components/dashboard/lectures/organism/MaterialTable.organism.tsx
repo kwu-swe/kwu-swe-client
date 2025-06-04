@@ -154,7 +154,7 @@ const MaterialTable = ({
 
           <tbody>
             {!table.getRowModel().rows.length ? (
-              <tr style={{ height: "400px" }}>
+              <tr style={{ height: "140px" }}>
                 <td
                   className={cn(
                     tableStyles.cell,
