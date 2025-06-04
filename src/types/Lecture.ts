@@ -69,11 +69,26 @@ interface Lecture {
   lectureTimeAndLocation: Partial<Record<LectureTime, number>>;
 }
 
+export interface LecturePlan {
+  id: number,
+  sizeLimit: number,
+  year: number,
+  lectureStatus: LectureStatus,
+  semester: Semester,
+  courseId: number,
+  courseName: string,
+  professorId: number,
+  professorName: string;
+  goal: string;
+  description: string;
+}
+export interface LecturePlanCreate extends Omit<LecturePlan, "id" | "sizeLimit" | "year" | "lectureStatus" | "courseId" | "courseName" | "professorId" | "professorName"> { }
+
 type LectureAutoSetKeys = "lectureId" | "courseResponseDto" | "professor";
 interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
 }
-interface LectureUpdate extends Partial<LectureCreate> {}
+interface LectureUpdate extends Partial<LectureCreate> { }
 
 export type {
   LectureTimeAndLocation,

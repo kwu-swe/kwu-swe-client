@@ -3,6 +3,8 @@ import { Lecture } from "@/types/Lecture";
 import { useState } from "react";
 import AssignmentModal from "../molecule/AssignmentModal.molecule";
 import AssignmentListModal from "../molecule/AssignmentListModal.molecule";
+import AnnouncementModal from "../molecule/AnnouncementModal.molecule";
+import AnnouncementListModal from "../molecule/AnnouncementListModal.molecule";
 import imageApi from "@/service/api/image";
 
 const formatLectureTime = (key: string) => {
@@ -18,9 +20,11 @@ const formatLectureTime = (key: string) => {
 };
 
 export default function LectureBox({ lecture }: { lecture: Lecture }) {
-	const { postAssignment, assignmentsByLecture, isAssignmentByLecture } = useAssignment({ lectureId: lecture.lectureId });
+	const { postAssignment } = useAssignment({ lectureId: lecture.lectureId });
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
+	const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
+	const [isAnnouncementListModalOpen, setIsAnnouncementListModalOpen] = useState(false);
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [dueDateAfterDays, setDueDateAfterDays] = useState(7);
@@ -121,6 +125,18 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 				{/* Actions */}
 				<div className="col-span-2 flex justify-end space-x-2">
 					<button
+						onClick={() => setIsAnnouncementModalOpen(true)}
+						className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+					>
+						공지사항 등록
+					</button>
+					<button
+						onClick={() => setIsAnnouncementListModalOpen(true)}
+						className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors opacity-80 hover:opacity-100"
+					>
+						공지사항 목록
+					</button>
+					<button
 						onClick={() => setIsModalOpen(true)}
 						className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
 					>
@@ -174,6 +190,18 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 			<AssignmentListModal
 				isOpen={isListModalOpen}
 				onClose={() => setIsListModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+
+			<AnnouncementModal
+				isOpen={isAnnouncementModalOpen}
+				onClose={() => setIsAnnouncementModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+
+			<AnnouncementListModal
+				isOpen={isAnnouncementListModalOpen}
+				onClose={() => setIsAnnouncementListModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
 		</div>
