@@ -49,3 +49,12 @@ export interface AssignmentSubmission {
   submittedAt: Date;
   // ~
 }
+
+export interface Submission {
+  submissionId: number,
+  title: string,
+  content: string,
+  encodedFiles: string[]
+}
+
+export interface SubmissionCreate extends Omit<Submission, "submissionId"> { }

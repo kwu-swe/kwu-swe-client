@@ -5,6 +5,8 @@ import AssignmentModal from "../molecule/AssignmentModal.molecule";
 import AssignmentListModal from "../molecule/AssignmentListModal.molecule";
 import AnnouncementModal from "../molecule/AnnouncementModal.molecule";
 import AnnouncementListModal from "../molecule/AnnouncementListModal.molecule";
+import MaterialModal from "../molecule/MaterialModal.molecule";
+import MaterialListModal from "../molecule/MaterialListModal.molecule";
 import imageApi from "@/service/api/image";
 
 const formatLectureTime = (key: string) => {
@@ -25,6 +27,8 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
 	const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
 	const [isAnnouncementListModalOpen, setIsAnnouncementListModalOpen] = useState(false);
+	const [isMaterialModalOpen, setIsMaterialModalOpen] = useState(false);
+	const [isMaterialListModalOpen, setIsMaterialListModalOpen] = useState(false);
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [dueDateAfterDays, setDueDateAfterDays] = useState(7);
@@ -123,31 +127,51 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 				</div>
 
 				{/* Actions */}
-				<div className="col-span-2 flex justify-end space-x-2">
-					<button
-						onClick={() => setIsAnnouncementModalOpen(true)}
-						className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
-					>
-						공지사항 등록
-					</button>
-					<button
-						onClick={() => setIsAnnouncementListModalOpen(true)}
-						className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors opacity-80 hover:opacity-100"
-					>
-						공지사항 목록
-					</button>
-					<button
-						onClick={() => setIsModalOpen(true)}
-						className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
-					>
-						과제 등록
-					</button>
-					<button
-						onClick={() => setIsListModalOpen(true)}
-						className="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded hover:bg-gray-200 transition-colors"
-					>
-						과제 목록
-					</button>
+				<div className="col-span-2 flex justify-end items-center gap-1.5">
+					<div className="flex gap-1">
+						<button
+							onClick={() => setIsAnnouncementModalOpen(true)}
+							className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+						>
+							공지사항 +
+						</button>
+						<button
+							onClick={() => setIsAnnouncementListModalOpen(true)}
+							className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors opacity-75 hover:opacity-100"
+						>
+							목록
+						</button>
+					</div>
+
+					<div className="flex gap-1">
+						<button
+							onClick={() => setIsMaterialModalOpen(true)}
+							className="px-2 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+						>
+							자료 +
+						</button>
+						<button
+							onClick={() => setIsMaterialListModalOpen(true)}
+							className="px-2 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors opacity-75 hover:opacity-100"
+						>
+							목록
+						</button>
+					</div>
+
+					<div className="flex gap-1">
+						<button
+							onClick={() => setIsModalOpen(true)}
+							className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+						>
+							과제 +
+						</button>
+						<button
+							onClick={() => setIsListModalOpen(true)}
+							className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors opacity-75 hover:opacity-100"
+						>
+							목록
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -202,6 +226,18 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 			<AnnouncementListModal
 				isOpen={isAnnouncementListModalOpen}
 				onClose={() => setIsAnnouncementListModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+
+			<MaterialModal
+				isOpen={isMaterialModalOpen}
+				onClose={() => setIsMaterialModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+
+			<MaterialListModal
+				isOpen={isMaterialListModalOpen}
+				onClose={() => setIsMaterialListModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
 		</div>

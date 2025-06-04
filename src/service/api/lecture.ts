@@ -2,6 +2,8 @@ import {
   Lecture,
   LectureAssistantCreate,
   LectureCreate,
+  LecturePlan,
+  LecturePlanCreate,
   LectureUpdate,
 } from "@/types/Lecture";
 import httpRequest from "../axios";
@@ -55,6 +57,15 @@ async function postAssistant(data: LectureAssistantCreate) {
   return response.data;
 }
 
+async function getPlan(lectureId: number) {
+  const response = await api.get<ToApi<LecturePlan>>(`/plans/lectures/${lectureId}`);
+  return response.data;
+}
+async function postPlan(lectureId: number, data: LecturePlanCreate) {
+  const response = await api.post<LecturePlanCreate>(`/plans/lectures/${lectureId}`, data);
+  return response.data;
+}
+
 const lectureApi = {
   get,
   post,
@@ -63,6 +74,10 @@ const lectureApi = {
   postAssistant,
   getStudentLectures,
   postStudentLecture,
+  plan: {
+    get: getPlan,
+    post: postPlan,
+  },
 };
 
 export default lectureApi;

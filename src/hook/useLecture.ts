@@ -3,6 +3,7 @@ import {
   LectureCreate,
   LectureAssistantCreate,
   LectureUpdate,
+  LecturePlanCreate,
 } from "@/types/Lecture";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -91,5 +92,29 @@ export default function useLecture() {
     delete: _delete,
     postAssistant,
     postStudentLecture,
+  };
+}
+
+
+export function usePlan({ lectureId }: { lectureId: number }) {
+  const queryClient = useQueryClient();
+  const { data: plan, isLoading: planLoading } = useQuery({
+    queryKey: ["lecturePlanGet", lectureId],
+    queryFn: () => lectureApi.plan.get(lectureId),
+    staleTime: 0,
+  });
+
+  const { mutate: postPlan } = useMutation({
+    mutationKey: ["lecturePlanPost", lectureId],
+    mutationFn: (data: LecturePlanCreate) => lectureApi.plan.post(lectureId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lecturePlanGet", lectureId] });
+    },
+  });
+
+  return {
+    plan,
+    isLoading: planLoading,
+    postPlan,
   };
 }

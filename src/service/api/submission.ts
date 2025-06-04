@@ -17,6 +17,7 @@ async function getFiles(submissionId: number) {
   const response = await api.get<string[]>(`/submissions/${submissionId}/files`);
   return response.data;
 }
+
 async function postFile(submissionId: number, data: { file: File }) {
   const response = await api.post<any>(`/submissions/${submissionId}/files`, data);
   return response.data;
