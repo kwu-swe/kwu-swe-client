@@ -137,9 +137,9 @@ export function useGrade({ lectureId }: { lectureId: number }) {
     staleTime: 0,
   });
 
-  const { mutate: postGrade } = useMutation({
+  const { mutate: patchGrade } = useMutation({
     mutationKey: ["lectureGradePost", lectureId],
-    mutationFn: (data: GradeType) => lectureApi.grade.post(lectureId, data),
+    mutationFn: (data: GradeType) => lectureApi.grade.patch(lectureId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lectureGradeGet", lectureId] });
     },
@@ -148,6 +148,6 @@ export function useGrade({ lectureId }: { lectureId: number }) {
   return {
     grades,
     isLoading: gradeLoading,
-    postGrade,
+    patchGrade,
   };
 }

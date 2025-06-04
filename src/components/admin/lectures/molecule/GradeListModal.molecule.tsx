@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function GradeListModal({ lectureId, isOpen, onClose }: Props) {
-  const { grades, isLoading, postGrade } = useGrade({ lectureId });
+  const { grades, isLoading, patchGrade } = useGrade({ lectureId });
   const [selectedStudentId, setSelectedStudentId] = useState<number>();
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
 
@@ -99,7 +99,7 @@ export default function GradeListModal({ lectureId, isOpen, onClose }: Props) {
                 <select
                   onChange={(e) => {
                     const grade = e.target.value as GradeType;
-                    postGrade(grade);
+                    patchGrade(grade);
                     setIsGradeModalOpen(false);
                   }}
                   className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded-md"

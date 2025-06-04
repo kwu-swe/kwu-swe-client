@@ -72,8 +72,8 @@ async function getGrade(lectureId: number) {
   return response.data;
 }
 
-async function postGrade(lectureId: number, grade: GradeType) {
-  const response = await api.post<Grade>(`/lectures/${lectureId}/grades`, undefined, {
+async function patchGrade(lectureId: number, grade: GradeType) {
+  const response = await api.patch<Grade>(`/lectures/${lectureId}/grades`, undefined, {
     params: {
       grade,
     },
@@ -95,7 +95,7 @@ const lectureApi = {
   },
   grade: {
     get: getGrade,
-    post: postGrade,
+    patch: patchGrade,
   },
 };
 
