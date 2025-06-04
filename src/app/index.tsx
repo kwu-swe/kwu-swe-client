@@ -12,6 +12,8 @@ import {
   LectureAssignmentPage,
   LectureAnnouncementPage,
   LectureCoursePage,
+  ConveniencesPage,
+  ConsultsPage,
 } from "./dashboard";
 
 import { SignInPage } from "./sign-in";
@@ -95,8 +97,12 @@ export default function App() {
               element={<LectureAssignmentPage />}
             />
           </Route>
+          {/* 편의 기능 */}
+          <Route path="conveniences">
+            <Route index element={<ConveniencesPage />} />
+            <Route path="consults" element={<ConsultsPage />} />
+          </Route>
         </Route>
-
         {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
