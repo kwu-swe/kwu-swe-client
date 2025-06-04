@@ -1,4 +1,4 @@
-import { Grade, GradeType } from "@/types/Grade";
+import { GradeType } from "@/types/Grade";
 import { useGrade } from "@/hook/useLecture";
 import { useState } from "react";
 
@@ -114,6 +114,8 @@ export default function GradeListModal({ lectureId, isOpen, onClose }: Props) {
                   <option value="D_PLUS">D+</option>
                   <option value="D_ZERO">D0</option>
                   <option value="F">F</option>
+                  <option value="P">P</option>
+                  <option value="NP">NP</option>
                 </select>
               </div>
             </div>
