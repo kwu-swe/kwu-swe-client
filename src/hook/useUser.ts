@@ -4,30 +4,44 @@ import { useEffect } from "react";
 import { UserCreate, UserRole } from "@/types/User";
 import { useLocation } from "react-router-dom";
 
-
 const callback = () => {
-  alert('로그인이 필요합니다.');
-  return window.location.href = '/sign-in';
-}
+  alert("로그인이 필요합니다.");
+  return (window.location.href = "/sign-in");
+};
 
 const callbackAdmin = () => {
-  alert('교수님만 접근 가능합니다.');
-  return window.location.href = '/dashboard';
-}
+  alert("교수님만 접근 가능합니다.");
+  return (window.location.href = "/dashboard");
+};
 
 export default function useUser() {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
   const { mutate: postStudent } = useMutation({
-    mutationFn: ({ userCreate, role }: { userCreate: UserCreate, role: UserRole }) => userApi.post(role, userCreate),
-  })
-  const { data: user, isLoading, error } = useQuery({
-    queryKey: ['user'],
+    mutationFn: ({
+      userCreate,
+      role,
+    }: {
+      userCreate: UserCreate;
+      role: UserRole;
+    }) => userApi.post(role, userCreate),
+  });
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["user"],
     queryFn: userApi.get,
-  })
+  });
   useEffect(() => {
-    if (pathname === '/sign-in') return;
-    if (pathname.includes('/admin') && !isLoading && user?.role !== 'ROLE_PROFESSOR') callbackAdmin();
+    if (pathname === "/sign-in") return;
+    if (
+      pathname.includes("/admin") &&
+      !isLoading &&
+      user?.role !== "ROLE_PROFESSOR"
+    )
+      callbackAdmin();
     if (!isLoading && !!error) callback();
-  }, [isLoading]);
-  return { user, postStudent };
+  }, [isLoading, user, pathname, error]);
+  return { user, postStudent, isLoading, error };
 }

@@ -15,7 +15,9 @@ async function getIsValid() {
 }
 
 async function post(role: UserRole, data: UserCreate) {
-  const response = await api.post<UserCreate>("/users", data, { params: { role } });
+  const response = await api.post<UserCreate>("/users", data, {
+    params: { role },
+  });
   return response.data;
 }
 async function patch(studentNumber: string, data: UserUpdate) {
