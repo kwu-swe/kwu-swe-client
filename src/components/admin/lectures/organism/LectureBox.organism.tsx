@@ -10,6 +10,10 @@ import MaterialListModal from "../molecule/MaterialListModal.molecule";
 import LecturePlanModal from "../molecule/LecturePlanModal.molecule";
 import LecturePlanViewModal from "../molecule/LecturePlanViewModal.molecule";
 import imageApi from "@/service/api/image";
+import GradeListModal from "../molecule/GradeListModal.molecule";
+import { Button } from "fast-jsx";
+import { cn } from "fast-jsx/util";
+import Controller from "../molecule/Controller.organism";
 
 const formatLectureTime = (key: string) => {
 	const [day, period] = key.split("_");
@@ -33,6 +37,9 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 	const [isMaterialListModalOpen, setIsMaterialListModalOpen] = useState(false);
 	const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
 	const [isPlanViewModalOpen, setIsPlanViewModalOpen] = useState(false);
+	const [isGradeListModalOpen, setIsGradeListModalOpen] = useState(false);
+	const [isControllerOpen, setIsControllerOpen] = useState(false);
+
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [dueDateAfterDays, setDueDateAfterDays] = useState(7);
@@ -92,7 +99,7 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 	};
 
 	return (
-		<div className="bg-white rounded-lg border border-gray-100 p-4 hover:shadow-sm transition-shadow">
+		<div className="relative bg-white rounded-lg border border-gray-100 p-4 hover:shadow-sm transition-shadow">
 			<div className="grid grid-cols-12 gap-4 items-center">
 				{/* Course Info */}
 				<div className="col-span-3">
@@ -128,9 +135,15 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 					<p className="text-sm text-gray-500">상태</p>
 					<p className="font-medium text-gray-900">{lecture.lectureStatus}</p>
 				</div>
-
+				<button
+					onClick={() => setIsControllerOpen(true)}
+					className="relative w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+				>
+					+
+					<Controller isOpen={isControllerOpen} />
+				</button>
 				{/* Actions */}
-				<div className="col-span-2 flex justify-end items-center gap-1.5">
+				{/* <div className="col-span-2 flex justify-end items-center gap-1.5">
 					<div className="flex gap-1">
 						<button
 							onClick={() => setIsPlanModalOpen(true)}
@@ -186,8 +199,14 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 						>
 							목록
 						</button>
+						<button
+							onClick={() => setIsGradeListModalOpen(true)}
+							className="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+						>
+							성적관리
+						</button>
 					</div>
-				</div>
+				</div> */}
 			</div>
 
 			{/* Lecture Time */}
@@ -231,40 +250,39 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 				onClose={() => setIsListModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
-
 			<AnnouncementModal
 				isOpen={isAnnouncementModalOpen}
 				onClose={() => setIsAnnouncementModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
-
 			<AnnouncementListModal
 				isOpen={isAnnouncementListModalOpen}
 				onClose={() => setIsAnnouncementListModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
-
 			<MaterialModal
 				isOpen={isMaterialModalOpen}
 				onClose={() => setIsMaterialModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
-
 			<MaterialListModal
 				isOpen={isMaterialListModalOpen}
 				onClose={() => setIsMaterialListModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
-
 			<LecturePlanModal
 				isOpen={isPlanModalOpen}
 				onClose={() => setIsPlanModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
-
 			<LecturePlanViewModal
 				isOpen={isPlanViewModalOpen}
 				onClose={() => setIsPlanViewModalOpen(false)}
+				lectureId={lecture.lectureId}
+			/>
+			<GradeListModal
+				isOpen={isGradeListModalOpen}
+				onClose={() => setIsGradeListModalOpen(false)}
 				lectureId={lecture.lectureId}
 			/>
 		</div>

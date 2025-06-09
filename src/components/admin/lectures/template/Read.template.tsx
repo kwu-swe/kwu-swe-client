@@ -12,8 +12,6 @@ export default function ReadTemplate({
   lectures: Lecture[];
   isLoading: boolean;
 }) {
-  const [selectedLectureId, setSelectedLectureId] = useState<number>();
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[200px]">
@@ -32,28 +30,19 @@ export default function ReadTemplate({
           </div>
         </div>
       </div>
-      
+
       <div className="p-4">
         <Action.Replace actions={[[!lectures?.length, <NoData key="noData" />]]}>
           <div className="space-y-4">
             {lectures?.map((lecture: Lecture) => (
               <div key={lecture.lectureId} className="flex items-start gap-2">
                 <LectureBox lecture={lecture} />
-                <button
-                  onClick={() => setSelectedLectureId(lecture.lectureId)}
-                  className="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
-                >
-                  성적관리
-                </button>
+
               </div>
             ))}
           </div>
         </Action.Replace>
-        <GradeListModal
-          isOpen={!!selectedLectureId}
-          onClose={() => setSelectedLectureId(undefined)}
-          lectureId={selectedLectureId!}
-        />
+
       </div>
     </div>
   );

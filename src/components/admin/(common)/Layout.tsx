@@ -23,14 +23,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   };
 
   const content = {
-    displays: "flex-1", // bg-white rounded-none md:rounded-lg shadow-sm
+    displays: "flex-1 relative h-full", // bg-white rounded-none md:rounded-lg shadow-sm
     sizes: "p-4 md:p-5 pb-14",
     overflow: "overflow-y-auto",
   };
 
   const mainContainer = {
     displays: "flex-1",
-    sizes: "w-full max-w-full md:max-w-[calc(100%-200px)] mx-auto",
+    sizes: "w-full max-w-full md:max-w-5xl mx-auto",
     // paddings: "p-0 md:p-6",
     overflows: "overflow-hidden",
   };

@@ -96,8 +96,6 @@ export default function App() {
             />
           </Route>
         </Route>
-
-        {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
