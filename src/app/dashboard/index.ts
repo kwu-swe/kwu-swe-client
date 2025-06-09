@@ -9,3 +9,8 @@ export { default as LectureAssignmentPage } from "./lectures/[lectureId]/assignm
 export { default as LectureAnnouncementPage } from "./lectures/[lectureId]/announcement/[announcement]/page";
 // 과목 페이지
 export { default as LectureCoursePage } from "./courses/page";
+
+
+// 편의 기능
+export { default as ConveniencesPage } from "./conveniences/page";
+export { default as ConsultsPage } from "./conveniences/consults/page";
