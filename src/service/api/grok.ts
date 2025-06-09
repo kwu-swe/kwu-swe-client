@@ -1,11 +1,22 @@
-import { GrokResponseBody, Message } from "@/types/Grok";
-import httpRequest from "../axios";
-
-const api = httpRequest.subApi();
-
-async function post(messages: Message[]) {
-	const response = await api.post<Message[], GrokResponseBody>('/grok', messages)
-	return response.data
+import { Message } from "@/types/Grok";
+import { GrokResponseBody } from "@/types/Grok";
+import axios from "axios";
+const httpRequest = axios.create({
+	baseURL: "/",
+	headers: {
+		"Access-Control-Allow-Origin": "*",
+		"Content-Type": "application/json; charset=utf-8"
+	}
+});
+// const baseUrl = import.meta.env.VITE_SUB_API_ORIGIN;
+async function post(messages: Message[]): Promise<Message> {
+	try {
+		const response = await httpRequest.post('/api/grok', messages);
+		return response.data;
+	} catch (error) {
+		console.error('Grok API Error:', error);
+		throw error;
+	}
 }
 
 const grokApi = {

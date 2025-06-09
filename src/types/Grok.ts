@@ -14,4 +14,5 @@ interface Choice {
 
 interface GrokResponseBody {
 	choices: Choice[];
+	data: string;
 }
