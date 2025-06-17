@@ -35,12 +35,40 @@ async function post(
   );
   return response.data as ToApi<string>;
 }
-async function getSubmissions(assignmentId: number): Promise<ToApi<Submission>> {
-  const response = await api.get<ToApi<Submission>>(`/submissions/assignments/${assignmentId}`);
+async function getSubmissions(
+  assignmentId: number
+): Promise<ToApi<Submission>> {
+  const response = await api.get<ToApi<Submission>>(
+    `/submissions/assignments/${assignmentId}`
+  );
   return response.data;
 }
-async function postSubmission(assignmentId: number, submission: SubmissionCreate): Promise<ToApi<string>> {
-  const response = await api.post<SubmissionCreate, ToApi<string>>(`/submissions/assignments/${assignmentId}`, submission);
+async function postSubmission(
+  assignmentId: number,
+  submission: SubmissionCreate
+): Promise<ToApi<string>> {
+  const response = await api.post<SubmissionCreate, ToApi<string>>(
+    `/submissions/assignments/${assignmentId}`,
+    submission
+  );
+  return response.data as ToApi<string>;
+}
+
+async function updateSubmission(
+  submissionId: number,
+  submission: SubmissionCreate
+): Promise<ToApi<string>> {
+  const response = await api.put<SubmissionCreate, ToApi<string>>(
+    `/submissions/${submissionId}`,
+    submission
+  );
+  return response.data as ToApi<string>;
+}
+
+async function deleteSubmission(submissionId: number): Promise<ToApi<string>> {
+  const response = await api.delete<ToApi<string>>(
+    `/submissions/${submissionId}`
+  );
   return response.data as ToApi<string>;
 }
 
@@ -50,6 +78,8 @@ const assignmentApi = {
   post,
   getSubmissions,
   postSubmission,
+  updateSubmission,
+  deleteSubmission,
 };
 
 export default assignmentApi;

@@ -56,12 +56,12 @@ export default function LectureMaterialById({
             <div className={tableStyles.label}>제목</div>
             <div className={tableStyles.value}>{material?.title}</div>
           </div>
-          <div className={tableStyles.row}>
+          {/* <div className={tableStyles.row}>
             <div className={tableStyles.label}>작성일</div>
             <div className={tableStyles.value}>
               {material?.createdAt?.toLocaleDateString()}
             </div>
-          </div>
+          </div> */}
           <div className={tableStyles.row}>
             <div className={cn(tableStyles.label, "align-top")}>내용</div>
             <div className={tableStyles.value}>

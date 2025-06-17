@@ -7,21 +7,16 @@ import { MaterialByLectureId } from "@/types/Material";
 
 // Grade 타입 정의 (String Literal Union)
 export type Grade =
-  | "A+"
-  | "A0"
-  | "A-"
-  | "B+"
-  | "B0"
-  | "B-"
-  | "C+"
-  | "C0"
-  | "C-"
-  | "D+"
-  | "D0"
-  | "D-"
+  | "A_PLUS"
+  | "A"
+  | "B_PLUS"
+  | "B"
+  | "C_PLUS"
+  | "C"
+  | "D_PLUS"
+  | "D"
   | "F"
-  | "P"
-  | "NP"
+  | "IN_PROGRESS"
   | null;
 
 interface Props {
@@ -66,21 +61,16 @@ const LectureStats = ({
 
   // 학점별 스타일 (예시)
   const gradeStyles: Record<string, string> = {
-    "A+": "text-green-600",
-    A0: "text-green-500",
-    "A-": "text-green-400",
-    "B+": "text-blue-600",
-    B0: "text-blue-500",
-    "B-": "text-blue-400",
-    "C+": "text-yellow-600",
-    C0: "text-yellow-500",
-    "C-": "text-yellow-400",
-    "D+": "text-orange-600",
-    D0: "text-orange-500",
-    "D-": "text-orange-400",
+    A_PLUS: "text-green-600",
+    A: "text-green-500",
+    B_PLUS: "text-blue-600",
+    B: "text-blue-500",
+    C_PLUS: "text-yellow-600",
+    C: "text-yellow-500",
+    D_PLUS: "text-orange-600",
+    D: "text-orange-500",
     F: "text-red-600",
-    P: "text-purple-500",
-    NP: "text-gray-500",
+    IN_PROGRESS: "text-gray-500",
   };
 
   // 최근 3일 이내 생성된 항목인지 확인하는 함수
@@ -89,6 +79,15 @@ const LectureStats = ({
       new Date().getTime() - new Date(createdAt).getTime() <
       3 * 24 * 60 * 60 * 1000
     );
+  };
+
+  const gradeToDisplay = (grade: Grade) => {
+    if (grade === "A_PLUS") return "A+";
+    if (grade === "B_PLUS") return "B+";
+    if (grade === "C_PLUS") return "C+";
+    if (grade === "D_PLUS") return "D+";
+    if (grade === "IN_PROGRESS") return "진행중";
+    return grade;
   };
 
   return (
@@ -116,7 +115,7 @@ const LectureStats = ({
               grade && gradeStyles[grade] ? gradeStyles[grade] : "text-gray-700"
             )}
           >
-            {grade !== null ? grade : "-"}
+            {grade !== null ? gradeToDisplay(grade) : "-"}
           </div>
         </div>
 

@@ -29,7 +29,7 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
     useAnnouncement({
       lectureId: Number(lectureId),
     });
-  console.log(assignmentsByLecture);
+
   // 해당 강의 데이터 찾기
   const lectureData = useMemo(() => {
     if (!lectureId || !lectures) return null;
@@ -91,6 +91,7 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
           assignments={assignmentsByLecture || []}
           announcements={announcementsByLecture || []}
           materials={materialsByLecture || []}
+          grade={lectureData?.grade}
           className="h-full"
         />
       </div>

@@ -34,12 +34,12 @@ const LectureInfo = ({ data, className }: Props) => {
     return semester;
   };
 
-  const lectureStatusToString = (status: Lecture["lectureStatus"]) => {
-    if (status === "BEFORE") return "개설 예정";
-    if (status === "IN_PROGRESS") return "진행중";
-    if (status === "COMPLETED") return "종료";
-    return status;
-  };
+  // const lectureStatusToString = (status: Lecture["lectureStatus"]) => {
+  //   if (status === "BEFORE") return "개설 예정";
+  //   if (status === "IN_PROGRESS") return "진행중";
+  //   if (status === "COMPLETED") return "종료";
+  //   return status;
+  // };
 
   const dayToKorean = (day: string) => {
     return (
