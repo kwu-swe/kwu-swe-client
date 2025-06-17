@@ -13,6 +13,7 @@ import {
   MdCheckCircle,
   MdInfo,
 } from "react-icons/md";
+import PageTitle from "./(common)/organisms/PageTitle.organism";
 
 export default function AdminPage() {
   const { user } = useUser();
@@ -22,15 +23,8 @@ export default function AdminPage() {
   const navigate = useNavigate();
 
   const container = {
-    base: "w-full min-h-screen bg-gradient-to-br from-gray-50 to-white",
+    base: "w-full min-h-screen",
     padding: "p-6 md:p-8",
-  };
-
-  const welcomeSection = {
-    container: "mb-8",
-    title: "text-3xl md:text-4xl font-bold text-gray-900 mb-2",
-    subtitle: "text-lg text-gray-600",
-    accent: "text-kw-brown font-semibold",
   };
 
   const statsGrid = {
@@ -102,20 +96,6 @@ export default function AdminPage() {
       path: "/admin/locations",
       features: ["강의실 등록", "시설 정보 관리", "예약 현황 조회"],
     },
-    // {
-    //   title: "통계 및 분석",
-    //   description: "강의 및 사용자 관련 통계를 확인하고 분석합니다.",
-    //   icon: MdBarChart,
-    //   path: "/admin/analytics",
-    //   features: ["수강 통계", "사용자 활동 분석", "시스템 성능 모니터링"],
-    // },
-    // {
-    //   title: "시스템 설정",
-    //   description: "전체 시스템 설정과 환경을 관리합니다.",
-    //   icon: MdSettings,
-    //   path: "/admin/settings",
-    //   features: ["시스템 환경 설정", "백업 및 복원", "보안 설정"],
-    // },
   ];
 
   // 실제 데이터 기반 통계
@@ -138,12 +118,6 @@ export default function AdminPage() {
       trend: "사용 가능",
       icon: MdLocationOn,
     },
-    // {
-    //   label: "현재 접속자",
-    //   value: "1",
-    //   trend: user?.name || "관리자",
-    //   icon: MdPeople,
-    // },
   ];
 
   const handleCardClick = (path: string) => {
@@ -152,17 +126,7 @@ export default function AdminPage() {
 
   return (
     <div className={cn(container)}>
-      {/* Welcome Section */}
-      <div className={cn(welcomeSection.container)}>
-        <h1 className={cn(welcomeSection.title)}>
-          안녕하세요,{" "}
-          <span className={cn(welcomeSection.accent)}>{user?.name}</span> 교수님
-          👋
-        </h1>
-        <p className={cn(welcomeSection.subtitle)}>
-          오늘도 광운대학교 학사 관리 시스템에 오신 것을 환영합니다.
-        </p>
-      </div>
+      <PageTitle showWelcome={true} userName={user?.name} />
 
       {/* Statistics Grid */}
       <div className={cn(statsGrid.container)}>

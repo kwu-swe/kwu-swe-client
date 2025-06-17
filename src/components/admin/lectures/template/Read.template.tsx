@@ -7,6 +7,7 @@ import { User } from "@/types/User";
 import LectureBox from "../organism/LectureBox.organism";
 import LectureCreateModal from "../molecule/LectureCreateModal.molecule";
 import useLocation from "@/hook/useLocation";
+import { cn } from "fast-jsx/util";
 
 export default function ReadTemplate({
   lectures,
@@ -16,7 +17,17 @@ export default function ReadTemplate({
   isLoading: boolean;
 }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { locations } = useLocation()
+  const { locations } = useLocation();
+
+  const cardStyles = {
+    base: "flex flex-col bg-white border border-gray-100 overflow-hidden",
+    rounded: "rounded-xl",
+    shadow: "shadow-card",
+    body: "flex flex-col p-4 md:p-8",
+    header:
+      "flex flex-row justify-between items-center p-4 border-b border-gray-100",
+    title: "text-lg font-semibold text-gray-900",
+  };
 
   if (isLoading) {
     return (
@@ -26,7 +37,7 @@ export default function ReadTemplate({
     );
   }
   return (
-    <div className="bg-white rounded-xl shadow-sm">
+    <div className={cn(cardStyles.base, cardStyles.rounded, cardStyles.shadow)}>
       <div className="px-6 py-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">강의 목록</h2>
@@ -44,21 +55,24 @@ export default function ReadTemplate({
         </div>
       </div>
       <div className="p-4">
-        <Action.Replace actions={[[!lectures?.length, <NoData key="noData" />]]}>
+        <Action.Replace
+          actions={[[!lectures?.length, <NoData key="noData" />]]}
+        >
           <div className="space-y-4">
             {lectures?.map((lecture: Lecture) => (
               <div key={lecture.lectureId} className="flex items-start gap-2">
                 <LectureBox locations={locations} lecture={lecture} />
-
               </div>
             ))}
           </div>
         </Action.Replace>
       </div>
-      {isCreateModalOpen && <LectureCreateModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-      />}
+      {isCreateModalOpen && (
+        <LectureCreateModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
