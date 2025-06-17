@@ -1,9 +1,12 @@
 import { Action } from "fast-jsx";
 import { useState } from "react";
 import NoData from "@/design/NoData";
-import { Lecture } from "@/types/Lecture";
+import { Course } from "@/types/Course";
+import { Lecture, LectureCreate } from "@/types/Lecture";
+import { User } from "@/types/User";
 import LectureBox from "../organism/LectureBox.organism";
-import GradeListModal from "../molecule/GradeListModal.molecule";
+import LectureCreateModal from "../molecule/LectureCreateModal.molecule";
+import useLocation from "@/hook/useLocation";
 
 export default function ReadTemplate({
   lectures,
@@ -12,8 +15,9 @@ export default function ReadTemplate({
   lectures: Lecture[];
   isLoading: boolean;
 }) {
-  const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
-  const [selectedLectureId, setSelectedLectureId] = useState<number>();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { locations } = useLocation()
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[200px]">
@@ -26,8 +30,16 @@ export default function ReadTemplate({
       <div className="px-6 py-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">강의 목록</h2>
-          <div className="text-sm text-gray-500">
-            총 {lectures?.length || 0}개의 강의
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-500">
+              총 {lectures?.length || 0}개의 강의
+            </div>
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 transition-colors"
+            >
+              강의 생성
+            </button>
           </div>
         </div>
       </div>
@@ -36,30 +48,17 @@ export default function ReadTemplate({
           <div className="space-y-4">
             {lectures?.map((lecture: Lecture) => (
               <div key={lecture.lectureId} className="flex items-start gap-2">
-                <LectureBox lecture={lecture} />
-                <button
-                  onClick={() => {
-                    setIsGradeModalOpen(true)
-                    setSelectedLectureId(lecture.lectureId)
-                  }}
-                  className="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
-                >
-                  성적관리
-                </button>
+                <LectureBox locations={locations} lecture={lecture} />
+
               </div>
             ))}
           </div>
         </Action.Replace>
-        {isGradeModalOpen && <GradeListModal
-          isOpen={isGradeModalOpen}
-          setIsOpen={setIsGradeModalOpen}
-          onClose={() => {
-            setSelectedLectureId(undefined)
-            setIsGradeModalOpen(false)
-          }}
-          lectureId={selectedLectureId!}
-        />}
       </div>
+      {isCreateModalOpen && <LectureCreateModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />}
     </div>
   );
 }

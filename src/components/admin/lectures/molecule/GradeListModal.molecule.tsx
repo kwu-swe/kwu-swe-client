@@ -18,7 +18,7 @@ export default function GradeListModal({ lectureId, isOpen, setIsOpen, onClose }
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg w-full max-w-2xl">
         <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-          <h3 className="text-lg font-semibold">성적 관리</h3>
+          <h3 className="text-lg font-semibold"> </h3>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-500"

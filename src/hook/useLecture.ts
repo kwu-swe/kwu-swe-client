@@ -23,8 +23,12 @@ export default function useLecture() {
       return lectureApi.post(user.code, lecture);
     },
     onSuccess: () => {
+      alert("강의 생성 성공");
       setIsCreateMode(false);
       queryClient.invalidateQueries({ queryKey: ["lectureGet"] });
+    },
+    onError: () => {
+      alert("강의 생성 실패");
     },
   });
 
