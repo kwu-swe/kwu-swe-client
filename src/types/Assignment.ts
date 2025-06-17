@@ -6,7 +6,7 @@ export interface Assignment {
   assignmentId: number;
   title: string;
   content: string;
-  dueDate: string;
+  dueDate: Date;
   createdAt: string;
   encodedFiles: string[];
   submitAssignmentResponseDto: any | null;

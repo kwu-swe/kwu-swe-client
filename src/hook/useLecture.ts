@@ -125,7 +125,7 @@ export function usePlan({ lectureId }: { lectureId: number }) {
   };
 }
 
-export function useGrade({ lectureId }: { lectureId: number }) {
+export function useGrade({ lectureId, flag }: { lectureId: number, flag?: boolean }) {
   const queryClient = useQueryClient();
   const { data: grades, isLoading: gradeLoading } = useQuery<Grade[]
   >({
@@ -134,7 +134,7 @@ export function useGrade({ lectureId }: { lectureId: number }) {
       const response = await lectureApi.grade.get(lectureId);
       return response.result;
     },
-    staleTime: 0,
+    enabled: typeof lectureId !== "undefined" && !!flag,
   });
 
   const { mutate: patchGrade } = useMutation({

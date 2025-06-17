@@ -22,7 +22,6 @@ export default ({ mode }: ConfigEnv) => {
         }
       }
     },
-
     plugins: [react()],
     resolve: {
       alias: [

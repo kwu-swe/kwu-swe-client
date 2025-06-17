@@ -1,7 +1,6 @@
 import { Shelf } from "fast-jsx";
 import { cn } from "fast-jsx/util";
 import { Button, Input, Select } from "fast-jsx";
-import { Course } from "@/types/Course";
 import { LectureCreate, LectureTime, Semester } from "@/types/Lecture";
 import useCourse from "@/hook/useCourse";
 import useLocation from "@/hook/useLocation";

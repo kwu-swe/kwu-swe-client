@@ -1,5 +1,4 @@
 import { useRef, useEffect } from "react";
-import { AssignmentByLecture } from "@/types/Assignment";
 import useAssignment from "@/hook/useAssignment";
 
 interface AssignmentListModalProps {
@@ -22,12 +21,10 @@ export default function AssignmentListModal({
         onClose();
       }
     };
-
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "unset";
@@ -79,13 +76,13 @@ export default function AssignmentListModal({
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
             </div>
-          ) : assignmentsByLecture?.result?.length === 0 ? (
+          ) : assignmentsByLecture?.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               등록된 과제가 없습니다.
             </div>
           ) : (
             <div className="space-y-4">
-              {assignmentsByLecture?.result?.map((assignment) => (
+              {assignmentsByLecture?.map((assignment) => (
                 <div
                   key={assignment.assignmentId}
                   className="bg-gray-50 rounded-lg p-4 space-y-2"

@@ -72,13 +72,12 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 
 			const dueDate = new Date();
 			dueDate.setDate(dueDate.getDate() + dueDateAfterDays);
-
 			await postAssignment({
 				lectureId: lecture.lectureId,
 				assignment: {
 					title,
 					content,
-					dueDate: dueDate.toISOString(),
+					dueDate,
 					createdAt: new Date().toISOString(),
 					encodedFiles: fileUrls
 				}
@@ -189,7 +188,6 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 					</div>
 				</div>
 			</div>
-
 			{/* Lecture Time */}
 			<div className="mt-3 pt-3 border-t border-gray-100">
 				<p className="text-sm text-gray-500">강의시간</p>
@@ -209,8 +207,7 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 					)}
 				</p>
 			</div>
-
-			<AssignmentModal
+			{isModalOpen && <AssignmentModal
 				isOpen={isModalOpen}
 				onClose={handleModalClose}
 				title={title}
@@ -224,49 +221,42 @@ export default function LectureBox({ lecture }: { lecture: Lecture }) {
 				onFileRemove={(index: number) => setSelectedFiles(files => files.filter((_, i) => i !== index))}
 				onSubmit={handleAssignmentSubmit}
 				lectureId={lecture.lectureId}
-			/>
-
-			<AssignmentListModal
+			/>}
+			{isListModalOpen && <AssignmentListModal
 				isOpen={isListModalOpen}
 				onClose={() => setIsListModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
-
-			<AnnouncementModal
+			/>}
+			{isAnnouncementModalOpen && <AnnouncementModal
 				isOpen={isAnnouncementModalOpen}
 				onClose={() => setIsAnnouncementModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
-
-			<AnnouncementListModal
+			/>}
+			{isAnnouncementListModalOpen && <AnnouncementListModal
 				isOpen={isAnnouncementListModalOpen}
 				onClose={() => setIsAnnouncementListModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
-
-			<MaterialModal
+			/>}
+			{isMaterialModalOpen && <MaterialModal
 				isOpen={isMaterialModalOpen}
 				onClose={() => setIsMaterialModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
-
-			<MaterialListModal
+			/>}
+			{isMaterialListModalOpen && <MaterialListModal
 				isOpen={isMaterialListModalOpen}
 				onClose={() => setIsMaterialListModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
-
-			<LecturePlanModal
+			/>}
+			{isPlanModalOpen && <LecturePlanModal
 				isOpen={isPlanModalOpen}
 				onClose={() => setIsPlanModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
-
-			<LecturePlanViewModal
+			/>}
+			{isPlanViewModalOpen && <LecturePlanViewModal
 				isOpen={isPlanViewModalOpen}
 				onClose={() => setIsPlanViewModalOpen(false)}
 				lectureId={lecture.lectureId}
-			/>
+			/>}
 		</div>
 	);
 }

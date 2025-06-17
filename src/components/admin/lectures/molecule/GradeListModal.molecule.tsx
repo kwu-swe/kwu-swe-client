@@ -5,16 +5,15 @@ import { useState } from "react";
 interface Props {
   lectureId: number;
   isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   onClose: () => void;
 }
 
-export default function GradeListModal({ lectureId, isOpen, onClose }: Props) {
-  const { grades, isLoading, patchGrade } = useGrade({ lectureId });
+export default function GradeListModal({ lectureId, isOpen, setIsOpen, onClose }: Props) {
+  const { grades, isLoading, patchGrade } = useGrade({ lectureId, flag: isOpen });
   const [selectedStudentId, setSelectedStudentId] = useState<number>();
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
-
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg w-full max-w-2xl">
@@ -29,7 +28,6 @@ export default function GradeListModal({ lectureId, isOpen, onClose }: Props) {
             </svg>
           </button>
         </div>
-
         <div className="p-4">
           {isLoading ? (
             <div className="flex justify-center items-center h-32">
