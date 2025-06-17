@@ -75,34 +75,33 @@ export default function useAssignment({
 
 export function useSubmission({ assignmentId }: { assignmentId: number }) {
   const queryClient = useQueryClient();
-  const { data: submission, isLoading: isLoadingSubmissions } = useQuery<
-    Submission | undefined
-  >({
-    queryKey: ["getSubmissions", assignmentId],
-    queryFn: async () => {
-      if (!assignmentId) return undefined;
-      try {
-        const response = await assignmentApi.getSubmissions(assignmentId);
-        return response.result;
-      } catch (error: any) {
-        // 404 에러인 경우 (과제 제출이 없음) undefined 반환
-        if (error?.response?.status === 404) {
-          return undefined;
+  const { data: submission, isLoading: isLoadingSubmissions } =
+    useQuery<Submission | null>({
+      queryKey: ["getSubmissions", assignmentId],
+      queryFn: async () => {
+        if (!assignmentId) return null;
+        try {
+          const response = await assignmentApi.getSubmissions(assignmentId);
+          return response.result || null;
+        } catch (error: any) {
+          // 404 에러인 경우 (과제 제출이 없음) null 반환
+          if (error?.response?.status === 404) {
+            return null;
+          }
+          throw error;
         }
-        throw error;
-      }
-    },
-    enabled: !!assignmentId,
-    retry: (failureCount, error: any) => {
-      // 404 에러인 경우 재시도하지 않음
-      if (error?.response?.status === 404) {
-        return false;
-      }
-      return failureCount < 3;
-    },
-    staleTime: 0, // 항상 최신 데이터 확인
-    gcTime: 0, // 캐시하지 않음
-  });
+      },
+      enabled: !!assignmentId,
+      retry: (failureCount, error: any) => {
+        // 404 에러인 경우 재시도하지 않음
+        if (error?.response?.status === 404) {
+          return false;
+        }
+        return failureCount < 3;
+      },
+      staleTime: 0, // 항상 최신 데이터 확인
+      gcTime: 0, // 캐시하지 않음
+    });
 
   const { mutate: postSubmission } = useMutation<
     any,
@@ -159,8 +158,8 @@ export function useSubmission({ assignmentId }: { assignmentId: number }) {
         queryKey: ["getSubmissions", assignmentId],
       });
 
-      // 즉시 쿼리 데이터를 undefined로 설정
-      queryClient.setQueryData(["getSubmissions", assignmentId], undefined);
+      // 즉시 쿼리 데이터를 null로 설정
+      queryClient.setQueryData(["getSubmissions", assignmentId], null);
 
       alert("과제가 성공적으로 삭제되었습니다.");
     },

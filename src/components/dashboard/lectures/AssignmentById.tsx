@@ -43,7 +43,11 @@ export default function LectureAssignmentById({
 
   // 마감일 체크
   const isOverdue = assignment?.dueDate
-    ? new Date(assignment.dueDate) < new Date()
+    ? new Date(
+        assignment.dueDate instanceof Date
+          ? assignment.dueDate
+          : new Date(assignment.dueDate)
+      ) < new Date()
     : false;
 
   // 마감일 포맷팅 함수 (KST 기준)
@@ -266,9 +270,11 @@ export default function LectureAssignmentById({
                 {assignment?.dueDate ? (
                   <div className="flex flex-col gap-1">
                     {(() => {
-                      const dueDateInfo = formatDueDate(
-                        assignment.dueDate.toISOString()
-                      );
+                      const dueDateString =
+                        assignment.dueDate instanceof Date
+                          ? assignment.dueDate.toISOString()
+                          : assignment.dueDate;
+                      const dueDateInfo = formatDueDate(dueDateString);
                       return (
                         <>
                           <span
