@@ -12,12 +12,24 @@ export default function ConsultPage() {
   const { topics } = useAiStore();
   const { mutate, isLoading } = useAi();
 
-  const { studentLectures } = useLecture()
+  const { studentLectures } = useLecture();
+
+  // 등급이 있는 과목만 필터링
+  const gradedLectures = studentLectures?.filter(
+    (lecture) => lecture.grade && lecture.grade !== "IN_PROGRESS" && lecture.grade !== "P" && lecture.grade !== "NP"
+  );
+
   const handleSubmit = (context?: ContextType) => {
     if (!userInput.trim()) return;
+    const grades = gradedLectures?.map(lecture => 
+      `${lecture.courseResponseDto.courseName}: ${lecture.grade}`
+    ).join('\n');
+
     const systemPrompt: Message = {
       role: 'system' as const,
-      content: CONSULT_TOPICS(context)[selectedTopic].prompt
+      content: selectedTopic === 'STUDY' 
+        ? `${CONSULT_TOPICS(context)[selectedTopic].prompt}\n\n학생의 현재 성적 정보:\n${grades}`
+        : CONSULT_TOPICS(context)[selectedTopic].prompt
     }
     const userMessage: Message = {
       role: 'user' as const,
@@ -52,6 +64,22 @@ export default function ConsultPage() {
           </button>
         ))}
       </div>
+      {selectedTopic === 'STUDY' && gradedLectures && gradedLectures.length > 0 && (
+        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-medium mb-3">현재 성적 현황</h3>
+          <div className="space-y-2">
+            {gradedLectures.map((lecture) => (
+              <div key={lecture.lectureId} className="flex justify-between items-center">
+                <span className="text-gray-600">{lecture.courseResponseDto.courseName}</span>
+                <span className={`font-medium ${lecture.grade === 'F' ? 'text-red-500' : lecture.grade?.startsWith('A') ? 'text-green-500' : 'text-gray-900'}`}>
+                  {lecture.grade}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {selectedTopic && (
         <div className="space-y-6">
           <div className="space-y-4">

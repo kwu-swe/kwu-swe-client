@@ -1,4 +1,5 @@
 import { Course } from "./Course";
+import { Grade, GradeType } from "./Grade";
 import { User } from "./User";
 
 type LectureStatus = "BEFORE" | "IN_PROGRESS" | "COMPLETED";
@@ -111,6 +112,7 @@ interface LectureAssistantCreate {
 }
 
 interface Lecture {
+  grade: GradeType | null;
   lectureId: number;
   sizeLimit: number;
   year: number;
@@ -137,7 +139,7 @@ export interface LecturePlan {
 }
 export interface LecturePlanCreate extends Omit<LecturePlan, "id" | "sizeLimit" | "year" | "lectureStatus" | "courseId" | "courseName" | "professorId" | "professorName"> { }
 
-type LectureAutoSetKeys = "lectureId" | "courseResponseDto" | "professor" | "createdAt";
+type LectureAutoSetKeys = "lectureId" | "courseResponseDto" | "professor" | "createdAt" | "grade";
 interface LectureCreate extends Omit<Lecture, LectureAutoSetKeys> {
   courseId: number;
 }
