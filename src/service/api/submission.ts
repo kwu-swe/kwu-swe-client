@@ -8,6 +8,14 @@ async function post(data: SubmissionCreate) {
   const response = await api.post<SubmissionCreate>("/submissions", data);
   return response.data;
 }
+async function put(submissionId: number, data: SubmissionCreate) {
+  const response = await api.put<SubmissionCreate>(`/submissions/${submissionId}`, data)
+  return response.data
+}
+async function _delete(submissionId: number) {
+  const response = await api.delete<string>(`/submissions/${submissionId}`);
+  return response.data;
+}
 
 async function submit(submissionId: number) {
   const response = await api.post<string>(`/submissions/${submissionId}/submit`);
@@ -48,12 +56,14 @@ const submissionApi = {
   getByAssignment,
   getByAssignmentAndStudent,
   post,
+  update: put,
   submit,
   file: {
     get: getFiles,
     post: postFile,
     delete: deleteFile
-  }
+  },
+  delete: _delete
 };
 
 export default submissionApi;

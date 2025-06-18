@@ -62,8 +62,19 @@ async function getPlan(lectureId: number) {
   const response = await api.get<ToApi<LecturePlan>>(`/plans/lectures/${lectureId}`);
   return response.data;
 }
+
 async function postPlan(lectureId: number, data: LecturePlanCreate) {
-  const response = await api.post<LecturePlanCreate>(`/plans/lectures/${lectureId}`, data);
+  const response = await api.post<LecturePlanCreate>(`/lectures/${lectureId}/plan`, data);
+  return response.data;
+}
+
+async function updatePlan(planId: number, data: LecturePlanCreate) {
+  const response = await api.put<LecturePlanCreate>(`/lectures/plan/${planId}`, data);
+  return response.data;
+}
+
+async function deletePlan(planId: number) {
+  const response = await api.delete(`/lectures/plan/${planId}`);
   return response.data;
 }
 
@@ -92,6 +103,8 @@ const lectureApi = {
   plan: {
     get: getPlan,
     post: postPlan,
+    update: updatePlan,
+    delete: deletePlan,
   },
   grade: {
     get: getGrade,

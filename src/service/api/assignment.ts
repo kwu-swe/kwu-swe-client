@@ -72,6 +72,24 @@ async function deleteSubmission(submissionId: number): Promise<ToApi<string>> {
   return response.data as ToApi<string>;
 }
 
+async function update(
+  assignmentId: number,
+  assignment: AssignmentCreate
+): Promise<ToApi<string>> {
+  const response = await api.put<AssignmentCreate, ToApi<string>>(
+    `/assignments/${assignmentId}`,
+    assignment
+  );
+  return response.data as ToApi<string>;
+}
+
+async function del(assignmentId: number): Promise<ToApi<string>> {
+  const response = await api.delete<ToApi<string>>(
+    `/assignments/${assignmentId}`
+  );
+  return response.data as ToApi<string>;
+}
+
 const assignmentApi = {
   get,
   getByLectureId,
@@ -80,6 +98,8 @@ const assignmentApi = {
   postSubmission,
   updateSubmission,
   deleteSubmission,
+  update,
+  delete: del,
 };
 
 export default assignmentApi;

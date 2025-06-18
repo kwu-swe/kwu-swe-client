@@ -1,5 +1,7 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import useAssignment from "@/hook/useAssignment";
+import DeleteConfirmModal from "./DeleteConfirmModal.molecule";
+import AssignmentModal from "./AssignmentModal.molecule";
 
 interface AssignmentListModalProps {
   isOpen: boolean;
@@ -13,23 +15,31 @@ export default function AssignmentListModal({
   lectureId,
 }: AssignmentListModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { assignmentsByLecture, isAssignmentByLecture } = useAssignment({ lectureId });
+  const [selectedAssignment, setSelectedAssignment] = useState<any>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editTitle, setEditTitle] = useState('');
+  const [editContent, setEditContent] = useState('');
+  const [editDueDateAfterDays, setEditDueDateAfterDays] = useState(7);
+  const [editSelectedFiles, setEditSelectedFiles] = useState<File[]>([]);
+
+  const {
+    assignmentsByLecture,
+    isAssignmentByLecture,
+    deleteAssignment,
+    isDeleting,
+    updateAssignment,
+    isUpdating
+  } = useAssignment({ lectureId });
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -44,10 +54,14 @@ export default function AssignmentListModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onClick={onClose}
+    >
       <div
         ref={modalRef}
         className="bg-white rounded-lg shadow-xl w-full max-w-3xl mx-4 max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">과제 목록</h2>
@@ -72,13 +86,13 @@ export default function AssignmentListModal({
         </div>
 
         <div className="p-6 flex-1 overflow-y-auto">
-          {isAssignmentByLecture ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-            </div>
-          ) : assignmentsByLecture?.length === 0 ? (
+          {assignmentsByLecture?.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               등록된 과제가 없습니다.
+            </div>
+          ) : isAssignmentByLecture ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
             </div>
           ) : (
             <div className="space-y-4">
@@ -91,12 +105,37 @@ export default function AssignmentListModal({
                     <h3 className="text-lg font-medium text-gray-900">
                       {assignment.title}
                     </h3>
-                    <span className="text-sm text-gray-500">
-                      ID: {assignment.assignmentId}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => {
+                          setSelectedAssignment(assignment);
+                          setEditTitle(assignment.title);
+                          setEditContent(assignment.content);
+                          setEditDueDateAfterDays(assignment.dueDateAfterDays);
+                          setEditSelectedFiles([]);
+                          setShowEditModal(true);
+                        }}
+                        className={`text-sm ${isUpdating ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:text-blue-700'}`}
+                        disabled={isUpdating}
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedAssignment(assignment);
+                          setShowDeleteConfirm(true);
+                        }}
+                        className="text-sm text-red-600 hover:text-red-700"
+                      >
+                        삭제
+                      </button>
+                      <span className="text-sm text-gray-500">
+                        ID: {assignment.assignmentId}
+                      </span>
+                    </div>
                   </div>
                   <p className="text-gray-600 whitespace-pre-wrap">
-                    {assignment.title}
+                    {assignment.content}
                   </p>
                   <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                     <div>
@@ -140,6 +179,62 @@ export default function AssignmentListModal({
           </button>
         </div>
       </div>
+
+      <DeleteConfirmModal
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={async () => {
+          if (selectedAssignment) {
+            await deleteAssignment(selectedAssignment.assignmentId);
+            setShowDeleteConfirm(false);
+          }
+        }}
+        title="과제"
+        isDeleting={isDeleting}
+      />
+
+      {showEditModal && selectedAssignment && (
+        <AssignmentModal
+          isOpen={showEditModal}
+          onClose={() => {
+            setShowEditModal(false);
+            setSelectedAssignment(null);
+          }}
+          title={editTitle}
+          setTitle={setEditTitle}
+          content={editContent}
+          setContent={setEditContent}
+          dueDateAfterDays={editDueDateAfterDays}
+          setDueDateAfterDays={setEditDueDateAfterDays}
+          selectedFiles={editSelectedFiles}
+          onFileSelect={(files) => {
+            const fileArray = Array.from(files);
+            setEditSelectedFiles([...editSelectedFiles, ...fileArray]);
+          }}
+          onFileRemove={(index) => {
+            const newFiles = [...editSelectedFiles];
+            newFiles.splice(index, 1);
+            setEditSelectedFiles(newFiles);
+          }}
+          onSubmit={async () => {
+            await updateAssignment({
+              assignmentId: selectedAssignment.assignmentId,
+              assignment: {
+                title: editTitle,
+                content: editContent,
+                dueDateAfterDays: editDueDateAfterDays,
+                dueDate: new Date(),
+                createdAt: new Date().toISOString(),
+                encodedFiles: [],
+              },
+            });
+            setShowEditModal(false);
+            setSelectedAssignment(null);
+          }}
+          lectureId={lectureId}
+          mode="edit"
+        />
+      )}
     </div>
   );
 }

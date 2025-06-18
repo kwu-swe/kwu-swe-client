@@ -13,8 +13,13 @@ export interface Assignment {
 }
 
 export interface AssignmentByLecture
-  extends Pick<Assignment, "assignmentId" | "title" | "dueDate"> { }
-export interface AssignmentCreate extends Omit<Assignment, "assignmentId" | "submitAssignmentResponseDto"> { }
+  extends Pick<Assignment, "assignmentId" | "title" | "dueDate"> {
+  content: string;
+  dueDateAfterDays: number;
+}
+export interface AssignmentCreate extends Omit<Assignment, "assignmentId" | "submitAssignmentResponseDto"> {
+  dueDateAfterDays: number;
+}
 
 export interface AssignmentClient {
   id: number;

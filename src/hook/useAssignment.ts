@@ -45,7 +45,7 @@ export default function useAssignment({
       },
     ],
   });
-  const { mutate: postAssignment } = useMutation<
+  const { mutate: postAssignment, isPending: isCreating } = useMutation<
     any,
     Error,
     { lectureId: number; assignment: AssignmentCreate }
@@ -64,12 +64,54 @@ export default function useAssignment({
     },
   });
 
+  const { mutate: updateAssignment, isPending: isUpdating } = useMutation<
+    any,
+    Error,
+    { assignmentId: number; assignment: AssignmentCreate }
+  >({
+    mutationFn: ({ assignmentId, assignment }) =>
+      assignmentApi.update(assignmentId, assignment),
+    onError: (error) => {
+      console.error("과제 수정 실패:", error);
+      alert("과제 수정에 실패했습니다.");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignmentByLectureId", lectureId],
+      });
+      alert("과제가 성공적으로 수정되었습니다.");
+    },
+  });
+
+  const { mutate: deleteAssignment, isPending: isDeleting } = useMutation<
+    any,
+    Error,
+    number
+  >({
+    mutationFn: (assignmentId) => assignmentApi.delete(assignmentId),
+    onError: (error) => {
+      console.error("과제 삭제 실패:", error);
+      alert("과제 삭제에 실패했습니다.");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAssignmentByLectureId", lectureId],
+      });
+      alert("과제가 성공적으로 삭제되었습니다.");
+    },
+  });
+
   return {
     assignment,
     postAssignment,
+    updateAssignment,
+    deleteAssignment,
     isLoadingAssignment,
     assignmentsByLecture,
     isAssignmentByLecture,
+    isCreating,
+    isUpdating,
+    isDeleting,
   };
 }
 

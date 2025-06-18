@@ -9,8 +9,8 @@ async function get() {
   return response.data.result;
 }
 
-async function post(data: CourseCreate) {
-  const response = await api.post<CourseCreate>("/courses", data);
+async function post(data: CourseCreate & { courseNumber: string }) {
+  const response = await api.post<CourseCreate & { courseNumber: string }>("/courses", data);
   return response.data;
 }
 

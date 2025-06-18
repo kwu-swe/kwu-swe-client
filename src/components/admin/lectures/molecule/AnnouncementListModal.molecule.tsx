@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Announcement, AnnouncementList } from "@/types/Announcement";
 import useAnnouncement from "@/hook/useAnnouncement";
 import { formatDate } from "@/utils/date";
+import DeleteConfirmModal from "./DeleteConfirmModal.molecule";
 
 interface Props {
   lectureId: number;
@@ -9,15 +11,23 @@ interface Props {
 }
 
 export default function AnnouncementListModal({ lectureId, isOpen, onClose }: Props) {
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<AnnouncementList | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   const {
     announcementsByLecture,
-    isLoadingAnnouncementsByLecture
+    isLoadingAnnouncementsByLecture,
+    deleteAnnouncement,
+    isDeleting
   } = useAnnouncement({ lectureId });
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onMouseDown={(e) => e.preventDefault()}
+    >
       <div className="bg-white rounded-lg w-full max-w-3xl">
         <div className="p-6 border-b border-gray-200 flex justify-between items-center">
           <h3 className="text-lg font-semibold">공지사항 목록</h3>
@@ -47,9 +57,29 @@ export default function AnnouncementListModal({ lectureId, isOpen, onClose }: Pr
                     <h4 className="text-lg font-medium text-gray-900">
                       {announcement.title}
                     </h4>
-                    <span className="text-sm text-gray-500">
-                      {formatDate(announcement.createdAt)}
-                    </span>
+                    <div className="flex items-center space-x-4">
+                      <button
+                        onClick={() => {
+                          // TODO: Implement edit functionality
+                          alert("수정 기능 구현 예정");
+                        }}
+                        className="text-sm text-blue-600 hover:text-blue-700"
+                      >
+                        수정
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedAnnouncement(announcement);
+                          setShowDeleteConfirm(true);
+                        }}
+                        className="text-sm text-red-600 hover:text-red-700"
+                      >
+                        삭제
+                      </button>
+                      <span className="text-sm text-gray-500">
+                        {formatDate(announcement.createdAt)}
+                      </span>
+                    </div>
                   </div>
                   {/* <p className="text-gray-600 whitespace-pre-wrap">
                     {announcement.content}
@@ -82,6 +112,19 @@ export default function AnnouncementListModal({ lectureId, isOpen, onClose }: Pr
           )}
         </div>
       </div>
+
+      <DeleteConfirmModal
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={async () => {
+          if (selectedAnnouncement) {
+            await deleteAnnouncement(selectedAnnouncement.announcementId);
+            setShowDeleteConfirm(false);
+          }
+        }}
+        title="공지사항"
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

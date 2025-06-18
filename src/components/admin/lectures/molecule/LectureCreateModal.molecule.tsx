@@ -1,13 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Course } from "@/types/Course";
 import { LectureCreate, LectureTime, Semester, SEMESTER_LABEL, LECTURE_TIME_LABEL } from "@/types/Lecture";
-import { User } from "@/types/User";
 import useLecture from "@/hook/useLecture";
 import useCourse from "@/hook/useCourse";
 import useLocation from "@/hook/useLocation";
-import { Select } from "fast-jsx";
 
 interface Props {
 	isOpen: boolean;
@@ -114,97 +111,99 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-								<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+							<Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+								<Dialog.Title as="h3" className="text-xl font-semibold text-gray-900 mb-6">
 									강의 생성
 								</Dialog.Title>
-								<div>
-									<label htmlFor="courseId" className="block text-sm font-medium text-gray-700">
-										과목
-									</label>
-									<select
-										id="courseId"
-										value={courseId}
-										onChange={(e) => setCourseId(e.target.value)}
-										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-									>
-										<option value="">과목을 선택하세요</option>
-										{courses?.map((course) => (
-											<option key={course.courseId} value={String(course.courseId)}>
-												{course.courseName}
-											</option>
-										))}
-									</select>
-								</div>
-								<div>
-									<label htmlFor="year" className="block text-sm font-medium text-gray-700">
-										년도
-									</label>
-									<input
-										type="number"
-										id="year"
-										value={year}
-										onChange={(e) => setYear(e.target.value)}
-										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-									/>
-								</div>
-								<div>
-									<label htmlFor="semester" className="block text-sm font-medium text-gray-700">
-										학기
-									</label>
-									<select
-										id="semester"
-										value={semester}
-										onChange={(e) => setSemester(e.target.value as Semester)}
-										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-									>
-										<option value="">학기를 선택하세요</option>
-										{Object.entries(SEMESTER_LABEL).map(([key, value]) => (
-											<option key={key} value={key}>
-												{value}
-											</option>
-										))}
-									</select>
-								</div>
-								<div>
-									<label htmlFor="sizeLimit" className="block text-sm font-medium text-gray-700">
-										수강 정원
-									</label>
-									<input
-										type="number"
-										id="sizeLimit"
-										value={sizeLimit}
-										onChange={(e) => setSizeLimit(e.target.value)}
-										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-									/>
-								</div>
 
-								<div>
-									<label className="block text-sm font-medium text-gray-700">
-										강의 시간
-									</label>
-									<div className="mt-2 space-y-2">
-										<div className="flex gap-2">
+								<div className="grid grid-cols-2 gap-6">
+									<div className="col-span-2">
+										<label htmlFor="courseId" className="block text-sm font-medium text-gray-700 mb-1">
+											과목
+										</label>
+										<select
+											value={courseId}
+											onChange={(e) => setCourseId(e.target.value)}
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown"
+										>
+											<option value="">과목을 선택하세요</option>
+											{courses?.map((course) => (
+												<option key={course.courseId} value={String(course.courseId)}>
+													{course.courseName}
+												</option>
+											))}
+										</select>
+									</div>
+
+									<div>
+										<label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-1">
+											년도
+										</label>
+										<input
+											type="number"
+											id="year"
+											value={year}
+											onChange={(e) => setYear(e.target.value)}
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+										/>
+									</div>
+
+									<div>
+										<label htmlFor="semester" className="block text-sm font-medium text-gray-700 mb-1">
+											학기
+										</label>
+										<select
+											value={semester}
+											onChange={(e) => setSemester(e.target.value as Semester)}
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown"
+										>
+											<option value="">학기를 선택하세요</option>
+											{Object.entries(SEMESTER_LABEL).map(([key, value]) => (
+												<option key={key} value={key}>
+													{value}
+												</option>
+											))}
+										</select>
+									</div>
+
+									<div className="col-span-2">
+										<label htmlFor="sizeLimit" className="block text-sm font-medium text-gray-700 mb-1">
+											수강 정원
+										</label>
+										<input
+											type="number"
+											id="sizeLimit"
+											value={sizeLimit}
+											onChange={(e) => setSizeLimit(e.target.value)}
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+										/>
+									</div>
+
+									<div className="col-span-2">
+										<label className="block text-sm font-medium text-gray-700 mb-1">
+											강의 시간
+										</label>
+										<div className="flex gap-3 mb-3">
 											<select
-												value={selectedTime}
+												value={selectedTime || ''}
 												onChange={(e) => setSelectedTime(e.target.value)}
-												className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+												className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown"
 											>
 												<option value="">시간을 선택하세요</option>
-												{Object.keys(LECTURE_TIME_LABEL).map((time) => (
+												{timeOptions.map((time) => (
 													<option key={time} value={time}>
-														{LECTURE_TIME_LABEL[time as LectureTime]}
+														{LECTURE_TIME_LABEL[time]}
 													</option>
 												))}
 											</select>
 											<select
-												value={selectedLocation}
+												value={selectedLocation || ''}
 												onChange={(e) => setSelectedLocation(e.target.value)}
-												className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+												className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown"
 											>
 												<option value="">강의실을 선택하세요</option>
 												{locations?.map((location) => (
-													<option key={location.locationId} value={location.locationId}>
+													<option key={location.locationId} value={String(location.locationId)}>
 														{location.locationName}
 													</option>
 												))}
@@ -215,22 +214,23 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 													if (!selectedTime || !selectedLocation) return;
 													handleAddTime(selectedTime as LectureTime, parseInt(selectedLocation));
 												}}
-												className="px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 transition-colors"
+												className="px-4 py-2 bg-kw-brown text-white rounded-lg hover:bg-kw-brown/90 transition-colors"
 											>
 												추가
 											</button>
 										</div>
+
 										{selectedTimes.length > 0 && (
-											<div className="mt-2 space-y-1">
+											<div className="space-y-2">
 												{selectedTimes.map((item, index) => (
-													<div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+													<div key={index} className="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg">
 														<span className="text-sm text-gray-700">
 															{LECTURE_TIME_LABEL[item.time]} - {locations?.find(loc => loc.locationId === item.location)?.locationName}
 														</span>
 														<button
 															type="button"
 															onClick={() => handleRemoveTime(index)}
-															className="text-sm text-red-600 hover:text-red-700"
+															className="text-sm text-red-500 hover:text-red-600 transition-colors"
 														>
 															삭제
 														</button>
@@ -241,17 +241,17 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 									</div>
 								</div>
 
-								<div className="mt-6 flex justify-end gap-3">
+								<div className="mt-8 flex justify-end gap-3">
 									<button
 										type="button"
 										onClick={onClose}
-										className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+										className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
 									>
 										취소
 									</button>
 									<button
 										onClick={() => handleSubmit()}
-										className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+										className="px-4 py-2 text-sm font-medium text-white bg-kw-brown rounded-lg hover:bg-kw-brown/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kw-brown"
 									>
 										생성
 									</button>

@@ -14,6 +14,8 @@ interface AssignmentModalProps {
   onFileRemove: (index: number) => void;
   onSubmit: () => void;
   lectureId: number;
+  mode?: 'create' | 'edit';
+  assignment?: any;
 }
 
 export default function AssignmentModal({
@@ -30,37 +32,35 @@ export default function AssignmentModal({
   onFileRemove,
   onSubmit,
   lectureId,
+  mode = 'create',
 }: AssignmentModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
     }
-
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onClick={onClose}
+    >
       <div
         ref={modalRef}
         className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">과제 등록</h2>
+          <h2 className="text-xl font-semibold text-gray-900">
+            과제 {mode === 'edit' ? '수정' : '등록'}
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-500 focus:outline-none"
@@ -199,7 +199,7 @@ export default function AssignmentModal({
             disabled={selectedFiles.length === 0 || !title}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            등록
+            {mode === 'edit' ? '수정' : '등록'}
           </button>
         </div>
       </div>

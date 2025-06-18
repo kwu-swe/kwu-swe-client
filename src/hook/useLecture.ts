@@ -101,11 +101,9 @@ export default function useLecture() {
   };
 }
 
-
 export function usePlan({ lectureId }: { lectureId: number }) {
   const queryClient = useQueryClient();
-  const { data: plan, isLoading: planLoading } = useQuery<LecturePlan
-  >({
+  const { data: plan, isLoading: planLoading } = useQuery<LecturePlan>({
     queryKey: ["lecturePlanGet", lectureId],
     queryFn: async () => {
       const response = await lectureApi.plan.get(lectureId);
@@ -114,7 +112,7 @@ export function usePlan({ lectureId }: { lectureId: number }) {
     staleTime: 0,
   });
 
-  const { mutate: postPlan } = useMutation({
+  const { mutate: postPlan, isPending: isCreating } = useMutation<any, Error, LecturePlanCreate>({
     mutationKey: ["lecturePlanPost", lectureId],
     mutationFn: (data: LecturePlanCreate) => lectureApi.plan.post(lectureId, data),
     onSuccess: () => {
@@ -122,10 +120,39 @@ export function usePlan({ lectureId }: { lectureId: number }) {
     },
   });
 
+  const { mutate: updatePlan, isPending: isUpdating } = useMutation<any, Error, { planId: number; plan: LecturePlanCreate }>({
+    mutationFn: ({ planId, plan }) => lectureApi.plan.update(planId, plan),
+    onError: (error) => {
+      console.error('강의계획서 수정 실패:', error);
+      alert('강의계획서 수정에 실패했습니다.');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lecturePlanGet', lectureId] });
+      alert('강의계획서가 성공적으로 수정되었습니다.');
+    },
+  });
+
+  const { mutate: deletePlan, isPending: isDeleting } = useMutation<any, Error, number>({
+    mutationFn: (planId) => lectureApi.plan.delete(planId),
+    onError: (error) => {
+      console.error('강의계획서 삭제 실패:', error);
+      alert('강의계획서 삭제에 실패했습니다.');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lecturePlanGet', lectureId] });
+      alert('강의계획서가 성공적으로 삭제되었습니다.');
+    },
+  });
+
   return {
     plan,
     isLoading: planLoading,
     postPlan,
+    updatePlan,
+    deletePlan,
+    isCreating,
+    isUpdating,
+    isDeleting
   };
 }
 

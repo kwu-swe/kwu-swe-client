@@ -7,7 +7,7 @@ export default function useLocation() {
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const { mutate: post, } = useMutation({
+  const { mutate: post, isPending: isCreating } = useMutation({
     mutationKey: ['locationPost'],
     mutationFn: (locationCreate: LocationCreate) =>
       locationApi.post(locationCreate),
@@ -16,14 +16,17 @@ export default function useLocation() {
       queryClient.invalidateQueries({ queryKey: ['locationGet'] });
     }
   });
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['locationGet'],
     queryFn: locationApi.get,
     staleTime: 0,
   });
 
   return {
-    post, locations: data ?? [], isLoading, isCreateMode,
-    setIsCreateMode
+    post,
+    locations: data ?? [],
+    isCreateMode,
+    setIsCreateMode,
+    isCreating
   };
 }

@@ -29,10 +29,26 @@ async function create(lectureId: number, announcement: AnnouncementCreate) {
   return response.data;
 }
 
+async function put(announcementId: number, announcement: AnnouncementCreate) {
+  const response = await api.put<AnnouncementCreate, ToApi<Announcement>>(
+    `/announcements/${announcementId}`,
+    announcement
+  );
+  return response.data;
+}
+
+async function _delete(announcementId: number) {
+  const response = await api.delete<string>(`/announcements/${announcementId}`);
+  return response.data;
+}
+
 const announcementApi = {
   getByLectureId,
   getById,
   create,
+  update: put,
+  delete: _delete
+
 };
 
 export default announcementApi;

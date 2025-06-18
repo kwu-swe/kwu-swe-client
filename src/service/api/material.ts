@@ -20,11 +20,22 @@ async function post(lectureId: number, material: MaterialCreate): Promise<ToApi<
   const response = await api.post<MaterialCreate, ToApi<string>>(`/materials/lectures/${lectureId}`, material);
   return response.data;
 }
+async function put(materialId: number, material: MaterialCreate): Promise<ToApi<string>> {
+  const response = await api.put<MaterialCreate, ToApi<string>>(`/materials/${materialId}`, material);
+  return response.data;
+}
+
+async function _delete(materialId: number) {
+  const response = await api.delete<string>(`/materials/${materialId}`);
+  return response.data;
+}
 
 const materialApi = {
   getById,
   getByLectureId,
   post,
+  update: put,
+  delete: _delete
 };
 
 export default materialApi;

@@ -58,6 +58,32 @@ export default function useMaterial({
     },
   });
 
+  // 자료 수정
+  const { mutate: updateMaterial, isPending: isUpdating } = useMutation({
+    mutationFn: ({ materialId, material }: { materialId: number; material: MaterialCreate }) =>
+      materialApi.update(materialId, material),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["materials", lectureId] });
+      queryClient.invalidateQueries({ queryKey: ["material", materialId] });
+      alert("자료가 성공적으로 수정되었습니다.");
+    },
+    onError: () => {
+      alert("자료 수정에 실패했습니다.");
+    },
+  });
+
+  // 자료 삭제
+  const { mutate: deleteMaterial, isPending: isDeleting } = useMutation({
+    mutationFn: (materialId: number) => materialApi.delete(materialId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["materials", lectureId] });
+      alert("자료가 성공적으로 삭제되었습니다.");
+    },
+    onError: () => {
+      alert("자료 삭제에 실패했습니다.");
+    },
+  });
+
   return {
     material,
     isLoadingMaterial,
@@ -67,5 +93,9 @@ export default function useMaterial({
     materialsByLectureError,
     createMaterial,
     isCreating,
+    updateMaterial,
+    isUpdating,
+    deleteMaterial,
+    isDeleting,
   };
 }

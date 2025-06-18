@@ -7,7 +7,7 @@ export default function useCourse() {
   const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const { mutate: post } = useMutation({
+  const { mutate: post, isPending: isCreating } = useMutation({
     mutationKey: ['coursePost'],
     mutationFn: (courseCreate: CourseCreate) =>
       courseApi.post({
@@ -31,9 +31,11 @@ export default function useCourse() {
     courses: data ?? [],
     isLoading,
     isCreateMode,
-    setIsCreateMode
+    setIsCreateMode,
+    isCreating
   };
 }
+
 function createCourseNumber(): string {
   const part1 = String(Math.floor(Math.random() * 1000)).padStart(3, '0');  // I020
   const part2 = Math.floor(Math.random() * 10);                             // 4

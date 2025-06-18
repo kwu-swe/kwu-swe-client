@@ -9,12 +9,11 @@ interface Course {
   courseName: string;
   courseNumber: string;
   score: number;
-}
-
-type CourseAutoSetKeys = "courseId";
-interface CourseCreate extends Omit<Course, CourseAutoSetKeys> {
   courseType: CourseType;
 }
+
+type CourseAutoSetKeys = "courseId" | "courseNumber";
+type CourseCreate = Omit<Course, CourseAutoSetKeys>;
 
 interface CourseUpdate extends Partial<CourseCreate> { }
 

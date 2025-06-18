@@ -55,6 +55,32 @@ export default function useAnnouncement({
     },
   });
 
+  // 공지사항 수정
+  const { mutate: updateAnnouncement, isPending: isUpdating } = useMutation({
+    mutationFn: ({ announcementId, announcement }: { announcementId: number; announcement: AnnouncementCreate }) =>
+      announcementApi.update(announcementId, announcement),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["announcements", lectureId] });
+      queryClient.invalidateQueries({ queryKey: ["announcement", announcementId, lectureId] });
+      alert("공지사항이 성공적으로 수정되었습니다.");
+    },
+    onError: () => {
+      alert("공지사항 수정에 실패했습니다.");
+    },
+  });
+
+  // 공지사항 삭제
+  const { mutate: deleteAnnouncement, isPending: isDeleting } = useMutation({
+    mutationFn: (announcementId: number) => announcementApi.delete(announcementId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["announcements", lectureId] });
+      alert("공지사항이 성공적으로 삭제되었습니다.");
+    },
+    onError: () => {
+      alert("공지사항 삭제에 실패했습니다.");
+    },
+  });
+
   return {
     announcement,
     isLoadingAnnouncement,
@@ -64,5 +90,9 @@ export default function useAnnouncement({
     announcementsByLectureError,
     createAnnouncement,
     isCreating,
+    updateAnnouncement,
+    isUpdating,
+    deleteAnnouncement,
+    isDeleting,
   };
 }

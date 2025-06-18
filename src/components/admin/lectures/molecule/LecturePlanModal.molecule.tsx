@@ -6,17 +6,29 @@ interface Props {
   lectureId: number;
   isOpen: boolean;
   onClose: () => void;
+  mode?: 'create' | 'edit';
+  initialData?: {
+    planId: number;
+    goal: string;
+    description: string;
+  };
 }
 
-export default function LecturePlanModal({ lectureId, isOpen, onClose }: Props) {
-  const [goal, setGoal] = useState("");
-  const [description, setDescription] = useState("");
+export default function LecturePlanModal({ 
+  lectureId, 
+  isOpen, 
+  onClose,
+  mode = 'create',
+  initialData
+}: Props) {
+  const [goal, setGoal] = useState(initialData?.goal || "");
+  const [description, setDescription] = useState(initialData?.description || "");
 
-  const { postPlan } = usePlan({ lectureId });
+  const { postPlan, updatePlan, deletePlan, isUpdating, isDeleting } = usePlan({ lectureId });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const plan: LecturePlanCreate = {
         goal,
@@ -24,7 +36,11 @@ export default function LecturePlanModal({ lectureId, isOpen, onClose }: Props) 
         semester: "FIRST_SEMESTER"
       };
 
-      await postPlan(plan);
+      if (mode === 'create') {
+        await postPlan(plan);
+      } else if (mode === 'edit' && initialData) {
+        await updatePlan({ planId: initialData.planId, plan });
+      }
       onClose();
       setGoal("");
       setDescription("");
@@ -37,10 +53,32 @@ export default function LecturePlanModal({ lectureId, isOpen, onClose }: Props) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onMouseDown={(e) => e.preventDefault()}
+    >
       <div className="bg-white rounded-lg w-full max-w-2xl">
         <div className="p-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold">강의계획서 등록</h3>
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">
+              {mode === 'create' ? '강의계획서 등록' : '강의계획서 수정'}
+            </h3>
+            {mode === 'edit' && (
+              <button
+                type="button"
+                onClick={async () => {
+                  if (initialData && window.confirm('정말 삭제하시겠습니까?')) {
+                    await deletePlan(initialData.planId);
+                    onClose();
+                  }
+                }}
+                className="text-sm text-red-600 hover:text-red-700"
+                disabled={isDeleting}
+              >
+                삭제
+              </button>
+            )}
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-4 space-y-3">
@@ -79,8 +117,9 @@ export default function LecturePlanModal({ lectureId, isOpen, onClose }: Props) 
             <button
               type="submit"
               className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              disabled={isUpdating || isDeleting}
             >
-              등록
+              {mode === 'create' ? '등록' : '수정'}
             </button>
           </div>
         </form>
