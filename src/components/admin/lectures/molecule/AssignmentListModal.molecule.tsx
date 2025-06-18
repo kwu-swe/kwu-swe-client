@@ -141,9 +141,6 @@ export default function AssignmentListModal({
                         >
                           삭제
                         </button>
-                        <span className="text-sm text-gray-500">
-                          ID: {assignment.assignmentId}
-                        </span>
                       </div>
                     </div>
                   </div>
