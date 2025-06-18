@@ -1,7 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { Course } from "@/types/Course";
-import { LectureCreate, LectureTime, Semester, SEMESTER_LABEL, LECTURE_TIME_LABEL } from "@/types/Lecture";
+import { LectureTime, Semester, SEMESTER_LABEL, LECTURE_TIME_LABEL } from "@/types/Lecture";
 import useLecture from "@/hook/useLecture";
 import useCourse from "@/hook/useCourse";
 import useLocation from "@/hook/useLocation";

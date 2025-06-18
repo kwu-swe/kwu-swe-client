@@ -139,11 +139,11 @@ export default function AssignmentListModal({
                   </p>
                   <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                     <div>
-                      <span className="font-medium">제출 기한:</span>{" "}
-                      {formatDate(assignment.dueDate)}
+                      <span className="font-medium">생성일:</span>{" "}
+                      {formatDate((assignment.createdAt))}
                     </div>
                     <div>
-                      <span className="font-medium">생성일:</span>{" "}
+                      <span className="font-medium">제출 기한:</span>{" "}
                       {formatDate(assignment.dueDate)}
                     </div>
                   </div>
@@ -224,7 +224,7 @@ export default function AssignmentListModal({
                 content: editContent,
                 dueDateAfterDays: editDueDateAfterDays,
                 dueDate: new Date(),
-                createdAt: new Date().toISOString(),
+                createdAt: new Date(),
                 encodedFiles: [],
               },
             });
