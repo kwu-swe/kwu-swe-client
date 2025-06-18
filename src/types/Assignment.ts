@@ -7,7 +7,7 @@ export interface Assignment {
   title: string;
   content: string;
   dueDate: Date;
-  createdAt: string;
+  createdAt: Date;
   encodedFiles: string[];
   submitAssignmentResponseDto: any | null;
 }
@@ -16,6 +16,7 @@ export interface AssignmentByLecture
   extends Pick<Assignment, "assignmentId" | "title" | "dueDate"> {
   content: string;
   dueDateAfterDays: number;
+  createdAt: Date;
 }
 export interface AssignmentCreate extends Omit<Assignment, "assignmentId" | "submitAssignmentResponseDto"> {
   dueDateAfterDays: number;
