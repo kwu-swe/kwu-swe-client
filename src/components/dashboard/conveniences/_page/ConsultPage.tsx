@@ -3,6 +3,7 @@ import { useAiStore } from '@/store/aiStore';
 import useAi from '@/hook/useAi';
 import { Message } from '@/types/Grok';
 import { CONSULT_TOPICS, ContextType } from '@/asset/prompt';
+import useLecture from '@/hook/useLecture';
 
 export default function ConsultPage() {
   const [context, setContext] = useState<ContextType>('neutral');
@@ -11,6 +12,7 @@ export default function ConsultPage() {
   const { topics } = useAiStore();
   const { mutate, isLoading } = useAi();
 
+  const { studentLectures } = useLecture()
   const handleSubmit = (context?: ContextType) => {
     if (!userInput.trim()) return;
     const systemPrompt: Message = {
