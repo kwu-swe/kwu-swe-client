@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import useAssignment from "@/hook/useAssignment";
 import DeleteConfirmModal from "./DeleteConfirmModal.molecule";
 import AssignmentModal from "./AssignmentModal.molecule";
+import SubmissionStatusModal from "./SubmissionStatusModal.molecule";
 
 interface AssignmentListModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export default function AssignmentListModal({
   const [selectedAssignment, setSelectedAssignment] = useState<any>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [editDueDateAfterDays, setEditDueDateAfterDays] = useState(7);
@@ -120,18 +122,29 @@ export default function AssignmentListModal({
                       >
                         수정
                       </button>
-                      <button
-                        onClick={() => {
-                          setSelectedAssignment(assignment);
-                          setShowDeleteConfirm(true);
-                        }}
-                        className="text-sm text-red-600 hover:text-red-700"
-                      >
-                        삭제
-                      </button>
-                      <span className="text-sm text-gray-500">
-                        ID: {assignment.assignmentId}
-                      </span>
+                      <div className="flex items-center space-x-3">
+                        <button
+                          onClick={() => {
+                            setSelectedAssignment(assignment);
+                            setShowStatusModal(true);
+                          }}
+                          className="text-sm text-blue-600 hover:text-blue-700"
+                        >
+                          제출 현황
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedAssignment(assignment);
+                            setShowDeleteConfirm(true);
+                          }}
+                          className="text-sm text-red-600 hover:text-red-700"
+                        >
+                          삭제
+                        </button>
+                        <span className="text-sm text-gray-500">
+                          ID: {assignment.assignmentId}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <p className="text-gray-600 whitespace-pre-wrap">
@@ -179,6 +192,17 @@ export default function AssignmentListModal({
           </button>
         </div>
       </div>
+
+      {showStatusModal && selectedAssignment && (
+        <SubmissionStatusModal
+          assignmentId={selectedAssignment.assignmentId}
+          isOpen={showStatusModal}
+          onClose={() => {
+            setShowStatusModal(false);
+            setSelectedAssignment(null);
+          }}
+        />
+      )}
 
       <DeleteConfirmModal
         isOpen={showDeleteConfirm}

@@ -1,5 +1,5 @@
 // 과제 상태 타입
-export type AssignmentSubmissionStatus = "SUBMITTED" | "LATE";
+export type AssignmentSubmissionStatus = "SUBMITTED" | "NOT_SUBMITTED" | "LATE";
 
 // 과제 인터페이스
 export interface Assignment {
@@ -61,6 +61,12 @@ export interface Submission {
   title: string,
   content: string,
   encodedFiles: string[]
+}
+
+export interface SubmissionProfessor {
+  studentId: number;
+  studentName: string;
+  submitStatus: AssignmentSubmissionStatus;
 }
 
 export interface SubmissionCreate extends Omit<Submission, "submissionId"> { }

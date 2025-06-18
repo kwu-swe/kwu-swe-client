@@ -1,4 +1,4 @@
-export type SubmissionStatus = "SUBMITTED" | "LATE"
+export type SubmissionStatus = "SUBMITTED" | "NOT_SUBMITTED" | "LATE"
 
 export interface Assignment {
 	id: number,

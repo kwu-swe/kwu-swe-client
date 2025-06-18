@@ -6,6 +6,7 @@ import {
   AssignmentCreate,
   Submission,
   SubmissionCreate,
+  SubmissionProfessor,
 } from "@/types/Assignment";
 const api = httpRequest.api();
 
@@ -65,6 +66,19 @@ async function updateSubmission(
   return response.data as ToApi<string>;
 }
 
+async function getSubmissionForProfessor(assignmentId: number): Promise<ToApi<SubmissionProfessor[]>> {
+  const response = await api.get<ToApi<SubmissionProfessor[]>>(
+    `/submissions/assignments/${assignmentId}/professor`
+  );
+  return response.data;
+}
+async function getSubmissionForProfessorByStudent(assignmentId: number, studentId: number): Promise<ToApi<Submission>> {
+  const response = await api.get<ToApi<Submission>>(
+    `/submissions/assignments/${assignmentId}/professor/${studentId}`
+  );
+  return response.data;
+}
+
 async function deleteSubmission(submissionId: number): Promise<ToApi<string>> {
   const response = await api.delete<ToApi<string>>(
     `/submissions/${submissionId}`
@@ -100,6 +114,8 @@ const assignmentApi = {
   deleteSubmission,
   update,
   delete: del,
+  getSubmissionForProfessor,
+  getSubmissionForProfessorByStudent
 };
 
 export default assignmentApi;

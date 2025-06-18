@@ -1,3 +1,4 @@
+import assignmentApi from "@/service/api/assignment";
 import submissionApi from "@/service/api/submission";
 import { SubmissionCreate } from "@/types/Submission";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -100,5 +101,23 @@ export function useSubmissionFile(submissionId: number) {
     isLoading,
     upload,
     delete: remove,
+  };
+}
+
+export function useSubmissionProfessor(assignmentId: number, studentId?: number) {
+  const { data: submissions, isLoading } = useQuery({
+    queryKey: ["getSubmissionProfessor", assignmentId],
+    queryFn: () => assignmentApi.getSubmissionForProfessor(assignmentId),
+  });
+  const { data: submissionByStudent, isLoading: isLoadingByStudent } = useQuery({
+    queryKey: ["getSubmissionProfessorByStudent", assignmentId, studentId],
+    queryFn: () => assignmentApi.getSubmissionForProfessorByStudent(assignmentId, studentId!),
+    enabled: !!studentId,
+  });
+  return {
+    submissions,
+    isLoading,
+    submissionByStudent,
+    isLoadingByStudent,
   };
 }

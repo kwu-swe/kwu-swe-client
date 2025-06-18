@@ -69,21 +69,7 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 		});
 	};
 
-	const formStyles = {
-		group: "flex flex-col gap-4",
-		label: "text-sm font-medium text-gray-700",
-		input:
-			"w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-kw-brown/20",
-		select: "w-full",
-		timeList: "mt-4 space-y-2",
-		timeItem: "flex items-center justify-between p-3 bg-gray-50 rounded-lg",
-		timeText: "text-sm text-gray-600",
-		addButton:
-			"bg-kw-brown text-white px-4 py-2 rounded-lg hover:bg-kw-brown/90 transition-colors",
-		removeButton: "text-red-500 hover:text-red-600 transition-colors",
-		submitButton:
-			"mt-6 w-full bg-kw-brown text-white px-4 py-3 rounded-lg hover:bg-kw-brown/90 transition-colors font-medium",
-	};
+
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
 			<Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -111,19 +97,24 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 							leaveTo="opacity-0 scale-95"
 						>
 							<Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
-								<Dialog.Title as="h3" className="text-xl font-semibold text-gray-900 mb-6">
+								<Dialog.Title as="h3" className="text-xl font-semibold text-gray-900 mb-2">
 									강의 생성
 								</Dialog.Title>
+								<p className="text-sm text-gray-500 mb-6">새로운 강의를 생성합니다. 모든 필드를 입력해주세요.</p>
 
-								<div className="grid grid-cols-2 gap-6">
+								<div className="grid grid-cols-2 gap-x-6 gap-y-4">
 									<div className="col-span-2">
-										<label htmlFor="courseId" className="block text-sm font-medium text-gray-700 mb-1">
-											과목
-										</label>
+										<div className="flex items-center justify-between mb-1.5">
+											<label htmlFor="courseId" className="block text-sm font-medium text-gray-900">
+												과목
+											</label>
+											<span className="text-xs text-gray-500">필수</span>
+										</div>
 										<select
+											id="courseId"
 											value={courseId}
 											onChange={(e) => setCourseId(e.target.value)}
-											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown"
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown text-sm"
 										>
 											<option value="">과목을 선택하세요</option>
 											{courses?.map((course) => (
@@ -134,29 +125,19 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 										</select>
 									</div>
 
-									<div>
-										<label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-1">
-											년도
-										</label>
-										<input
-											type="number"
-											id="year"
-											value={year}
-											onChange={(e) => setYear(e.target.value)}
-											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-										/>
-									</div>
-
-									<div>
-										<label htmlFor="semester" className="block text-sm font-medium text-gray-700 mb-1">
-											학기
-										</label>
+									<div className="col-span-1">
+										<div className="flex items-center justify-between mb-1.5">
+											<label htmlFor="semester" className="block text-sm font-medium text-gray-900">
+												학기
+											</label>
+											<span className="text-xs text-gray-500">필수</span>
+										</div>
 										<select
+											id="semester"
 											value={semester}
 											onChange={(e) => setSemester(e.target.value as Semester)}
-											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown"
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown text-sm"
 										>
-											<option value="">학기를 선택하세요</option>
 											{Object.entries(SEMESTER_LABEL).map(([key, value]) => (
 												<option key={key} value={key}>
 													{value}
@@ -165,24 +146,48 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 										</select>
 									</div>
 
+									<div className="col-span-1">
+										<div className="flex items-center justify-between mb-1.5">
+											<label htmlFor="year" className="block text-sm font-medium text-gray-900">
+												년도
+											</label>
+											<span className="text-xs text-gray-500">필수</span>
+										</div>
+										<input
+											type="number"
+											id="year"
+											value={year}
+											onChange={(e) => setYear(e.target.value)}
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown text-sm"
+											placeholder="예: 2024"
+										/>
+									</div>
+
 									<div className="col-span-2">
-										<label htmlFor="sizeLimit" className="block text-sm font-medium text-gray-700 mb-1">
-											수강 정원
-										</label>
+										<div className="flex items-center justify-between mb-1.5">
+											<label htmlFor="sizeLimit" className="block text-sm font-medium text-gray-900">
+												수강 정원
+											</label>
+											<span className="text-xs text-gray-500">필수</span>
+										</div>
 										<input
 											type="number"
 											id="sizeLimit"
 											value={sizeLimit}
 											onChange={(e) => setSizeLimit(e.target.value)}
-											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+											className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-kw-brown focus:ring-kw-brown text-sm"
+											placeholder="예: 30"
 										/>
 									</div>
 
-									<div className="col-span-2">
-										<label className="block text-sm font-medium text-gray-700 mb-1">
-											강의 시간
-										</label>
-										<div className="flex gap-3 mb-3">
+									<div className="col-span-2 space-y-3">
+										<div className="flex items-center justify-between">
+											<label className="block text-sm font-medium text-gray-700">
+												강의 시간
+											</label>
+											<span className="text-xs text-gray-500">{selectedTimes.length}개 선택됨</span>
+										</div>
+										<div className="flex gap-3">
 											<select
 												value={selectedTime || ''}
 												onChange={(e) => setSelectedTime(e.target.value)}
@@ -219,24 +224,30 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 											</button>
 										</div>
 
-										{selectedTimes.length > 0 && (
-											<div className="space-y-2">
-												{selectedTimes.map((item, index) => (
-													<div key={index} className="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg">
-														<span className="text-sm text-gray-700">
-															{LECTURE_TIME_LABEL[item.time]} - {locations?.find(loc => loc.locationId === item.location)?.locationName}
+										<div className="space-y-2 mt-2">
+											{selectedTimes.map((item, index) => (
+												<div
+													key={index}
+													className="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors group"
+												>
+													<div className="flex flex-col">
+														<span className="text-sm font-medium text-gray-900">
+															{LECTURE_TIME_LABEL[item.time]}
 														</span>
-														<button
-															type="button"
-															onClick={() => handleRemoveTime(index)}
-															className="text-sm text-red-500 hover:text-red-600 transition-colors"
-														>
-															삭제
-														</button>
+														<span className="text-xs text-gray-500">
+															{locations?.find(loc => loc.locationId === item.location)?.locationName}
+														</span>
 													</div>
-												))}
-											</div>
-										)}
+													<button
+														type="button"
+														onClick={() => handleRemoveTime(index)}
+														className="text-xs text-red-500 hover:text-red-600 transition-colors opacity-0 group-hover:opacity-100"
+													>
+														삭제
+													</button>
+												</div>
+											))}
+										</div>
 									</div>
 								</div>
 
@@ -244,15 +255,15 @@ export default function LectureCreateModal({ isOpen, onClose, }: Props) {
 									<button
 										type="button"
 										onClick={onClose}
-										className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+										className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kw-brown/20 transition-all duration-200"
 									>
 										취소
 									</button>
 									<button
 										onClick={() => handleSubmit()}
-										className="px-4 py-2 text-sm font-medium text-white bg-kw-brown rounded-lg hover:bg-kw-brown/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kw-brown"
+										className="px-5 py-2.5 text-sm font-medium text-white bg-kw-brown rounded-lg hover:bg-kw-brown/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kw-brown shadow-sm hover:shadow transition-all duration-200"
 									>
-										생성
+										강의 생성
 									</button>
 								</div>
 							</Dialog.Panel>

@@ -95,6 +95,15 @@ export default function SubmissionModal({
                 </button>
               </div>
             )}
+            {mode === 'edit' && (
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirm(true)}
+                className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700"
+              >
+                삭제
+              </button>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="p-4 space-y-3">
