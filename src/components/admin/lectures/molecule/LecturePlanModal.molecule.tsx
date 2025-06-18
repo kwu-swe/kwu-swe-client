@@ -55,9 +55,12 @@ export default function LecturePlanModal({
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      onMouseDown={(e) => e.preventDefault()}
+      onClick={onClose}
     >
-      <div className="bg-white rounded-lg w-full max-w-2xl">
+      <div 
+        className="bg-white rounded-lg w-full max-w-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="p-4 border-b border-gray-200">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold">
