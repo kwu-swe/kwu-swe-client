@@ -74,7 +74,13 @@ export default function LectureMaterialById({
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
                   <MdAttachFile className="text-gray-500" size={16} />
-                  <span>강의자료.pdf</span>
+                  {
+                    material?.encodedFiles?.map((file) => (
+                      <span key={file} onClick={() => window.open(file)}>
+                        {file}
+                      </span>
+                    ))
+                  }
                 </div>
               </div>
             </div>
