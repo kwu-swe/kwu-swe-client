@@ -24,7 +24,7 @@ export default function AnnouncementListModal({ lectureId, isOpen, onClose }: Pr
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onMouseDown={(e) => e.preventDefault()}
     >
@@ -57,29 +57,6 @@ export default function AnnouncementListModal({ lectureId, isOpen, onClose }: Pr
                     <h4 className="text-lg font-medium text-gray-900">
                       {announcement.title}
                     </h4>
-                    <div className="flex items-center space-x-4">
-                      <button
-                        onClick={() => {
-                          // TODO: Implement edit functionality
-                          alert("수정 기능 구현 예정");
-                        }}
-                        className="text-sm text-blue-600 hover:text-blue-700"
-                      >
-                        수정
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedAnnouncement(announcement);
-                          setShowDeleteConfirm(true);
-                        }}
-                        className="text-sm text-red-600 hover:text-red-700"
-                      >
-                        삭제
-                      </button>
-                      <span className="text-sm text-gray-500">
-                        {formatDate(announcement.createdAt)}
-                      </span>
-                    </div>
                   </div>
                   {/* <p className="text-gray-600 whitespace-pre-wrap">
                     {announcement.content}

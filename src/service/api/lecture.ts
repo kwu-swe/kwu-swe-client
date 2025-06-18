@@ -64,7 +64,7 @@ async function getPlan(lectureId: number) {
 }
 
 async function postPlan(lectureId: number, data: LecturePlanCreate) {
-  const response = await api.post<LecturePlanCreate>(`/lectures/${lectureId}/plan`, data);
+  const response = await api.post<LecturePlanCreate>(`/plans/lectures/${lectureId}`, data);
   return response.data;
 }
 
