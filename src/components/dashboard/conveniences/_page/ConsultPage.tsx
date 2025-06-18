@@ -7,6 +7,7 @@ import { CONTEXT_OPTIONS } from '@/constants/contexts';
 import { TOPIC_OPTIONS } from '@/constants/topics';
 import { RELATIONSHIP_QUOTES } from "@/constants/quotes";
 import useLecture from '@/hook/useLecture';
+import { gradeString } from '../../lectures/molecules/LectureStats.molecules';
 
 export default function ConsultPage() {
   const [context, setContext] = useState<ContextType>('neutral');
@@ -112,22 +113,13 @@ export default function ConsultPage() {
         <div className="mx-6 p-4 bg-white rounded-lg border shadow-sm h-[170px] overflow-y-scroll">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-medium">현재 성적 현황</h3>
-            <button
-              onClick={() => clearTopic(selectedTopic)}
-              className="px-3 py-1.5 text-sm text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-md border border-gray-200 hover:border-red-200 transition-all flex items-center gap-1.5"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-              대화 초기화
-            </button>
           </div>
           <div className="space-y-2">
             {gradedLectures.map((lecture) => (
               <div key={lecture.lectureId} className="flex justify-between items-center p-2 rounded hover:bg-gray-50">
                 <span className="text-gray-600">{lecture.courseResponseDto.courseName}</span>
                 <span className={`font-medium ${lecture.grade === 'F' ? 'text-red-500' : lecture.grade?.startsWith('A') ? 'text-green-500' : 'text-gray-900'}`}>
-                  {lecture.grade}
+                  {gradeString[lecture.grade!]}
                 </span>
               </div>
             ))}

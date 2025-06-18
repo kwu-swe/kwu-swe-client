@@ -2,6 +2,7 @@ import { cn } from "fast-jsx/util";
 
 // ** types
 import { Lecture } from "@/types/Lecture";
+import useLecture from "@/hook/useLecture";
 
 interface Props {
   data: Lecture;
@@ -81,7 +82,7 @@ const LectureInfo = ({ data, className }: Props) => {
           <div className={tableStyles.label}>강의실</div>
           <div className={tableStyles.value}>
             {data.lectureTimeAndLocation &&
-            Object.keys(data.lectureTimeAndLocation).length > 0 ? (
+              Object.keys(data.lectureTimeAndLocation).length > 0 ? (
               Object.entries(data.lectureTimeAndLocation).map(
                 ([time, location]) => (
                   <span key={`loc-${time}`}>
@@ -98,7 +99,7 @@ const LectureInfo = ({ data, className }: Props) => {
           <div className={tableStyles.label}>수업 시간</div>
           <div className={tableStyles.value}>
             {data.lectureTimeAndLocation &&
-            Object.keys(data.lectureTimeAndLocation).length > 0 ? (
+              Object.keys(data.lectureTimeAndLocation).length > 0 ? (
               Object.entries(data.lectureTimeAndLocation).map(([time, _]) => {
                 const [day, period] = time.split("_");
                 return (

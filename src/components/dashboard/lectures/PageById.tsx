@@ -9,6 +9,7 @@ import AssignmentTable from "@/components/dashboard/lectures/organism/Assignment
 // ** molecules
 import LectureInfo from "@/components/dashboard/lectures/molecules/LectureInfo.molecules";
 import LectureStats from "@/components/dashboard/lectures/molecules/LectureStats.molecules";
+import LecturePlan from "@/components/dashboard/lectures/molecules/LecturePlan.molecules";
 
 // ** hooks
 import useLecture from "@/hook/useLecture";
@@ -18,7 +19,7 @@ import useAnnouncement from "@/hook/useAnnouncement";
 
 export default function LectureById({ lectureId }: { lectureId?: number }) {
   const navigate = useNavigate();
-  const { lectures, isLoading } = useLecture();
+  const { lectures, isLoading, studentLectures } = useLecture();
   const { assignmentsByLecture } = useAssignment({
     lectureId: Number(lectureId),
   });
@@ -91,9 +92,13 @@ export default function LectureById({ lectureId }: { lectureId?: number }) {
           assignments={assignmentsByLecture || []}
           announcements={announcementsByLecture || []}
           materials={materialsByLecture || []}
-          grade={lectureData?.grade}
+          grade={studentLectures.find((l) => l.lectureId === Number(lectureId))?.grade}
           className="h-full"
         />
+      </div>
+
+      <div className={fullWidth.displays}>
+        <LecturePlan lectureId={Number(lectureId)} />
       </div>
 
       {/* 과제 목록 테이블 */}

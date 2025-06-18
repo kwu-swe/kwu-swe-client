@@ -4,29 +4,30 @@ import { cn } from "fast-jsx/util";
 import { AnnouncementList } from "@/types/Announcement";
 import { AssignmentByLecture } from "@/types/Assignment";
 import { MaterialByLectureId } from "@/types/Material";
+import { GradeType } from "@/types/Grade";
 
-// Grade 타입 정의 (String Literal Union)
-export type Grade =
-  | "A_PLUS"
-  | "A"
-  | "B_PLUS"
-  | "B"
-  | "C_PLUS"
-  | "C"
-  | "D_PLUS"
-  | "D"
-  | "F"
-  | "IN_PROGRESS"
-  | null;
+
 
 interface Props {
   assignments: AssignmentByLecture[];
   announcements: AnnouncementList[];
   materials: MaterialByLectureId[];
-  grade?: Grade; // grade prop 추가 (optional로 우선 설정)
+  grade?: GradeType | null; // grade prop 추가 (optional로 우선 설정)
   className?: string;
 }
-
+export const gradeString: Record<GradeType, string> = {
+  A_PLUS: "A+",
+  A: "A",
+  B_PLUS: "B+",
+  B: "B",
+  C_PLUS: "C+",
+  C: "C",
+  D: "D",
+  P: "P",
+  NP: "NP",
+  F: "F",
+  IN_PROGRESS: "진행중"
+}
 const NewBadge = () => (
   <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-[10px] rounded-md">
     새로 등록됨
@@ -81,13 +82,10 @@ const LectureStats = ({
     );
   };
 
-  const gradeToDisplay = (grade: Grade) => {
-    if (grade === "A_PLUS") return "A+";
-    if (grade === "B_PLUS") return "B+";
-    if (grade === "C_PLUS") return "C+";
-    if (grade === "D_PLUS") return "D+";
+  const gradeToDisplay = (grade: GradeType | null) => {
+    if (!grade) return "-";
     if (grade === "IN_PROGRESS") return "진행중";
-    return grade;
+    return gradeString[grade];
   };
 
   return (
@@ -112,7 +110,7 @@ const LectureStats = ({
           <div
             className={cn(
               tableStyles.gradeValue,
-              grade && gradeStyles[grade] ? gradeStyles[grade] : "text-gray-700"
+              grade && grade in gradeStyles ? gradeStyles[grade as keyof typeof gradeStyles] : "text-gray-700"
             )}
           >
             {grade !== null ? gradeToDisplay(grade) : "-"}
@@ -155,7 +153,6 @@ const LectureStats = ({
           <div className={tableStyles.value}>
             <div className="flex items-center gap-2">
               <p className="font-medium">{materials.length}개</p>
-
               {materials.some((m) => isNewItem(m.createdAt!)) && <NewBadge />}
             </div>
           </div>

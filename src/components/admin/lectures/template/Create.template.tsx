@@ -46,7 +46,7 @@ export default function CreateTemplate({
     post({
       sizeLimit: +sizeLimit,
       year: +year,
-      lectureStatus: "BEFORE",
+      lectureStatus: "IN_PROGRESS",
       semester,
       courseId: +courseId,
       lectureTimeAndLocation: selectedTimes.reduce(
